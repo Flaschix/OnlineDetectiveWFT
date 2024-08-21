@@ -23,65 +23,42 @@ import { AnimationControl } from "../share/AnimationControl.mjs";
 
 import { PlayersController } from "../share/PlayerController.mjs";
 
-let otherPlayers = {};
+import { BaseScene } from "./BaseScene.mjs";
 
-export class GameScene extends Phaser.Scene {
+export class GameScene extends BaseScene {
     constructor() {
-        super({ key: CST.SCENE.GAMESCENE });
+        super(CST.SCENE.GAMESCENE);
 
-        //проверка на то, стоит ли игрок в зоне или нет
-        this.isInZone = false;
-
-        this.player;
-
-        //зона в которой стоит игрок
-        this.eventZone = null;
-
-        //виден ли оверлей сейчас поврех экрана
-        this.isOverlayVisible = false;
-
-        this.mobileFlag = false;
-
-        this.isDragging = false;
-
-        this.foldImgNumber = 0;
-        this.fold = [];
-
-        this.fullMap = true;
-        this.moved = false;
-
-        this.otherPlayers = {};
     }
 
     preload() {
-        // Создание спрайта и запуск анимации
-        this.loding = new AnimationControl(AnimationControl.LOADING);
-        this.loding.addLoadOnScreen(this, 1280 / 2, 720 / 2, 0.3, 0.3);
-
+        super.preload();
 
         //map
         this.load.image('map', './assets/map/laboratory_room_1.png');
     }
 
     create(data) {
-        this.mySocket = new SocketWorker(socket);
+        super.create(data);
+
+        // this.mySocket = new SocketWorker(socket);
 
         const { players } = data;
 
-        this.loding.deleteLoadFromScreen(this);
+        // this.loding.deleteLoadFromScreen(this);
 
-        this.playersController = new PlayersController();
+        // this.playersController = new PlayersController();
 
-        this.mobileFlag = isMobile();
+        // this.mobileFlag = isMobile();
 
         // Добавляем карту
-        this.createMap();
+        this.createMap('map', MAP_SETTINGS.MAP_FULL1);
 
         //Создаём курсор для обработки инпутов пользователя
-        this.cursors = this.input.keyboard.createCursorKeys();
+        // this.cursors = this.input.keyboard.createCursorKeys();
 
         //Создаём стены и остальные непроходимые объекты
-        this.createUnWalkedObjects();
+        // this.createUnWalkedObjects();
 
         if (this.mobileFlag) {
             createJoystick(this, 'joystickBase', 'joystickThumb', this.isDragging, 160, this.cameras.main.height - 120);
@@ -94,35 +71,33 @@ export class GameScene extends Phaser.Scene {
 
         //Создаём объект с которыми будем взаимодействовать
         this.createCollision();
-
         //Создание оверлея
         this.createOverlays();
         this.createFold();
-
         //Создание слушателей нажатия кнопок
         this.createInputHandlers();
 
 
         //Создаём пользовательский UI для сцен
-        createUIRight(this);
-        createUITop(this);
-        createUIBottom(this);
+        // createUIRight(this);
+        // createUITop(this);
+        // createUIBottom(this);
 
-        createExitMenu(this, this.leaveGame, this.closeExitMenu, this.mobileFlag);
+        // createExitMenu(this, this.leaveGame, this.closeExitMenu, this.mobileFlag);
 
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
 
 
-        //Подключение слушателей
-        this.mySocket.subscribeExistedPlayers(this, this.createOtherPlayersTest);
-        this.mySocket.subscribeTakeFold(this, this.updateFold);
-        this.mySocket.subscribeNewPlayer(this, this.scene.key, this.otherPlayers, this.playersController.createOtherPlayer);
-        this.mySocket.subscribePlayerMoved(this, this.scene.key, this.checkOtherPlayer);
-        this.mySocket.subscribePlayerDisconected(this, this.deletePlayer);
-        this.mySocket.subscribeSceneSwitched(this, this.scene.key, sceneSwitched)
+        // //Подключение слушателей
+        // this.mySocket.subscribeExistedPlayers(this, this.createOtherPlayersTest);
+        // this.mySocket.subscribeTakeFold(this, this.updateFold);
+        // this.mySocket.subscribeNewPlayer(this, this.scene.key, this.otherPlayers, this.playersController.createOtherPlayer);
+        // this.mySocket.subscribePlayerMoved(this, this.scene.key, this.checkOtherPlayer);
+        // this.mySocket.subscribePlayerDisconected(this, this.deletePlayer);
+        // this.mySocket.subscribeSceneSwitched(this, this.scene.key, sceneSwitched)
 
-        this.mySocket.emitGetPlayers();
-        this.mySocket.emitGetFold();
+        // this.mySocket.emitGetPlayers();
+        // this.mySocket.emitGetFold();
 
 
         if (!this.textures.exists(MAP_SETTINGS.MAP_FULL1)) {
@@ -133,51 +108,13 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-    createJoystick() {
-
-        this.joystickBase = this.add.image(100, this.cameras.main.height - 100, 'joystickBase').setInteractive();
-        this.joystickThumb = this.add.image(100, this.cameras.main.height - 100, 'joystickThumb').setInteractive();
-
-        this.joystickBase.setDisplaySize(150, 150);
-        this.joystickThumb.setDisplaySize(100, 100);
-
-        this.joystickThumb.on('pointerdown', (pointer) => {
-            this.isDragging = true;
-            this.dragStartX = pointer.x;
-            this.dragStartY = pointer.y;
-        });
-
-        this.input.on('pointermove', (pointer) => {
-            if (this.isDragging) {
-                let deltaX = pointer.x - this.dragStartX;
-                let deltaY = pointer.y - this.dragStartY;
-                let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                let maxDistance = 50;
-
-                if (distance > maxDistance) {
-                    let angle = Math.atan2(deltaY, deltaX);
-                    deltaX = Math.cos(angle) * maxDistance;
-                    deltaY = Math.sin(angle) * maxDistance;
-                }
-
-                this.joystickThumb.setPosition(this.joystickBase.x + deltaX, this.joystickBase.y + deltaY);
-            }
-        });
-
-        this.input.on('pointerup', () => {
-            this.isDragging = false;
-            this.joystickThumb.setPosition(this.joystickBase.x, this.joystickBase.y);
-        });
-
-    }
-
-    createMap() {
-        if (this.textures.exists(MAP_SETTINGS.MAP_FULL1)) {
-            this.map = this.add.image(0, 0, MAP_SETTINGS.MAP_FULL1).setOrigin(0, 0);
+    createMap(map, mapFull) {
+        if (this.textures.exists(mapFull)) {
+            this.map = this.add.image(0, 0, mapFull).setOrigin(0, 0);
             this.map.setScale(MAP_SETTINGS.MAP_SCALE_4_3, MAP_SETTINGS.MAP_SCALE_4_3);
             this.matter.world.setBounds(0, 0, this.map.width * MAP_SETTINGS.MAP_SCALE_4_3, this.map.height * MAP_SETTINGS.MAP_SCALE_4_3);
         } else {
-            this.map = this.add.image(0, 0, 'map').setOrigin(0, 0);
+            this.map = this.add.image(0, 0, map).setOrigin(0, 0);
             this.map.setScale(2, 2);
             this.matter.world.setBounds(0, 0, this.map.width * MAP_SETTINGS.MAP_SCALE_2, this.map.height * MAP_SETTINGS.MAP_SCALE_2);
         }
@@ -205,59 +142,59 @@ export class GameScene extends Phaser.Scene {
     }
 
 
-    createOtherPlayersTest(context, players) {
-        Object.keys(players).forEach((id) => {
-            if (!(id === socket.id) && context.otherPlayers[id] == null) {
-                context.playersController.createOtherPlayer(context, players[id], context.otherPlayers);
-            }
-        });
-    }
+    // createOtherPlayersTest(context, players) {
+    //     Object.keys(players).forEach((id) => {
+    //         if (!(id === socket.id) && context.otherPlayers[id] == null) {
+    //             context.playersController.createOtherPlayer(context, players[id], context.otherPlayers);
+    //         }
+    //     });
+    // }
 
-    checkOtherPlayer(self, playerInfo) {
-        if (self.otherPlayers[playerInfo.id]) {
-            const player = self.otherPlayers[playerInfo.id];
+    // checkOtherPlayer(self, playerInfo) {
+    //     if (self.otherPlayers[playerInfo.id]) {
+    //         const player = self.otherPlayers[playerInfo.id];
 
-            // Обновляем целевые координаты и скорость
-            player.targetX = playerInfo.x;
-            player.targetY = playerInfo.y;
-            player.velocityX = playerInfo.velocityX;
-            player.velocityY = playerInfo.velocityY;
-            player.isMoving = playerInfo.isMoving;
-            player.direction = playerInfo.direction;
+    //         // Обновляем целевые координаты и скорость
+    //         player.targetX = playerInfo.x;
+    //         player.targetY = playerInfo.y;
+    //         player.velocityX = playerInfo.velocityX;
+    //         player.velocityY = playerInfo.velocityY;
+    //         player.isMoving = playerInfo.isMoving;
+    //         player.direction = playerInfo.direction;
 
-            // Интерполяция движения
-            self.tweens.add({
-                targets: player,
-                x: playerInfo.x,
-                y: playerInfo.y,
-                duration: 200,
-                onUpdate: function () {
-                    // Обновление анимации на основе данных о движении
-                    self.playersController.updateAnimOtherPlayer(player, {
-                        ...playerInfo,
-                        velocityX: player.targetX - player.x,
-                        velocityY: player.targetY - player.y
-                    });
-                },
-                onComplete: function () {
-                    // Проверяем, нужно ли остановить анимацию
-                    try {
-                        if (!player.isMoving) {
-                            player.anims.stop();
-                        }
-                    } catch (e) { };
-                }
-            });
-        }
-    }
+    //         // Интерполяция движения
+    //         self.tweens.add({
+    //             targets: player,
+    //             x: playerInfo.x,
+    //             y: playerInfo.y,
+    //             duration: 200,
+    //             onUpdate: function () {
+    //                 // Обновление анимации на основе данных о движении
+    //                 self.playersController.updateAnimOtherPlayer(player, {
+    //                     ...playerInfo,
+    //                     velocityX: player.targetX - player.x,
+    //                     velocityY: player.targetY - player.y
+    //                 });
+    //             },
+    //             onComplete: function () {
+    //                 // Проверяем, нужно ли остановить анимацию
+    //                 try {
+    //                     if (!player.isMoving) {
+    //                         player.anims.stop();
+    //                     }
+    //                 } catch (e) { };
+    //             }
+    //         });
+    //     }
+    // }
 
-    deletePlayer(context, id) {
-        if (context.otherPlayers[id]) {
-            context.otherPlayers[id].nameText.destroy();
-            context.otherPlayers[id].destroy();
-            delete context.otherPlayers[id];
-        }
-    }
+    // deletePlayer(context, id) {
+    //     if (context.otherPlayers[id]) {
+    //         context.otherPlayers[id].nameText.destroy();
+    //         context.otherPlayers[id].destroy();
+    //         delete context.otherPlayers[id];
+    //     }
+    // }
 
     createCollision() {
         // Создаем графику для подсветки
@@ -366,149 +303,149 @@ export class GameScene extends Phaser.Scene {
         });
     }
 
-    createFold() {
-        this.foldKeys = this.add.image(this.cameras.main.width - 636, this.cameras.main.height / 2 + 30, 'firstKey');
-        this.foldKeys.setDisplaySize(this.cameras.main.width * 0.60, this.cameras.main.height * 0.63);
-        this.foldKeys.setDepth(2);
-        this.foldKeys.setScrollFactor(0);
-        this.foldKeys.setVisible(false);
-        this.foldKeys.setAlpha(1);
+    // createFold() {
+    //     this.foldKeys = this.add.image(this.cameras.main.width - 636, this.cameras.main.height / 2 + 30, 'firstKey');
+    //     this.foldKeys.setDisplaySize(this.cameras.main.width * 0.60, this.cameras.main.height * 0.63);
+    //     this.foldKeys.setDepth(2);
+    //     this.foldKeys.setScrollFactor(0);
+    //     this.foldKeys.setVisible(false);
+    //     this.foldKeys.setAlpha(1);
 
 
-        this.leftArrow = this.add.image(0, 0, 'leftArrow');
-        this.rightArrow = this.add.image(0, 0, 'rightArrow');
+    //     this.leftArrow = this.add.image(0, 0, 'leftArrow');
+    //     this.rightArrow = this.add.image(0, 0, 'rightArrow');
 
-        this.rightArrow.setPosition(
-            this.cameras.main.width - 250,
-            this.cameras.main.height / 2 - 10,
-        )
-        this.rightArrow.setScrollFactor(0);
-        this.rightArrow.setDepth(2);
+    //     this.rightArrow.setPosition(
+    //         this.cameras.main.width - 250,
+    //         this.cameras.main.height / 2 - 10,
+    //     )
+    //     this.rightArrow.setScrollFactor(0);
+    //     this.rightArrow.setDepth(2);
 
-        this.leftArrow.setPosition(
-            250,
-            this.cameras.main.height / 2 - 10,
-        )
-        this.leftArrow.setScrollFactor(0);
-        this.leftArrow.setDepth(2);
+    //     this.leftArrow.setPosition(
+    //         250,
+    //         this.cameras.main.height / 2 - 10,
+    //     )
+    //     this.leftArrow.setScrollFactor(0);
+    //     this.leftArrow.setDepth(2);
 
-        this.leftArrow.setInteractive();
-        this.rightArrow.setInteractive();
-        this.leftArrow.setVisible(false);
-        this.rightArrow.setVisible(false);
+    //     this.leftArrow.setInteractive();
+    //     this.rightArrow.setInteractive();
+    //     this.leftArrow.setVisible(false);
+    //     this.rightArrow.setVisible(false);
 
-        this.rightArrow.on('pointerdown', () => {
-            this.moveRightKeys();
-        });
+    //     this.rightArrow.on('pointerdown', () => {
+    //         this.moveRightKeys();
+    //     });
 
-        this.leftArrow.on('pointerdown', () => {
-            this.moveLeftKeys();
-        });
+    //     this.leftArrow.on('pointerdown', () => {
+    //         this.moveLeftKeys();
+    //     });
 
-        this.foldColseBtn = this.add.image(0, 0, 'closeIcon');
-        this.foldColseBtn.setDisplaySize(this.overlayBackground.displayWidth * 0.05, this.overlayBackground.displayHeight * 0.07);
-        this.foldColseBtn.setInteractive();
-        this.foldColseBtn.setVisible(false);
-        this.foldColseBtn.setDepth(2);
-        this.foldColseBtn.setAlpha(0); // Начальное значение прозрачности
+    //     this.foldColseBtn = this.add.image(0, 0, 'closeIcon');
+    //     this.foldColseBtn.setDisplaySize(this.overlayBackground.displayWidth * 0.05, this.overlayBackground.displayHeight * 0.07);
+    //     this.foldColseBtn.setInteractive();
+    //     this.foldColseBtn.setVisible(false);
+    //     this.foldColseBtn.setDepth(2);
+    //     this.foldColseBtn.setAlpha(0); // Начальное значение прозрачности
 
-        this.foldColseBtn.on('pointerdown', () => {
-            this.isOverlayVisible = false;
+    //     this.foldColseBtn.on('pointerdown', () => {
+    //         this.isOverlayVisible = false;
 
-            this.foldKeys.setVisible(false);
-            this.foldColseBtn.setVisible(false);
-            this.overlayBackground.setVisible(false);
-            this.emptySign.setVisible(false);
-            this.leftArrow.setVisible(false);
-            this.rightArrow.setVisible(false);
-        });
-    }
+    //         this.foldKeys.setVisible(false);
+    //         this.foldColseBtn.setVisible(false);
+    //         this.overlayBackground.setVisible(false);
+    //         this.emptySign.setVisible(false);
+    //         this.leftArrow.setVisible(false);
+    //         this.rightArrow.setVisible(false);
+    //     });
+    // }
 
-    showFold(context) {
-        if (context.isOverlayVisible) return;
-        context.player.setVelocity(0);
-        context.isOverlayVisible = true
-        context.overlayBackground.setAlpha(1);
-        context.foldColseBtn.setAlpha(1);
-
-
-        if (context.fold == null || context.fold.length < 1) {
-            context.emptySign.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);;
-            context.emptySign.setAlpha(1);
-        } else if (context.fold.length > 1) {
-            context.foldImgNumber = 0;
-            context.leftArrow.setVisible(false);
-            context.rightArrow.setVisible(true);
-
-            context.foldKeys.setTexture(context.fold[0]);
-            context.foldKeys.setVisible(true);
-        } else {
-            context.foldImgNumber = 0;
-            context.foldKeys.setTexture(context.fold[0]);
-            context.foldKeys.setVisible(true);
-        }
+    // showFold(context) {
+    //     if (context.isOverlayVisible) return;
+    //     context.player.setVelocity(0);
+    //     context.isOverlayVisible = true
+    //     context.overlayBackground.setAlpha(1);
+    //     context.foldColseBtn.setAlpha(1);
 
 
-        context.overlayBackground.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);
-        context.foldColseBtn.setPosition(
-            context.cameras.main.scrollX + 640 + context.overlayBackground.displayWidth / 2 - context.overlayBackground.displayWidth * 0.1 / 2 + 10,
-            context.cameras.main.scrollY + 360 - context.overlayBackground.displayHeight / 2 + context.overlayBackground.displayHeight * 0.1 / 2,
-        ).setVisible(true);
-    }
+    //     if (context.fold == null || context.fold.length < 1) {
+    //         context.emptySign.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);;
+    //         context.emptySign.setAlpha(1);
+    //     } else if (context.fold.length > 1) {
+    //         context.foldImgNumber = 0;
+    //         context.leftArrow.setVisible(false);
+    //         context.rightArrow.setVisible(true);
 
-    moveRightKeys() {
-        if (this.foldImgNumber < this.fold.length - 1) {
-            this.foldImgNumber += 1;
-            if (this.foldImgNumber == this.fold.length - 1) this.rightArrow.setVisible(false);
-            this.leftArrow.setVisible(true);
+    //         context.foldKeys.setTexture(context.fold[0]);
+    //         context.foldKeys.setVisible(true);
+    //     } else {
+    //         context.foldImgNumber = 0;
+    //         context.foldKeys.setTexture(context.fold[0]);
+    //         context.foldKeys.setVisible(true);
+    //     }
 
-            this.tweens.add({
-                targets: [this.foldKeys],
-                alpha: 0,
-                duration: 250,
-                onComplete: () => {
-                    try {
-                        this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.tweens.add({
-                            targets: [this.foldKeys],
-                            alpha: 1,
-                            duration: 250,
-                        });
-                    }
-                    catch (e) { }
-                }
-            });
-        }
-    }
 
-    moveLeftKeys() {
-        if (this.foldImgNumber > 0) {
-            this.foldImgNumber -= 1;
-            if (this.foldImgNumber == 0) this.leftArrow.setVisible(false);
-            this.rightArrow.setVisible(true);
+    //     context.overlayBackground.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);
+    //     context.foldColseBtn.setPosition(
+    //         context.cameras.main.scrollX + 640 + context.overlayBackground.displayWidth / 2 - context.overlayBackground.displayWidth * 0.1 / 2 + 10,
+    //         context.cameras.main.scrollY + 360 - context.overlayBackground.displayHeight / 2 + context.overlayBackground.displayHeight * 0.1 / 2,
+    //     ).setVisible(true);
+    // }
 
-            this.tweens.add({
-                targets: [this.foldKeys],
-                alpha: 0,
-                duration: 250,
-                onComplete: () => {
-                    try {
-                        this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.tweens.add({
-                            targets: [this.foldKeys],
-                            alpha: 1,
-                            duration: 250,
-                        });
-                    }
-                    catch (e) { }
-                }
-            });
-        }
-    }
+    // moveRightKeys() {
+    //     if (this.foldImgNumber < this.fold.length - 1) {
+    //         this.foldImgNumber += 1;
+    //         if (this.foldImgNumber == this.fold.length - 1) this.rightArrow.setVisible(false);
+    //         this.leftArrow.setVisible(true);
 
-    updateFold(context, arr) {
-        context.fold = arr
-    }
+    //         this.tweens.add({
+    //             targets: [this.foldKeys],
+    //             alpha: 0,
+    //             duration: 250,
+    //             onComplete: () => {
+    //                 try {
+    //                     this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
+    //                     this.tweens.add({
+    //                         targets: [this.foldKeys],
+    //                         alpha: 1,
+    //                         duration: 250,
+    //                     });
+    //                 }
+    //                 catch (e) { }
+    //             }
+    //         });
+    //     }
+    // }
+
+    // moveLeftKeys() {
+    //     if (this.foldImgNumber > 0) {
+    //         this.foldImgNumber -= 1;
+    //         if (this.foldImgNumber == 0) this.leftArrow.setVisible(false);
+    //         this.rightArrow.setVisible(true);
+
+    //         this.tweens.add({
+    //             targets: [this.foldKeys],
+    //             alpha: 0,
+    //             duration: 250,
+    //             onComplete: () => {
+    //                 try {
+    //                     this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
+    //                     this.tweens.add({
+    //                         targets: [this.foldKeys],
+    //                         alpha: 1,
+    //                         duration: 250,
+    //                     });
+    //                 }
+    //                 catch (e) { }
+    //             }
+    //         });
+    //     }
+    // }
+
+    // updateFold(context, arr) {
+    //     context.fold = arr
+    // }
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
@@ -553,7 +490,6 @@ export class GameScene extends Phaser.Scene {
         this.isInZone = false;
         this.eventZone = null;
         this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 960, 1850);
-        // this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 960, 600);
     }
 
     showOverlay() {
@@ -586,59 +522,59 @@ export class GameScene extends Phaser.Scene {
         this.closeButton.setVisible(false);
     }
 
-    showSettings(self) {
-        if (self.foldKeys.visible || self.emptySign.visible) return;
-        self.avatarDialog.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
-        self.avatarDialog.setVisible(true);
-        self.isOverlayVisible = true
-        self.exitContainer.setVisible(false);
-        self.player.setVelocity(0);
-    }
+    // showSettings(self) {
+    //     if (self.foldKeys.visible || self.emptySign.visible) return;
+    //     self.avatarDialog.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
+    //     self.avatarDialog.setVisible(true);
+    //     self.isOverlayVisible = true
+    //     self.exitContainer.setVisible(false);
+    //     self.player.setVelocity(0);
+    // }
 
-    showExitMenu(self) {
-        if (self.foldKeys.visible || self.emptySign.visible) return;
-        self.exitContainer.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
-        self.exitContainer.setVisible(true);
-        self.isOverlayVisible = true
-        self.avatarDialog.setVisible(false);
-        self.player.setVelocity(0);
-    }
+    // showExitMenu(self) {
+    //     if (self.foldKeys.visible || self.emptySign.visible) return;
+    //     self.exitContainer.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
+    //     self.exitContainer.setVisible(true);
+    //     self.isOverlayVisible = true
+    //     self.avatarDialog.setVisible(false);
+    //     self.player.setVelocity(0);
+    // }
 
-    leaveGame(self) {
-        window.location.reload();
-    }
+    // leaveGame(self) {
+    //     window.location.reload();
+    // }
 
-    closeExitMenu(self) {
-        self.exitContainer.setVisible(false);
-        self.isOverlayVisible = false
-    }
+    // closeExitMenu(self) {
+    //     self.exitContainer.setVisible(false);
+    //     self.isOverlayVisible = false
+    // }
 
-    enterNewSettingsInAvatarDialog(self, usernameInput, nameError, imgCount) {
-        const username = usernameInput.value;
-        if (username.length < 1 || username.length > 12) {
-            nameError.style.visibility = "visible";
-        } else {
-            self.mySocket.emitPlayerReconnect({ x: self.player.x, y: self.player.y, avatar: imgCount + 1, name: username });
-            self.player.setTexture(`character${imgCount + 1}`);
-            self.player.character = imgCount + 1;
-            self.player.nameText.setText(username);
-            self.avatarDialog.setVisible(false);
-            self.isOverlayVisible = false;
-            nameError.style.visibility = "hidden";
-        }
-    }
+    // enterNewSettingsInAvatarDialog(self, usernameInput, nameError, imgCount) {
+    //     const username = usernameInput.value;
+    //     if (username.length < 1 || username.length > 12) {
+    //         nameError.style.visibility = "visible";
+    //     } else {
+    //         self.mySocket.emitPlayerReconnect({ x: self.player.x, y: self.player.y, avatar: imgCount + 1, name: username });
+    //         self.player.setTexture(`character${imgCount + 1}`);
+    //         self.player.character = imgCount + 1;
+    //         self.player.nameText.setText(username);
+    //         self.avatarDialog.setVisible(false);
+    //         self.isOverlayVisible = false;
+    //         nameError.style.visibility = "hidden";
+    //     }
+    // }
 
-    closeAvatarDialog(self) {
-        self.avatarDialog.setVisible(false);
-        self.isOverlayVisible = false;
-    }
+    // closeAvatarDialog(self) {
+    //     self.avatarDialog.setVisible(false);
+    //     self.isOverlayVisible = false;
+    // }
 
-    loadPlusTexture(name, path) {
-        this.load.image(name, path);
+    // loadPlusTexture(name, path) {
+    //     this.load.image(name, path);
 
-        // Начало загрузки
-        this.load.start();
-    }
+    //     // Начало загрузки
+    //     this.load.start();
+    // }
 
     loadedResolutionMap(name, scaleX, scaleY) {
         this.map.setScale(scaleX, scaleY);
@@ -684,20 +620,7 @@ export class GameScene extends Phaser.Scene {
 
 
     update() {
-        if (!this.player || this.isOverlayVisible) return;
-
-        this.updatePlayerPosition();
-
-        this.updatePressXVisibility();
-
-        // Интерполяция для других игроков
-        Object.keys(this.otherPlayers).forEach((id) => {
-            let otherPlayer = this.otherPlayers[id];
-            if (otherPlayer.targetX !== undefined && otherPlayer.targetY !== undefined) {
-                otherPlayer.x += (otherPlayer.targetX - otherPlayer.x) * 0.1;
-                otherPlayer.y += (otherPlayer.targetY - otherPlayer.y) * 0.1;
-            }
-        });
+        super.update();
 
         if (!this.fullMap) {
             if (this.textures.exists(MAP_SETTINGS.MAP_FULL1)) {
@@ -708,61 +631,54 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-    updatePlayerPosition() {
+    // updatePlayerPosition() {
 
-        if (!this.mobileFlag) this.playersController.updateMainPlayerPosition(this.player, this.cursors);
-        else {
-            this.playersController.updateMainPlayerPositionJoystick(this.player, this.joystickThumb, this.joystickBase);
-        }
+    //     if (!this.mobileFlag) this.playersController.updateMainPlayerPosition(this.player, this.cursors);
+    //     else {
+    //         this.playersController.updateMainPlayerPositionJoystick(this.player, this.joystickThumb, this.joystickBase);
+    //     }
 
-        const isMoving = this.player.body.velocity.x !== 0 || this.player.body.velocity.y !== 0;
-        const movementData = {
-            x: this.player.x,
-            y: this.player.y,
-            velocityX: this.player.body.velocity.x,
-            velocityY: this.player.body.velocity.y,
-            isMoving: isMoving,
-            direction: this.player.direction
-        };
-        // this.mySocket.emitPlayerMovement(this.scene.key, movementData);
+    //     const isMoving = this.player.body.velocity.x !== 0 || this.player.body.velocity.y !== 0;
+    //     const movementData = {
+    //         x: this.player.x,
+    //         y: this.player.y,
+    //         velocityX: this.player.body.velocity.x,
+    //         velocityY: this.player.body.velocity.y,
+    //         isMoving: isMoving,
+    //         direction: this.player.direction
+    //     };
+    //     // this.mySocket.emitPlayerMovement(this.scene.key, movementData);
 
-        if (this.player.body.velocity.x != 0 || this.player.body.velocity.y != 0) {
-            this.mySocket.emitPlayerMovement(this.scene.key, movementData);
-            this.moved = true;
-        } else if (this.moved) {
-            this.mySocket.emitPlayerMovement(this.scene.key, movementData);
-            this.moved = false;
-        }
-    }
+    //     if (this.player.body.velocity.x != 0 || this.player.body.velocity.y != 0) {
+    //         this.mySocket.emitPlayerMovement(this.scene.key, movementData);
+    //         this.moved = true;
+    //     } else if (this.moved) {
+    //         this.mySocket.emitPlayerMovement(this.scene.key, movementData);
+    //         this.moved = false;
+    //     }
+    // }
 
-    updatePressXVisibility() {
-        if (this.isInZone) {
-            if (this.mobileFlag) {
-                this.mobileXButton.setVisible(true);
-                this.buttonBackground.setVisible(true);
-            }
-            else {
-                this.pressX.setPosition(this.player.x, this.player.y - HEIGHT_PRESS_X);
-                this.pressX.setVisible(true);
-            }
-        } else {
-            if (this.mobileFlag) {
-                this.mobileXButton.setVisible(false);
-                this.buttonBackground.setVisible(false);
-            }
-            else {
-                this.pressX.setVisible(false);
-            }
-        }
-    }
+    // updatePressXVisibility() {
+    //     if (this.isInZone) {
+    //         if (this.mobileFlag) {
+    //             this.mobileXButton.setVisible(true);
+    //             this.buttonBackground.setVisible(true);
+    //         }
+    //         else {
+    //             this.pressX.setPosition(this.player.x, this.player.y - HEIGHT_PRESS_X);
+    //             this.pressX.setVisible(true);
+    //         }
+    //     } else {
+    //         if (this.mobileFlag) {
+    //             this.mobileXButton.setVisible(false);
+    //             this.buttonBackground.setVisible(false);
+    //         }
+    //         else {
+    //             this.pressX.setVisible(false);
+    //         }
+    //     }
+    // }
 }
 
-function sceneSwitched(self, data) {
-    self.map.destroy();
-    self.avatarDialog.destroy();
-    self.exitContainer.destroy();
-    self.otherPlayers = {};
-    let players = data.players;
-    self.scene.start(data.scene, { players });
-}
+
 

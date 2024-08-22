@@ -26,6 +26,10 @@ export class GameScene2 extends BaseScene {
 
         //map
         this.load.image('map2', './assets/map/map_garally_2.png');
+
+        this.load.image('clotheMin', './assets/mapKey/clotheMin.png');
+        this.load.image('notebookMin', './assets/mapKey/notebookMin.png');
+        this.load.image('keysMin', './assets/mapKey/keysMin.png');
     }
 
     create(data) {
@@ -77,8 +81,17 @@ export class GameScene2 extends BaseScene {
     }
 
     createUnWalkedObjects() {
-        // const bodyDownWall = this.matter.add.fromVertices(0 + 1022.5, 1994 + 25.5, '2044.5 1 1 1 1 50.5 2044.5 50.5 2044.5 1', { isStatic: true }, true)
-        // const bodyMainWall = this.matter.add.fromVertices(1164.5, 870, '50.5 569 38.5 2049 1 2049 1 9.5 2048 0.5 2048 2047.5 1997.5 2047.5 1981.5 1416 1888 1286.5 1592.5 1278.5 1423 1353 1423 1795 1343 1795 1343 1441 1313.5 1353 1232 1278.5 826 1271.5 759.5 1311.5 708.5 1362.5 708.5 1795 626 1795 635 1214 1997.5 1221 1997.5 753.5 1889 753.5 1889 628 1407 628 1277.5 609.5 1181.5 638.5 1181.5 816.5 1142.5 816.5 1142.5 371.5 1142.5 248.5 1142.5 156.5 1126.5 106 1096 63 946.5 63 913 106 897 147 905 816.5 827.5 816.5 827.5 314 455 314 445.5 569 50.5 569', { isStatic: true }, true)
+        this.matter.add.fromVertices(684, 842, '248 1318 208.5 1742 1.5 1519 80.5 1 1615.5 1 1615.5 320.5 1549 320.5 1536.5 240 1280 240 1280 268.5 1206 268.5 1164.5 268.5 1164.5 311 1139.5 303.5 1145.5 344.5 1088.5 344.5 1071 294 1071 249.5 1039.5 232 1039.5 88 870 88 870 232 832 240 813.5 311 813.5 344.5 756.5 344.5 756.5 311 723 311 723 268.5 620 268.5 620 249.5 368.5 249.5 356 311 316.5 389 438 404.5 455.5 439.5 492 439.5 492 485.5 481 540.5 492 574 536.5 604 536.5 699 455.5 699 392 667.5 392 753 368.5 835 346.5 827 346.5 892 517.5 892 517.5 987 261 987 261 1020.5 166 1012.5 133.5 965 83 1179.5 182 1288', { isStatic: true }, true)
+        this.matter.add.fromVertices(1485 + 228.5, 440 + 725, '187 1041 231 1449.5 456 1449.5 409.5 1 206 1 206 75.5 166 94.5 122 103 105.5 177 105.5 237.5 166 237.5 158 273.5 166 394.5 206 383.5 188 442.5 206 563.5 243 539 243 605 105.5 605 86.5 577.5 1 577.5 1 716.5 86.5 716.5 118 689 231 689 243 716.5 243 749.5 266.5 768.5 292 768.5 362 700 391.5 917 319 1009 280.5 1004 280.5 936.5 259.5 902 231 917 206 902 166 924 187 1041', { isStatic: true }, true)
+        this.matter.add.fromVertices(879.5 + 140, 1673.5 + 145.5, '1.5 139.5 134 289.5 279 139.5 134 1.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(305 + 79.5, 1382 + 72, '32.5 136 91 143 146 109 157.5 43.5 128 9.5 65 1 8.5 36.5 1 102', { isStatic: true }, true)
+        this.matter.add.fromVertices(1383 + 44.5, 1781 + 74, '10.5 24 1.5 138.5 88.5 146.5 88.5 28.5 56.5 1', { isStatic: true }, true)
+        this.matter.add.fromVertices(1551 + 49, 1917.5 + 59.5, '8 57 1 118 94 118 75.5 67.5 94 38 83 15 62 1.5 21.5 15 21.5 52.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(1520 + 40, 1372 + 49, '23.5 1.5 1 81 45 99 78.5 18.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(1443 + 76, 680 + 144.5, '1 202 6.5 282.5 92.5 287.5 102 245 97.5 198 102 168 133.5 126 125 105.5 117 78.5 129 60.5 151 38.5 145.5 6 111.5 1 82 14.5 82 38.5 51 49.5 30 49.5 30 89.5 58 117 45.5 157 30 186 1 202', { isStatic: true }, true)
+        this.matter.add.fromVertices(1215 + 96, 480 + 143.5, '7 252.5 40.5 275 78 286 129.5 281 158 241.5 150.5 187.5 129.5 158.5 139 123 114 101 118 73.5 124 66 172.5 66 183 38.5 190.5 18.5 168 1 150.5 45 139 31.5 118 12.5 96.5 38.5 78 66 78 101 64 101 54 117 54 136 34.5 154 1 196 7 252.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(652 + 85, 410 + 174.5, '30 332 80 348.5 125 348.5 146.5 326 169 283 155.5 238 114 189 87 166.5 87 137.5 87 88 75 51.5 96.5 18 71 1 44.5 18 59.5 28.5 30 63.5 23.5 102 0.5 114 0.5 159 15.5 172.5 34.5 166.5 44.5 221.5 15.5 257.5 15.5 291 30 332', { isStatic: true }, true)
+        this.matter.add.fromVertices(330 + 143.5, 1952 + 53.5, '286.5 106.5 148.5 60 93 65 68 51.5 76 25.5 46.5 1 19.5 8 1.5 25.5 6 60 34.5 70 57.5 106.5', { isStatic: true }, true)
     }
 
     createPlayers(players, cameraMargin) {
@@ -103,19 +116,48 @@ export class GameScene2 extends BaseScene {
         highlightGraphics.lineStyle(2, 0x06ff01, 1);
         highlightGraphics.setDepth(0);
 
-        const bodyDoor = this.matter.add.fromVertices(901.5 + 116, 59 + 115.5, '0.5 57 0.5 230.5 231.5 230.5 231.5 57 183 1 43 1 0.5 57', {
-            label: `${LABEL_ID.DOOR_FORWARD_ID}`,
-            isStatic: true,
-            isSensor: true
-        })
+        const bodyWindow = this.matter.add.fromVertices(906.5 + 114.5, 1013 + 109.5, '0.5 1 0.5 218 228.5 215.5 225.5 1', { label: `${LABEL_ID.WINDOW_KEY}`, isStatic: true })
 
-        const bodyDoorBack = this.matter.add.fromVertices(942 + 80, 1900 + 74, '8 130.5 1 190.5 544.5 190.5 508.5 142.5 422.5 62.5 309 0.5 217 0.5 115.5 56.5', {
+        const backDoor = this.matter.add.fromVertices(841 + 180.5, 2020 + 14.5, '1 1 1 28.5 360.5 28.5 360.5 1', {
             label: `${LABEL_ID.DOOR_BACK_ID}`,
             isStatic: true,
             isSensor: true
         })
 
-        const arrBodies = [bodyDoor, bodyDoorBack];
+        const forwardDoor = this.matter.add.fromVertices(950 + 81.5, 389.5 + 66.5, '1 0.5 1 132.5 162.5 132.5 162.5 0.5', {
+            label: `${LABEL_ID.DOOR_FORWARD_ID}`,
+            isStatic: true,
+        })
+
+        const leftDoor = this.matter.add.fromVertices(65.5 + 94, 1124.5 + 199.5, '1.5 244 139 397.5 186.5 191 45.5 1.5', {
+            label: `${LABEL_ID.DOOR_BACK_ID}`,
+            isStatic: true,
+        })
+
+        const rightDoor = this.matter.add.fromVertices(1810.5 + 87, 1121.5 + 201, '172.5 243 31 400.5 1.5 157 133.5 1.5', {
+            label: `${LABEL_ID.DOOR_BACK_ID}`,
+            isStatic: true,
+        })
+
+        const clotheMin = this.matter.add.sprite(740, 850, 'clotheMin', null, {
+            label: `${LABEL_ID.CLOTHE_KEY}`,
+            isStatic: true,
+            isSensor: true
+        });
+
+        const notebookMin = this.matter.add.sprite(383, 1711, 'notebookMin', null, {
+            label: `${LABEL_ID.NOTEBOOK_KET}`,
+            isStatic: true,
+            isSensor: true
+        });
+
+        const keysMin = this.matter.add.sprite(1440, 1661, 'keysMin', null, {
+            label: `${LABEL_ID.KEYS_KEY}`,
+            isStatic: true,
+            isSensor: true
+        });
+
+        const arrBodies = [backDoor, bodyWindow, clotheMin, notebookMin, keysMin, rightDoor, forwardDoor, leftDoor];
 
 
         this.matterCollision.addOnCollideStart({
@@ -157,37 +199,55 @@ export class GameScene2 extends BaseScene {
         this.pressX.setVisible(false);
 
         //задний фон оверлея
-        this.overlayBackground = this.add.image(0, 0, 'overlayBackground');
+        this.overlayBackground = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayBackground');
         this.overlayBackground.setOrigin(0.5, 0.5);
-        this.overlayBackground.setDisplaySize(this.cameras.main.width * 0.7, this.cameras.main.height * 0.73);
+        this.overlayBackground.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
         this.overlayBackground.setVisible(false);
         this.overlayBackground.setDepth(2);
+        this.overlayBackground.setScrollFactor(0);
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.firstKey = this.add.image(0, 0, 'firstKey');
-        this.firstKey.setDisplaySize(this.cameras.main.width * 0.60, this.cameras.main.height * 0.63);
-        this.firstKey.setVisible(false);
-        this.firstKey.setDepth(2);
-        this.firstKey.setAlpha(0);
+        this.windowKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'window');
+        this.windowKey.setScale(0.5);
+        this.windowKey.setVisible(false);
+        this.windowKey.setDepth(2);
+        this.windowKey.setScrollFactor(0);
+        this.windowKey.setAlpha(0);
 
-        //Текст для пустых
-        this.emptySign = this.add.image(0, 0, 'empty');
-        this.emptySign.setVisible(false);
-        this.emptySign.setDepth(2);
-        this.emptySign.setAlpha(0);
+        this.clotheKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'clothe');
+        this.clotheKey.setScale(0.5);
+        this.clotheKey.setVisible(false);
+        this.clotheKey.setDepth(2);
+        this.clotheKey.setScrollFactor(0);
+        this.clotheKey.setAlpha(0);
 
-        this.closeButton = this.add.image(0, 0, 'closeIcon');
-        this.closeButton.setDisplaySize(this.overlayBackground.displayWidth * 0.05, this.overlayBackground.displayHeight * 0.07);
+        this.notebookKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'notebook');
+        this.notebookKey.setScale(0.5);
+        this.notebookKey.setVisible(false);
+        this.notebookKey.setDepth(2);
+        this.notebookKey.setScrollFactor(0);
+        this.notebookKey.setAlpha(0);
+
+        this.keysKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'keys');
+        this.keysKey.setScale(0.5);
+        this.keysKey.setVisible(false);
+        this.keysKey.setDepth(2);
+        this.keysKey.setScrollFactor(0);
+        this.keysKey.setAlpha(0);
+
+        this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
+        this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
         this.closeButton.setVisible(false);
         this.closeButton.setDepth(2);
+        this.closeButton.setScrollFactor(0);
         this.closeButton.setAlpha(0); // Начальное значение прозрачности
 
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.emptySign, this.firstKey],
+                targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -232,14 +292,14 @@ export class GameScene2 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.emptySign, this.firstKey],
+                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.emptySign, this.firstKey],
+                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -275,35 +335,51 @@ export class GameScene2 extends BaseScene {
     moveBackRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE, 1024, 700);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE, 1024, 1024);
     }
 
     showOverlay() {
         this.isOverlayVisible = true
 
-        if (this.eventZone == LABEL_ID.FIRST_KEY) {
-            this.firstKey.setPosition(this.cameras.main.scrollX + 640, this.cameras.main.scrollY + 360).setVisible(true);
-            if (this.fold.indexOf(this.firstKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.firstKey.texture.key);
+        if (this.eventZone == LABEL_ID.WINDOW_KEY) {
+            this.windowKey.setVisible(true);
+            if (this.fold.indexOf(this.windowKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.windowKey.texture.key);
             }
         }
-        else {
-            this.emptySign.setPosition(this.cameras.main.scrollX + 640, this.cameras.main.scrollY + 360).setVisible(true);
+
+        if (this.eventZone == LABEL_ID.CLOTHE_KEY) {
+            this.clotheKey.setVisible(true);
+            if (this.fold.indexOf(this.clotheKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.clotheKey.texture.key);
+            }
         }
 
-        this.overlayBackground.setPosition(this.cameras.main.scrollX + 640, this.cameras.main.scrollY + 360).setVisible(true);
-        this.closeButton.setPosition(
-            this.cameras.main.scrollX + 640 + this.overlayBackground.displayWidth / 2 - this.overlayBackground.displayWidth * 0.1 / 2 + 10,
-            this.cameras.main.scrollY + 360 - this.overlayBackground.displayHeight / 2 + this.overlayBackground.displayHeight * 0.1 / 2,
-        ).setVisible(true);
+        if (this.eventZone == LABEL_ID.NOTEBOOK_KET) {
+            this.notebookKey.setVisible(true);
+            if (this.fold.indexOf(this.notebookKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.notebookKey.texture.key);
+            }
+        }
+
+        if (this.eventZone == LABEL_ID.KEYS_KEY) {
+            this.keysKey.setVisible(true);
+            if (this.fold.indexOf(this.keysKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.keysKey.texture.key);
+            }
+        }
+
+        this.overlayBackground.setVisible(true);
+        this.closeButton.setVisible(true);
     }
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.FIRST_KEY) this.firstKey.setVisible(false);
-        else {
-            this.emptySign.setVisible(false);
-        }
+        if (this.eventZone == LABEL_ID.WINDOW_KEY) this.windowKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.CLOTHE_KEY) this.clotheKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.NOTEBOOK_KET) this.notebookKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.KEYS_KEY) this.keysKey.setVisible(false);
+
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
     }
@@ -344,14 +420,14 @@ export class GameScene2 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.emptySign, context.overlayBackground, context.closeButton, context.firstKey],
+                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.emptySign, context.overlayBackground, context.closeButton, context.firstKey],
+                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

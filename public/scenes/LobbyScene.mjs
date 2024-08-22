@@ -33,7 +33,7 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('closeIcon', 'assets/icon/closeIcon.png');
 
         this.load.image('empty', 'assets/keyFrame/Empty.png')
-        this.load.image('overlayBackground', 'assets/overlay/overlayBackground.png');
+        this.load.image('overlayBackground', 'assets/overlay/overlay.png');
 
         this.load.image('joystickBase', 'assets/joystick/joystick-back.png');
         this.load.image('joystickThumb', 'assets/joystick/thrumb-btn.png');
@@ -56,6 +56,8 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('fourthKey', 'assets/keyFrame/fourthKey.png');
         this.load.image('fiverthKey', 'assets/keyFrame/fiverthKey.png');
         this.load.image('sixethKey', 'assets/keyFrame/sixethKey.png');
+        this.load.image('disk', 'assets/keyFrame/disk.png');
+        this.load.image('foot', 'assets/keyFrame/foot.png');
 
         this.load.image('rightArrow', 'assets/button/rightArrow.png');
         this.load.image('leftArrow', 'assets/button/leftArrow.png');

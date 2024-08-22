@@ -154,8 +154,8 @@ export class BaseScene extends Phaser.Scene {
     }
 
     createFold() {
-        this.foldKeys = this.add.image(this.cameras.main.width - 636, this.cameras.main.height / 2 + 30, 'firstKey');
-        this.foldKeys.setDisplaySize(this.cameras.main.width * 0.60, this.cameras.main.height * 0.63);
+        this.foldKeys = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'disk');
+        this.foldKeys.setScale(0.5);
         this.foldKeys.setDepth(2);
         this.foldKeys.setScrollFactor(0);
         this.foldKeys.setVisible(false);
@@ -192,11 +192,12 @@ export class BaseScene extends Phaser.Scene {
             this.moveLeftKeys();
         });
 
-        this.foldColseBtn = this.add.image(0, 0, 'closeIcon');
-        this.foldColseBtn.setDisplaySize(this.overlayBackground.displayWidth * 0.05, this.overlayBackground.displayHeight * 0.07);
+        this.foldColseBtn = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
+        this.foldColseBtn.setDisplaySize(50, 50);
         this.foldColseBtn.setInteractive();
         this.foldColseBtn.setVisible(false);
         this.foldColseBtn.setDepth(2);
+        this.foldColseBtn.setScrollFactor(0);
         this.foldColseBtn.setAlpha(0); // Начальное значение прозрачности
 
         this.foldColseBtn.on('pointerdown', () => {
@@ -205,7 +206,6 @@ export class BaseScene extends Phaser.Scene {
             this.foldKeys.setVisible(false);
             this.foldColseBtn.setVisible(false);
             this.overlayBackground.setVisible(false);
-            this.emptySign.setVisible(false);
             this.leftArrow.setVisible(false);
             this.rightArrow.setVisible(false);
         });
@@ -220,8 +220,7 @@ export class BaseScene extends Phaser.Scene {
 
 
         if (context.fold == null || context.fold.length < 1) {
-            context.emptySign.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);;
-            context.emptySign.setAlpha(1);
+
         } else if (context.fold.length > 1) {
             context.foldImgNumber = 0;
             context.leftArrow.setVisible(false);
@@ -236,11 +235,8 @@ export class BaseScene extends Phaser.Scene {
         }
 
 
-        context.overlayBackground.setPosition(context.cameras.main.scrollX + 640, context.cameras.main.scrollY + 360).setVisible(true);
-        context.foldColseBtn.setPosition(
-            context.cameras.main.scrollX + 640 + context.overlayBackground.displayWidth / 2 - context.overlayBackground.displayWidth * 0.1 / 2 + 10,
-            context.cameras.main.scrollY + 360 - context.overlayBackground.displayHeight / 2 + context.overlayBackground.displayHeight * 0.1 / 2,
-        ).setVisible(true);
+        context.overlayBackground.setVisible(true);
+        context.foldColseBtn.setVisible(true);
     }
 
     moveRightKeys() {
@@ -298,7 +294,7 @@ export class BaseScene extends Phaser.Scene {
     }
 
     showSettings(self) {
-        if (self.foldKeys.visible || self.emptySign.visible) return;
+        if (self.foldKeys.visible || self.overlayBackground.visible) return;
         self.avatarDialog.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.avatarDialog.setVisible(true);
         self.isOverlayVisible = true
@@ -307,7 +303,7 @@ export class BaseScene extends Phaser.Scene {
     }
 
     showExitMenu(self) {
-        if (self.foldKeys.visible || self.emptySign.visible) return;
+        if (self.foldKeys.visible || self.overlayBackground.visible) return;
         self.exitContainer.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.exitContainer.setVisible(true);
         self.isOverlayVisible = true

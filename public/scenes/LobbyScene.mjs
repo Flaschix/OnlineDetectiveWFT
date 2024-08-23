@@ -32,7 +32,6 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('pressX', 'assets/icon/pressX.png');
         this.load.image('closeIcon', 'assets/icon/closeIcon.png');
 
-        this.load.image('empty', 'assets/keyFrame/Empty.png')
         this.load.image('overlayBackground', 'assets/overlay/overlay.png');
 
         this.load.image('joystickBase', 'assets/joystick/joystick-back.png');
@@ -49,13 +48,6 @@ export class LobbyScene extends Phaser.Scene {
         this.load.spritesheet('character5', './assets/characterMap/character5.png', { frameWidth: 48, frameHeight: 64 });
         this.load.spritesheet('character6', './assets/characterMap/character6.png', { frameWidth: 48, frameHeight: 64 });
 
-        //ключи
-        this.load.image('firstKey', 'assets/keyFrame/firstKey.png');
-        this.load.image('secondKey', 'assets/keyFrame/secondKey.png');
-        this.load.image('thirdKey', 'assets/keyFrame/thirdKey.png');
-        this.load.image('fourthKey', 'assets/keyFrame/fourthKey.png');
-        this.load.image('fiverthKey', 'assets/keyFrame/fiverthKey.png');
-        this.load.image('sixethKey', 'assets/keyFrame/sixethKey.png');
         this.load.image('disk', 'assets/keyFrame/disk.png');
         this.load.image('foot', 'assets/keyFrame/foot.png');
         this.load.image('window', 'assets/keyFrame/window.png');
@@ -64,6 +56,11 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('keys', 'assets/keyFrame/keys.png');
         this.load.image('bottle', 'assets/keyFrame/bottle.png');
         this.load.image('plan', 'assets/keyFrame/plan.png');
+        this.load.image('gloves', 'assets/keyFrame/gloves.png');
+        this.load.image('chain', 'assets/keyFrame/chain.png');
+        this.load.image('camera', 'assets/keyFrame/camera.png');
+        this.load.image('bag', 'assets/keyFrame/bag.png');
+        this.load.image('glasses', 'assets/keyFrame/glasses.png');
 
         this.load.image('rightArrow', 'assets/button/rightArrow.png');
         this.load.image('leftArrow', 'assets/button/leftArrow.png');
@@ -291,7 +288,7 @@ export class LobbyScene extends Phaser.Scene {
             this.joinRoomContainer.destroy();
             this.newSpaceContainer.destroy();
             this.exitContainer.destroy();
-            this.scene.start(CST.SCENE.GAMESCENE3, { players });
+            this.scene.start(CST.SCENE.GAMESCENE5, { players });
         });
 
         socket.on('roomCreated', (roomCode) => {

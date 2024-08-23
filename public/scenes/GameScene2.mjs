@@ -130,12 +130,12 @@ export class GameScene2 extends BaseScene {
         })
 
         const leftDoor = this.matter.add.fromVertices(65.5 + 94, 1124.5 + 199.5, '1.5 244 139 397.5 186.5 191 45.5 1.5', {
-            label: `${LABEL_ID.DOOR_BACK_ID}`,
+            label: `${LABEL_ID.DOOR_LEFT_ID}`,
             isStatic: true,
         })
 
         const rightDoor = this.matter.add.fromVertices(1810.5 + 87, 1121.5 + 201, '172.5 243 31 400.5 1.5 157 133.5 1.5', {
-            label: `${LABEL_ID.DOOR_BACK_ID}`,
+            label: `${LABEL_ID.DOOR_RIGHT_ID}`,
             isStatic: true,
         })
 
@@ -146,7 +146,7 @@ export class GameScene2 extends BaseScene {
         });
 
         const notebookMin = this.matter.add.sprite(383, 1711, 'notebookMin', null, {
-            label: `${LABEL_ID.NOTEBOOK_KET}`,
+            label: `${LABEL_ID.NOTEBOOK_KEY}`,
             isStatic: true,
             isSensor: true
         });
@@ -317,19 +317,19 @@ export class GameScene2 extends BaseScene {
     moveLeftRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE3, 960, 1850);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE3, 1785, 1354);
     }
 
     moveRightRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 960, 1850);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 300, 1384);
     }
 
     moveForwardRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE5, 960, 1850);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE5, 1900, 1024);
     }
 
     moveBackRoom() {
@@ -355,7 +355,7 @@ export class GameScene2 extends BaseScene {
             }
         }
 
-        if (this.eventZone == LABEL_ID.NOTEBOOK_KET) {
+        if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) {
             this.notebookKey.setVisible(true);
             if (this.fold.indexOf(this.notebookKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.notebookKey.texture.key);
@@ -377,7 +377,7 @@ export class GameScene2 extends BaseScene {
         this.isOverlayVisible = false
         if (this.eventZone == LABEL_ID.WINDOW_KEY) this.windowKey.setVisible(false);
         if (this.eventZone == LABEL_ID.CLOTHE_KEY) this.clotheKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.NOTEBOOK_KET) this.notebookKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) this.notebookKey.setVisible(false);
         if (this.eventZone == LABEL_ID.KEYS_KEY) this.keysKey.setVisible(false);
 
         this.overlayBackground.setVisible(false);

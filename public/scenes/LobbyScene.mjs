@@ -295,7 +295,7 @@ export class LobbyScene extends Phaser.Scene {
             this.joinRoomContainer.destroy();
             this.newSpaceContainer.destroy();
             this.exitContainer.destroy();
-            this.scene.start(CST.SCENE.GAMESCENE, { players });
+            this.scene.start(CST.SCENE.GAMESCENE2, { players });
         });
 
         socket.on('roomCreated', (roomCode) => {

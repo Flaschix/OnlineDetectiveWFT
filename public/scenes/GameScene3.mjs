@@ -25,10 +25,7 @@ export class GameScene3 extends BaseScene {
         super.preload();
 
         //map
-        this.load.image('map3', './assets/map/map_garally_3.png');
-
-        this.load.image('bottleMin', './assets/mapKey/bottleMin.png');
-        this.load.image('planMin', './assets/mapKey/planMin.png');
+        this.load.image('map3', './assets/map/tample_3.png');
     }
 
     create(data) {
@@ -61,7 +58,7 @@ export class GameScene3 extends BaseScene {
 
         if (!this.textures.exists(MAP_SETTINGS.MAP_FULL3)) {
 
-            this.loadPlusTexture(MAP_SETTINGS.MAP_FULL3, './assets/map/map_garally_full_3.png');
+            this.loadPlusTexture(MAP_SETTINGS.MAP_FULL3, './assets/map/tample_full_3.png');
 
             this.fullMap = false;
         }
@@ -80,18 +77,9 @@ export class GameScene3 extends BaseScene {
     }
 
     createUnWalkedObjects() {
-        this.matter.add.fromVertices(670, 352 + 711.5, '337 1359 394.5 1422 1 1422 66 45.5 1612.5 1 1612.5 216 1567.5 216 1555 149.5 1517 157.5 1491.5 131.5 1413 131.5 1396 188 1340.5 157.5 1300 157.5 1300 202 1243.5 202 1235.5 216 1286 246.5 1326.5 289 1235.5 395.5 1087.5 350.5 1094.5 325 1167 216 1063 202 1063 169 1038 169 1043 95 856.5 95 856.5 166 840.5 166 840.5 202 800 202 745.5 216 827 336 653 395.5 586.5 276.5 622.5 246.5 671 230.5 671 202 640.5 202 646 139.5 353.5 139.5 340.5 216 299 216 265.5 350.5 273.5 366.5 286 381.5 293 426 323 426 323 381.5 317 355.5 286 336 299 305 323 295 323 325 334 325 371.5 355.5 380.5 381.5 371.5 410 371.5 438 391.5 438 426 474.5 420 552 306 552 299 598.5 244.5 598.5 227.5 620.5 183 620.5 156.5 552 129.5 703 166 758.5 196 758.5 183 793 166 837.5 371.5 830.5 382.5 861.5 328 1274 133 1267 123.5 1328.5 149.5 1372.5 199 1372.5 199 1412 337 1359', { isStatic: true }, true)
-        this.matter.add.fromVertices(1680 + 105, 674.5 + 643.5, '168.5 1212 149.5 1286 209 1286 209 0.5 1 0.5 1 80 58.5 93 79 173 44 234 1 278.5 23.5 433 79 442.5 79 481.5 149.5 481.5 168.5 624.5 125.5 684 79 713.5 97.5 777 58.5 808.5 58.5 860.5 97.5 894 58.5 942.5 79 974 149.5 1000 168.5 1212', { isStatic: true }, true)
-
-        this.matter.add.fromVertices(905 + 133, 1855 + 81, '10.5 35.5 1.5 161 265.5 161 265.5 50.5 243.5 35.5 168 32 162.5 18 134 1 98.5 9 83.5 35.5 10.5 35.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(1150 + 130.5, 1550 + 148, '1 168 161 294.5 260.5 210 260.5 178 134.5 65 148.5 26 125.5 10 115.5 26 105 1 105 26 93.5 38.5 93.5 65 9 132.5 1 168', { isStatic: true }, true)
-        this.matter.add.fromVertices(578 + 127, 1637 + 138.5, '1 191.5 75.5 276 253 158.5 162.5 54.5 144.5 62.5 137.5 40 118.5 12.5 94.5 1.5 70 29.5 64 62.5 75.5 111 1 158.5 1 191.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(930.5 + 84, 1474 + 53.5, '0.5 39 0.5 106.5 167.5 106.5 167.5 39 149.5 1 26 1 0.5 39', { isStatic: true }, true)
-        this.matter.add.fromVertices(1235 + 31, 1448 + 40, '1 35.5 8 66 29 79 51 71.5 51 55 61 22.5 37.5 1 8 11.5 1 35.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(1484 + 83, 1498 + 141.5, '1 209 95 281.5 165 209 136 183 157 164.5 141.5 140 149 114.5 165 57.5 136 1.5 103 35.5 79 126.5 45 160 1 209', { isStatic: true }, true)
-        this.matter.add.fromVertices(925 + 119.5, 1110 + 134.5, '0.5 87 0.5 267.5 238 260 238 87 191 50 149.5 55 142 19 115 1 81.5 8 64 30.5 72.5 55 25 55 0.5 87', { isStatic: true }, true)
-        this.matter.add.fromVertices(1526 + 53.5, 904 + 119, '1.5 153 11.5 237.5 106 237.5 96.5 175.5 106 164 96.5 99.5 96.5 57 83 35 73 43.5 64 29 73 7 64 1.5 48.5 7 55 21.5 64 57 44 84 55 120.5 28.5 120.5 28.5 137.5 1.5 153', { isStatic: true }, true)
-
+        this.matter.add.fromVertices(700, 940, '1118 1896 1118 1952.5 84.5 1912.5 0.5 1642 61 0.5 1674 0.5 1674 471 1590.5 471 1446 334 1421.5 393 1240 360 1181 360 1191 423 1156.5 448 1104.5 471 1082.5 441 1052 413.5 1052 349 1082.5 286 1082.5 227 1082.5 177.5 1041 177.5 1041 131 1052 56.5 777.5 56.5 786 177.5 743.5 177.5 743.5 227 743.5 276.5 761 334 761 379 761 423 735 448 702 448 674.5 423 665 404 405.5 404 388 327 184.5 519 158.5 504 158.5 778.5 217.5 820 224.5 847.5 254.5 902 294.5 931 285 1083.5 254.5 1113.5 234 1160.5 234 1193 171 1220.5 171 1308.5 171 1448.5 84.5 1531 84.5 1558.5 112 1575 125.5 1616 193 1575 348 1742.5 396 1750.5 665 1750.5 665 1822 729.5 1822 738 1750.5 775 1750.5 775 1896 1118 1896', { isStatic: true }, true)
+        this.matter.add.fromVertices(1320 + 382, 314 + 773.5, '1 1432 13.5 1519 748 1546 748 1.5 527 1.5 399 55.5 361.5 1.5 279 72 341 155 420 72 442.5 130 515 167.5 569 94.5 590 538.5 590 634 544 652.5 610.5 677.5 610.5 1079.5 544 1013 544 1141.5 386.5 1320 401 1382 55 1403 1 1432', { isStatic: true }, true)
+        this.matter.add.fromVertices(770 + 278, 1100 + 167.5, '1 169.5 10.5 334 549 328 555 169.5 329.5 169.5 329.5 65 350 65 350 0.5 176.5 0.5 176.5 65 198 65 198 169.5 1 169.5', { isStatic: true }, true)
     }
 
     createPlayers(players, cameraMargin) {
@@ -117,24 +105,28 @@ export class GameScene3 extends BaseScene {
         highlightGraphics.setDepth(0);
 
 
-        const bodyDoor = this.matter.add.fromVertices(1797 + 56, 1076 + 149, '77.5 2 1 177 21 296 110.5 104.5', {
-            label: `${LABEL_ID.DOOR_LEFT_ID}`,
+        const bodyDoor = this.matter.add.fromVertices(872 + 142, -2.5 + 75.5, '1 0.5 13.5 150.5 270 150.5 282.5 0.5', {
+            label: `${LABEL_ID.DOOR_FORWARD_ID}`,
             isStatic: true,
         })
 
-        const bottleMin = this.matter.add.sprite(383, 1260, 'bottleMin', null, {
-            label: `${LABEL_ID.BOTTLE_KEY}`,
+        const bodyBackDoor = this.matter.add.fromVertices(873.5 + 160.5, 1765 + 78.5, '0.5 156 0.5 1 302.5 1 320 156', {
+            label: `${LABEL_ID.DOOR_BACK_ID}`,
             isStatic: true,
             isSensor: true
-        });
+        })
 
-        const planMin = this.matter.add.sprite(1070, 1763, 'planMin', null, {
-            label: `${LABEL_ID.PLAN_KEY}`,
+        const fivethKey = this.matter.add.fromVertices(1722 + 62.5, 1090.5 + 235, '124.5 468 1 364.5 1 1.5 124.5 45', {
+            label: `${LABEL_ID.FIVETH_KEY}`,
             isStatic: true,
-            isSensor: true
-        });
+        })
 
-        const arrBodies = [bodyDoor, bottleMin, planMin];
+        const sixethKey = this.matter.add.fromVertices(194 + 43, 467 + 168.5, '1 302.5 85.5 335.5 85.5 72.5 1 2', {
+            label: `${LABEL_ID.SIXETH_KEY}`,
+            isStatic: true,
+        })
+
+        const arrBodies = [bodyDoor, fivethKey, sixethKey, bodyBackDoor];
 
 
         this.matterCollision.addOnCollideStart({
@@ -178,28 +170,28 @@ export class GameScene3 extends BaseScene {
         //задний фон оверлея
         this.overlayBackground = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayBackground');
         this.overlayBackground.setOrigin(0.5, 0.5);
-        this.overlayBackground.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+        this.overlayBackground.setDisplaySize(this.cameras.main.width - 300, this.cameras.main.height - 100);
         this.overlayBackground.setVisible(false);
         this.overlayBackground.setDepth(2);
         this.overlayBackground.setScrollFactor(0);
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.bottleKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bottle');
-        this.bottleKey.setScale(0.5);
-        this.bottleKey.setVisible(false);
-        this.bottleKey.setDepth(2);
-        this.bottleKey.setScrollFactor(0);
-        this.bottleKey.setAlpha(0);
+        this.fivethKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 30, 'fivethKey');
+        this.fivethKey.setScale(0.5);
+        this.fivethKey.setVisible(false);
+        this.fivethKey.setDepth(2);
+        this.fivethKey.setScrollFactor(0);
+        this.fivethKey.setAlpha(0);
 
-        this.planKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'plan');
-        this.planKey.setScale(0.5);
-        this.planKey.setVisible(false);
-        this.planKey.setDepth(2);
-        this.planKey.setScrollFactor(0);
-        this.planKey.setAlpha(0);
+        this.sixethKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 30, 'sixethKey');
+        this.sixethKey.setScale(0.5);
+        this.sixethKey.setVisible(false);
+        this.sixethKey.setDepth(2);
+        this.sixethKey.setScrollFactor(0);
+        this.sixethKey.setAlpha(0);
 
-        this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
+        this.closeButton = this.add.image(this.cameras.main.width - 200, 85, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
         this.closeButton.setVisible(false);
@@ -210,7 +202,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -230,8 +222,13 @@ export class GameScene3 extends BaseScene {
             if (this.isInZone) {
                 this.player.setVelocity(0);
 
-                if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                    this.moveRightRoom();
+                if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
+                    this.moveForwardRoom();
+                    return;
+                }
+
+                if (this.eventZone == LABEL_ID.DOOR_BACK_ID) {
+                    this.moveBackRoom();
                     return;
                 }
 
@@ -240,14 +237,14 @@ export class GameScene3 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -262,26 +259,32 @@ export class GameScene3 extends BaseScene {
         });
     }
 
-    moveRightRoom() {
+    moveBackRoom() {
         this.isInZone = false;
         this.eventZone = null;
         this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 300, 1384);
     }
 
+    moveForwardRoom() {
+        this.isInZone = false;
+        this.eventZone = null;
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 300, 1384);
+    }
+
     showOverlay() {
         this.isOverlayVisible = true
 
-        if (this.eventZone == LABEL_ID.BOTTLE_KEY) {
-            this.bottleKey.setVisible(true);
-            if (this.fold.indexOf(this.bottleKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.bottleKey.texture.key);
+        if (this.eventZone == LABEL_ID.FIVETH_KEY) {
+            this.fivethKey.setVisible(true);
+            if (this.fold.indexOf(this.fivethKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.fivethKey.texture.key);
             }
         }
 
-        if (this.eventZone == LABEL_ID.PLAN_KEY) {
-            this.planKey.setVisible(true);
-            if (this.fold.indexOf(this.planKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.planKey.texture.key);
+        if (this.eventZone == LABEL_ID.SIXETH_KEY) {
+            this.sixethKey.setVisible(true);
+            if (this.fold.indexOf(this.sixethKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.sixethKey.texture.key);
             }
         }
 
@@ -291,8 +294,8 @@ export class GameScene3 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.BOTTLE_KEY) this.bottleKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.PLAN_KEY) this.planKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.FIVETH_KEY) this.fivethKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.SIXETH_KEY) this.sixethKey.setVisible(false);
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -309,8 +312,13 @@ export class GameScene3 extends BaseScene {
         if (context.isInZone) {
             context.player.setVelocity(0);
 
-            if (context.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                context.moveRightRoom();
+            if (context.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
+                context.moveForwardRoom();
+                return;
+            }
+
+            if (context.eventZone == LABEL_ID.DOOR_BACK_ID) {
+                context.moveBackRoom();
                 return;
             }
 
@@ -319,14 +327,14 @@ export class GameScene3 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

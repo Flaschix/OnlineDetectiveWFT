@@ -26,10 +26,6 @@ export class GameScene2 extends BaseScene {
 
         //map
         this.load.image('map2', './assets/map/tample_2.png');
-
-        this.load.image('clotheMin', './assets/mapKey/clotheMin.png');
-        this.load.image('notebookMin', './assets/mapKey/notebookMin.png');
-        this.load.image('keysMin', './assets/mapKey/keysMin.png');
     }
 
     create(data) {
@@ -269,7 +265,7 @@ export class GameScene2 extends BaseScene {
     moveForwardRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE5, 1024, 1900);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE3, 1024, 1900);
     }
 
     moveBackRoom() {

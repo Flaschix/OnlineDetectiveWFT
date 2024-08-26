@@ -50,6 +50,7 @@ export class GameScene3 extends BaseScene {
         //Создание оверлея
         this.createOverlays();
         this.createFold();
+        this.createEnterCodeContainer();
         //Создание слушателей нажатия кнопок
         this.createInputHandlers();
 
@@ -223,7 +224,27 @@ export class GameScene3 extends BaseScene {
                 this.player.setVelocity(0);
 
                 if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                    this.moveForwardRoom();
+                    // this.moveForwardRoom();
+                    if (this.enterCodeContainer.visible) {
+                        this.tweens.add({
+                            targets: [this.enterCodeContainer],
+                            alpha: 0,
+                            duration: 500,
+                            onComplete: () => {
+                                this.enterCodeContainer.setVisible(false);
+                                this.isOverlayVisible = false;
+                            }
+                        });
+
+                    } else {
+                        this.isOverlayVisible = true;
+                        this.enterCodeContainer.setVisible(true);
+                        this.tweens.add({
+                            targets: [this.enterCodeContainer],
+                            alpha: 1,
+                            duration: 500
+                        });
+                    }
                     return;
                 }
 
@@ -262,13 +283,13 @@ export class GameScene3 extends BaseScene {
     moveBackRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 300, 1384);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 1024, 380);
     }
 
     moveForwardRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 300, 1384);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 1024, 1700);
     }
 
     showOverlay() {
@@ -313,7 +334,26 @@ export class GameScene3 extends BaseScene {
             context.player.setVelocity(0);
 
             if (context.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                context.moveForwardRoom();
+                if (context.enterCodeContainer.visible) {
+                    context.tweens.add({
+                        targets: [context.enterCodeContainer],
+                        alpha: 0,
+                        duration: 500,
+                        onComplete: () => {
+                            context.enterCodeContainer.setVisible(false);
+                            context.isOverlayVisible = false;
+                        }
+                    });
+
+                } else {
+                    context.isOverlayVisible = true;
+                    context.enterCodeContainer.setVisible(true);
+                    context.tweens.add({
+                        targets: [context.enterCodeContainer],
+                        alpha: 1,
+                        duration: 500
+                    });
+                }
                 return;
             }
 
@@ -359,5 +399,116 @@ export class GameScene3 extends BaseScene {
                 this.loadedResolutionMap(MAP_SETTINGS.MAP_FULL3, 1, 1)
             }
         }
+    }
+
+    createEnterCodeContainer() {
+        this.enterCodeContainer = this.add.dom(this.cameras.main.width / 2, this.cameras.main.height / 2).createFromHTML(`
+    <div class="enterCodeContainer">
+        <div id="enterCodeDialog">
+            <h2 id="enterCodeTitle">Enter code</h2>
+            <div id="codeInputs">
+                <input class="connect-space-input" type="text" maxlength="1">
+                <input class="connect-space-input" type="text" maxlength="1">
+                <input class="connect-space-input" type="text" maxlength="1">
+                <input class="connect-space-input" type="text" maxlength="1">
+                <input class="connect-space-input" type="text" maxlength="1">
+                <input class="connect-space-input" type="text" maxlength="1">
+            </div>
+            <input id="join-room-connect" class="connect-space-button" type="image" src="./assets/button/enter.png" alt="Connect">
+            <input id="join-room-cancel" class="connect-space-button" type="image" src="./assets/button/cancel.png" alt="Cancel">
+        </div>
+    </div>
+                `);
+        this.enterCodeContainer.setScrollFactor(0);
+        this.enterCodeContainer.setOrigin(0.5, 0.5);
+        const inputsContainer = document.getElementById('codeInputs')
+        const titleContainer = document.getElementById('enterCodeTitle')
+
+        const inputs = document.querySelectorAll('#codeInputs input');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Backspace' && input.value.length === 0 && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (event) => {
+                event.preventDefault();
+                const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+                const pasteArray = pasteData.split('').slice(0, inputs.length);
+
+                pasteArray.forEach((char, i) => {
+                    inputs[i].value = char;
+                });
+
+                if (pasteArray.length < inputs.length) {
+                    inputs[pasteArray.length].focus();
+                }
+            });
+        });
+
+        const correctCode = 'FATHOM';
+        let correctFlag = true;
+
+        const joinRoomConnect = document.getElementById('join-room-connect');
+        joinRoomConnect.addEventListener('click', () => {
+            if (correctFlag) {
+                let code = '';
+
+                inputs.forEach(input => {
+                    code += input.value;
+                });
+
+                code = code.toUpperCase();
+
+                if (code == correctCode) {
+                    this.enterCodeContainer.setVisible(false);
+                    this.isOverlayVisible = false;
+                    this.moveForwardRoom();
+                }
+                else {
+                    inputs.forEach(input => {
+                        input.value = "";
+                    });
+
+                    inputsContainer.style.display = 'none';
+                    titleContainer.innerHTML = 'Incorrect code';
+                    titleContainer.style.color = 'red';
+                    joinRoomConnect.src = './assets/button/try-again.png';
+                    correctFlag = false
+                }
+            } else {
+                inputsContainer.style.display = 'flex';
+                titleContainer.innerHTML = 'Enter code';
+                titleContainer.style.color = '#F2F0FF';
+                joinRoomConnect.src = './assets/button/enter.png';
+                correctFlag = true
+            }
+        });
+
+        const joinRoomCancel = document.getElementById('join-room-cancel');
+        joinRoomCancel.addEventListener('click', () => {
+            this.isOverlayVisible = false;
+            this.tweens.add({
+                targets: [this.enterCodeContainer],
+                alpha: 0,
+                duration: 500,
+                onComplete: () => {
+                    try {
+                        this.hideOverlay();
+                    }
+                    catch (e) { }
+                }
+            });
+        });
+
+        this.enterCodeContainer.setVisible(false);
     }
 }

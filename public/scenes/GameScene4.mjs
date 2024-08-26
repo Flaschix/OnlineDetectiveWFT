@@ -27,9 +27,8 @@ export class GameScene4 extends BaseScene {
         //map
         this.load.image('map4', './assets/map/tample_4.png');
 
-        this.load.image('glovesMin', './assets/mapKey/glovesMin.png');
-        this.load.image('chainMin', './assets/mapKey/chainMin.png');
-        this.load.image('cameraMin', './assets/mapKey/cameraMin.png');
+        this.load.image('rightMiniGameBack', 'assets/saif/saif.png');
+        this.load.image('rightMiniGameElm', 'assets/saif/lever.png');
     }
 
     create(data) {
@@ -58,6 +57,8 @@ export class GameScene4 extends BaseScene {
         this.createInputHandlers();
 
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
+
+        createGameFieldRight(this, 700, 360);
 
 
         if (!this.textures.exists(MAP_SETTINGS.MAP_FULL4)) {
@@ -249,10 +250,9 @@ export class GameScene4 extends BaseScene {
         this.isOverlayVisible = true
 
         if (this.eventZone == LABEL_ID.SEIF_KEY) {
-            this.answer.setVisible(true);
-            // if (this.fold.indexOf(this.answer.texture.key) == -1) {
-            //     this.mySocket.emitAddNewImg(this.answer.texture.key);
-            // }
+            // this.answer.setVisible(true);
+            showRightPuzzle(this);
+            return;
         }
 
         this.overlayBackground.setVisible(true);
@@ -261,7 +261,16 @@ export class GameScene4 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.SEIF_KEY) this.answer.setVisible(false);
+        if (this.eventZone == LABEL_ID.SEIF_KEY) {
+            if (this.answer.visible) {
+                this.answer.setVisible(false);
+                this.overlayBackground.setVisible(false)
+                this.closeButton.setVisible(false);
+            } else {
+                hideRightPuzzle(this);
+            }
+            return;
+        }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -321,4 +330,161 @@ export class GameScene4 extends BaseScene {
             }
         }
     }
+}
+
+let itemsRight = [];
+let puzzleBackRight;
+
+// Массив, определяющий, какие элементы должны быть повернуты
+let rotatedItemsRight = [
+    [false, false, false],
+    [false, true, true],
+    [false, true, true],
+    [true, true, false]
+];
+
+function createGameFieldRight(scene, startX, startY) {
+    const fieldWidth = 800;
+    const fieldHeight = 1000;
+    const cols = 3;
+    const rows = 4;
+    const padding = 5; // Отступ между элементами
+    const itemWidth = (fieldWidth - (cols - 1) * padding) / cols;
+    const itemHeight = (fieldHeight - (rows - 1) * padding) / rows;
+
+    puzzleBackRight = scene.add.image(startX, startY, 'rightMiniGameBack');
+    puzzleBackRight.setScale(0.6)
+    puzzleBackRight.setDepth(2);
+    puzzleBackRight.setScrollFactor(0);
+    puzzleBackRight.setAlpha(0);
+    puzzleBackRight.setVisible(false);
+
+    for (let row = 0; row < rows; row++) {
+        itemsRight[row] = [];
+        for (let col = 0; col < cols; col++) {
+            const x = (startX - 70) + col * 80;
+            const y = (startY - 160) + row * 90;
+
+            const item = scene.add.image(x, y, 'rightMiniGameElm');
+            // item.setDisplaySize(itemWidth, itemHeight);
+            item.setScale(0.4);
+            item.setDepth(2);
+            item.setInteractive();
+            item.row = row;
+            item.col = col;
+
+            // Устанавливаем угол поворота только для определённых элементов
+            if (rotatedItemsRight[row][col]) {
+                item.setAngle(-90);
+            }
+
+            item.on('pointerdown', () => rotateItemsRight(scene, row, col));
+            item.setScrollFactor(0);
+            item.setVisible(false);
+            item.setAlpha(0);
+            itemsRight[row][col] = item;
+        }
+    }
+}
+
+function rotateItemsRight(scene, row, col) {
+    // Rotate row
+    for (let c = 0; c < itemsRight[row].length; c++) {
+        scene.tweens.add({
+            targets: itemsRight[row][c],
+            angle: itemsRight[row][c].angle - 90,
+            duration: 200,
+            ease: 'Power2'
+        });
+        rotatedItemsRight[row][c] = !rotatedItemsRight[row][c]; // Меняем значение в массиве
+    }
+
+    // Rotate column
+    for (let r = 0; r < itemsRight.length; r++) {
+        if (r !== row) {
+            scene.tweens.add({
+                targets: itemsRight[r][col],
+                angle: itemsRight[r][col].angle - 90,
+                duration: 200,
+                ease: 'Power2'
+            });
+            rotatedItemsRight[r][col] = !rotatedItemsRight[r][col]; // Меняем значение в массиве
+        }
+    }
+
+    // Проверяем условие победы
+    checkWinConditionRight(scene);
+}
+
+
+function checkWinConditionRight(context) {
+    for (let row = 0; row < rotatedItemsRight.length; row++) {
+        for (let col = 0; col < rotatedItemsRight[row].length; col++) {
+            if (rotatedItemsRight[row][col]) {
+                return; // Если хотя бы один элемент true, продолжаем игру
+            }
+        }
+    }
+    console.log('win');
+
+    hideRightPuzzle(context);
+
+    context.answer.setAlpha(1);
+    context.overlayBackground.setAlpha(1);
+    context.closeButton.setAlpha(1);
+
+    context.answer.setVisible(true);
+    context.overlayBackground.setVisible(true);
+    context.closeButton.setVisible(true);
+}
+
+function showRightPuzzle(context) {
+    context.tweens.add({
+        targets: [puzzleBackRight],
+        alpha: 1,
+        duration: 500
+    });
+
+    puzzleBackRight.setVisible(true)
+    itemsRight.forEach(items => {
+        items.forEach(item => {
+            context.tweens.add({
+                targets: [item],
+                alpha: 1,
+                duration: 500
+            });
+            item.setVisible(true);
+        })
+    })
+}
+
+function hideRightPuzzle(context) {
+    context.tweens.add({
+        targets: [puzzleBackRight],
+        alpha: 0,
+        duration: 500,
+        onComplete: () => {
+            try {
+                puzzleBackRight.setVisible(false)
+            }
+            catch (e) { }
+        }
+    });
+
+    itemsRight.forEach(items => {
+        items.forEach(item => {
+            context.tweens.add({
+                targets: [item],
+                alpha: 0,
+                duration: 500,
+                onComplete: () => {
+                    try {
+                        item.setVisible(false);
+                    }
+                    catch (e) { }
+                }
+            });
+
+        })
+    })
 }

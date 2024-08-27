@@ -155,7 +155,7 @@ export class BaseScene extends Phaser.Scene {
 
     createFold() {
         this.foldKeys = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'disk');
-        this.foldKeys.setScale(0.5);
+        this.foldKeys.setScale(0.8);
         this.foldKeys.setDepth(2);
         this.foldKeys.setScrollFactor(0);
         this.foldKeys.setVisible(false);
@@ -192,13 +192,13 @@ export class BaseScene extends Phaser.Scene {
             this.moveLeftKeys();
         });
 
-        this.foldColseBtn = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
+        this.foldColseBtn = this.add.image(this.cameras.main.width - 200, 90, 'closeIcon');
         this.foldColseBtn.setDisplaySize(50, 50);
         this.foldColseBtn.setInteractive();
         this.foldColseBtn.setVisible(false);
         this.foldColseBtn.setDepth(2);
         this.foldColseBtn.setScrollFactor(0);
-        this.foldColseBtn.setAlpha(0); // Начальное значение прозрачности
+        this.foldColseBtn.setAlpha(0);
 
         this.foldColseBtn.on('pointerdown', () => {
             this.isOverlayVisible = false;

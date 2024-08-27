@@ -32,7 +32,7 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('pressX', 'assets/icon/pressX.png');
         this.load.image('closeIcon', 'assets/icon/closeIcon.png');
 
-        this.load.image('overlayBackground', 'assets/overlay/overlay.png');
+        this.load.image('overlayBackground', 'assets/overlay/overlayBackground.png');
 
         this.load.image('joystickBase', 'assets/joystick/joystick-back.png');
         this.load.image('joystickThumb', 'assets/joystick/thrumb-btn.png');
@@ -61,6 +61,15 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('camera', 'assets/keyFrame/camera.png');
         this.load.image('bag', 'assets/keyFrame/bag.png');
         this.load.image('glasses', 'assets/keyFrame/glasses.png');
+
+        this.load.image('firstKey', 'assets/keyFrame/firstKey.png');
+        this.load.image('secondKey', 'assets/keyFrame/secondKey.png');
+        this.load.image('thirdKey', 'assets/keyFrame/thirdKey.png');
+        this.load.image('fourthKey', 'assets/keyFrame/fourthKey.png');
+        this.load.image('fivethKey', 'assets/keyFrame/fivethKey.png');
+        this.load.image('sixethKey', 'assets/keyFrame/sixethKey.png');
+        this.load.image('emptyMan', 'assets/keyFrame/emptyMan.png');
+        this.load.image('emptyWoman', 'assets/keyFrame/emptyWoman.png');
 
         this.load.image('rightArrow', 'assets/button/rightArrow.png');
         this.load.image('leftArrow', 'assets/button/leftArrow.png');

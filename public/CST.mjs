@@ -6,7 +6,6 @@ export const CST = {
         GAMESCENE2: "GameScene2",
         GAMESCENE3: "GameScene3",
         GAMESCENE4: "GameScene4",
-        GAMESCENE5: "GameScene5"
     }
 }
 

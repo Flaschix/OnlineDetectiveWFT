@@ -78,8 +78,8 @@ export class GameScene3 extends BaseScene {
     }
 
     createUnWalkedObjects() {
-        this.matter.add.fromVertices(700, 940, '1118 1896 1118 1952.5 84.5 1912.5 0.5 1642 61 0.5 1674 0.5 1674 471 1590.5 471 1446 334 1421.5 393 1240 360 1181 360 1191 423 1156.5 448 1104.5 471 1082.5 441 1052 413.5 1052 349 1082.5 286 1082.5 227 1082.5 177.5 1041 177.5 1041 131 1052 56.5 777.5 56.5 786 177.5 743.5 177.5 743.5 227 743.5 276.5 761 334 761 379 761 423 735 448 702 448 674.5 423 665 404 405.5 404 388 327 184.5 519 158.5 504 158.5 778.5 217.5 820 224.5 847.5 254.5 902 294.5 931 285 1083.5 254.5 1113.5 234 1160.5 234 1193 171 1220.5 171 1308.5 171 1448.5 84.5 1531 84.5 1558.5 112 1575 125.5 1616 193 1575 348 1742.5 396 1750.5 665 1750.5 665 1822 729.5 1822 738 1750.5 775 1750.5 775 1896 1118 1896', { isStatic: true }, true)
-        this.matter.add.fromVertices(1320 + 382, 314 + 773.5, '1 1432 13.5 1519 748 1546 748 1.5 527 1.5 399 55.5 361.5 1.5 279 72 341 155 420 72 442.5 130 515 167.5 569 94.5 590 538.5 590 634 544 652.5 610.5 677.5 610.5 1079.5 544 1013 544 1141.5 386.5 1320 401 1382 55 1403 1 1432', { isStatic: true }, true)
+        this.matter.add.fromVertices(690, 940, '1118 1896 1118 1952.5 84.5 1912.5 0.5 1642 61 0.5 1674 0.5 1674 471 1603.5 441 1473.5 309 1437 334 1216.5 334 1181 360 1191 423 1156.5 448 1104.5 471 1082.5 441 1052 413.5 1052 349 1082.5 286 1082.5 227 1082.5 177.5 1041 177.5 1041 131 1052 56.5 777.5 56.5 786 177.5 743.5 177.5 743.5 227 743.5 276.5 761 334 761 379 761 423 735 448 702 448 674.5 423 649 379 406 379 374.5 309 179 504 158.5 504 158.5 778.5 217.5 820 224.5 847.5 254.5 902 294.5 931 285 1083.5 254.5 1113.5 234 1160.5 234 1193 171 1220.5 171 1308.5 171 1448.5 84.5 1531 84.5 1558.5 112 1575 125.5 1616 180.5 1597 334 1750.5 384 1765 665 1765 665 1822 729.5 1822 738 1750.5 775 1750.5 775 1896 1118 1896', { isStatic: true }, true)
+        this.matter.add.fromVertices(1320 + 382, 335 + 773.5, '1 1432 13.5 1519 748 1546 748 1.5 527 1.5 399 55.5 361.5 1.5 279 72 341 155 420 72 442.5 130 515 167.5 590 72 590 538.5 590 634 544 652.5 610.5 677.5 610.5 1079.5 544 1013 578 1172 427.5 1338.5 401 1382 55 1403 1 1432', { isStatic: true }, true)
         this.matter.add.fromVertices(770 + 278, 1100 + 167.5, '1 169.5 10.5 334 549 328 555 169.5 329.5 169.5 329.5 65 350 65 350 0.5 176.5 0.5 176.5 65 198 65 198 169.5 1 169.5', { isStatic: true }, true)
     }
 
@@ -127,7 +127,47 @@ export class GameScene3 extends BaseScene {
             isStatic: true,
         })
 
-        const arrBodies = [bodyDoor, fivethKey, sixethKey, bodyBackDoor];
+        const shell1 = this.matter.add.fromVertices(422.5 + 174, 1766.5 + 59.5, '308.5 109 346.5 0.5 70.5 0.5 1.5 118', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell2 = this.matter.add.fromVertices(189 + 126.5, 1608.5 + 124.5, '148.5 247.5 252 142.5 114 1.5 1 97', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell3 = this.matter.add.fromVertices(153 + 163.5, 157 + 191, '1 255 125 380.5 325.5 186 237.5 1', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell4 = this.matter.add.fromVertices(450 + 146, 154 + 131, '1 0.5 69.5 253 290.5 261 267 0.5', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell5 = this.matter.add.fromVertices(1297 + 147, 162 + 108, '35.5 1 1 215.5 220.5 215.5 292.5 1', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell6 = this.matter.add.fromVertices(1562 + 160, 204 + 155, '118.5 1 1 150 181 308.5 319 206.5', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell7 = this.matter.add.fromVertices(1761 + 34.5, 467.5 + 254.5, '68.5 1.5 1 67.5 1 507.5 68.5 495', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const shell8 = this.matter.add.fromVertices(1599.5 + 127.5, 1600 + 130.5, '81.5 259.5 1.5 162 156.5 1 254 79', {
+            label: `${LABEL_ID.EMPTY_KEY}`,
+            isStatic: true,
+        })
+
+        const arrBodies = [bodyDoor, fivethKey, sixethKey, bodyBackDoor, shell1, shell2, , shell3, , shell4, shell5, shell6, shell7, shell8];
 
 
         this.matterCollision.addOnCollideStart({
@@ -192,6 +232,12 @@ export class GameScene3 extends BaseScene {
         this.sixethKey.setScrollFactor(0);
         this.sixethKey.setAlpha(0);
 
+        this.emptyKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'emptyKey');
+        this.emptyKey.setVisible(false);
+        this.emptyKey.setDepth(2);
+        this.emptyKey.setScrollFactor(0);
+        this.emptyKey.setAlpha(0);
+
         this.closeButton = this.add.image(this.cameras.main.width - 200, 85, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
@@ -203,7 +249,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
+                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -258,14 +304,14 @@ export class GameScene3 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -302,6 +348,10 @@ export class GameScene3 extends BaseScene {
             }
         }
 
+        if (this.eventZone == LABEL_ID.EMPTY_KEY) {
+            this.emptyKey.setVisible(true);
+        }
+
         if (this.eventZone == LABEL_ID.SIXETH_KEY) {
             this.sixethKey.setVisible(true);
             if (this.fold.indexOf(this.sixethKey.texture.key) == -1) {
@@ -315,8 +365,9 @@ export class GameScene3 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.FIVETH_KEY) this.fivethKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.SIXETH_KEY) this.sixethKey.setVisible(false);
+        if (this.fivethKey.visible) this.fivethKey.setVisible(false);
+        if (this.sixethKey.visible) this.sixethKey.setVisible(false);
+        if (this.emptyKey.visible) this.emptyKey.setVisible(false);
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -367,14 +418,14 @@ export class GameScene3 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

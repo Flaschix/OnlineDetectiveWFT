@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
 
             socket.join(`${roomId}:${socket.currentLevel}`);
 
-            rooms[roomId].levels[socket.currentLevel][socket.id] = { id: socket.id, x: 1024, y: 1900, character: avatar, name: username, room: roomCode };
+            rooms[roomId].levels[socket.currentLevel][socket.id] = { id: socket.id, x: 800, y: 1200, character: avatar, name: username, room: roomCode };
             // rooms[roomId].levels[socket.currentLevel][socket.id] = { id: socket.id, x: 1024, y: 800, character: avatar, name: username, room: roomCode };
 
             // Отправляем информацию о текущих игроках новому игроку

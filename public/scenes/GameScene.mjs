@@ -27,14 +27,14 @@ export class GameScene extends BaseScene {
         //map
         this.load.image('map', './assets/map/map_city_1.png');
 
-        this.load.image('person1', './assets/mapKey/character1-1.png');
-        this.load.image('person2', './assets/mapKey/character1-2.png');
-        this.load.image('person3', './assets/mapKey/character1-3.png');
-        this.load.image('person4', './assets/mapKey/character1-4.png');
-        this.load.image('person5', './assets/mapKey/character1-5.png');
-        this.load.image('person6', './assets/mapKey/character1-6.png');
-        this.load.image('person7', './assets/mapKey/character1-7.png');
-        this.load.image('person8', './assets/mapKey/character1-8.png');
+        this.load.image('person11', './assets/mapKey/character1-1.png');
+        this.load.image('person12', './assets/mapKey/character1-2.png');
+        this.load.image('person13', './assets/mapKey/character1-3.png');
+        this.load.image('person14', './assets/mapKey/character1-4.png');
+        this.load.image('person15', './assets/mapKey/character1-5.png');
+        this.load.image('person16', './assets/mapKey/character1-6.png');
+        this.load.image('person17', './assets/mapKey/character1-7.png');
+        this.load.image('person18', './assets/mapKey/character1-8.png');
     }
 
     create(data) {
@@ -131,49 +131,49 @@ export class GameScene extends BaseScene {
             isSensor: true
         })
 
-        const person1 = this.matter.add.sprite(1023, 831, 'person1', null, {
+        const person1 = this.matter.add.sprite(1023, 831, 'person11', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person2 = this.matter.add.sprite(1351, 870, 'person2', null, {
+        const person2 = this.matter.add.sprite(1351, 870, 'person12', null, {
             label: `${LABEL_ID.FIRST_KEY}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person3 = this.matter.add.sprite(674, 1699, 'person3', null, {
+        const person3 = this.matter.add.sprite(674, 1699, 'person13', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person4 = this.matter.add.sprite(1877, 931, 'person4', null, {
+        const person4 = this.matter.add.sprite(1877, 931, 'person14', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person5 = this.matter.add.sprite(360, 1285, 'person5', null, {
+        const person5 = this.matter.add.sprite(360, 1285, 'person15', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person6 = this.matter.add.sprite(759, 1018, 'person6', null, {
+        const person6 = this.matter.add.sprite(759, 1018, 'person16', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person8 = this.matter.add.sprite(1861, 1955, 'person8', null, {
+        const person8 = this.matter.add.sprite(1861, 1955, 'person18', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person7 = this.matter.add.sprite(1458, 1667, 'person7', null, {
+        const person7 = this.matter.add.sprite(1458, 1667, 'person17', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
@@ -328,7 +328,7 @@ export class GameScene extends BaseScene {
     moveRightRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 400, 1024);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 200, 1300);
     }
 
     showOverlay() {

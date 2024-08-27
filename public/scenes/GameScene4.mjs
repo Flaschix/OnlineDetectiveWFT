@@ -114,7 +114,7 @@ export class GameScene4 extends BaseScene {
             isSensor: true
         })
 
-        const seif = this.matter.add.fromVertices(929.5 + 93.5, 227 + 151.5, '0.5 302 0.5 1 186 1 186 302', {
+        const seif = this.matter.add.fromVertices(925 + 93.5, 227 + 151.5, '0.5 302 0.5 1 186 1 186 302', {
             label: `${LABEL_ID.SEIF_KEY}`,
             isStatic: true,
         })

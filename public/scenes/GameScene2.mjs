@@ -27,10 +27,6 @@ export class GameScene2 extends BaseScene {
         //map
         this.load.image('map2', './assets/map/map_city_2.png');
 
-        this.load.image('clotheMin', './assets/mapKey/clotheMin.png');
-        this.load.image('notebookMin', './assets/mapKey/notebookMin.png');
-        this.load.image('keysMin', './assets/mapKey/keysMin.png');
-
         this.load.image('person21', './assets/mapKey/character2-1.png');
         this.load.image('person22', './assets/mapKey/character2-2.png');
         this.load.image('person23', './assets/mapKey/character2-3.png');
@@ -314,20 +310,9 @@ export class GameScene2 extends BaseScene {
     moveRightRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 340, 1460);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE3, 100, 1200);
     }
 
-    moveForwardRoom() {
-        this.isInZone = false;
-        this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE5, 1024, 1900);
-    }
-
-    moveBackRoom() {
-        this.isInZone = false;
-        this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE, 1024, 1024);
-    }
 
     showOverlay() {
         this.isOverlayVisible = true

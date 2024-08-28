@@ -15,9 +15,9 @@ import { MAP_SETTINGS } from "../share/UICreator.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
-export class GameScene extends BaseScene {
+export class GameScene6 extends BaseScene {
     constructor() {
-        super(CST.SCENE.GAMESCENE);
+        super(CST.SCENE.GAMESCENE6);
 
     }
 
@@ -25,16 +25,14 @@ export class GameScene extends BaseScene {
         super.preload();
 
         //map
-        this.load.image('map', './assets/map/map_city_1.png');
+        this.load.image('map6', './assets/map/map_city_6.png');
 
-        this.load.image('person11', './assets/mapKey/character1-1.png');
-        this.load.image('person12', './assets/mapKey/character1-2.png');
-        this.load.image('person13', './assets/mapKey/character1-3.png');
-        this.load.image('person14', './assets/mapKey/character1-4.png');
-        this.load.image('person15', './assets/mapKey/character1-5.png');
-        this.load.image('person16', './assets/mapKey/character1-6.png');
-        this.load.image('person17', './assets/mapKey/character1-7.png');
-        this.load.image('person18', './assets/mapKey/character1-8.png');
+        this.load.image('person61', './assets/mapKey/character6-1.png');
+        this.load.image('person62', './assets/mapKey/character6-2.png');
+        this.load.image('person63', './assets/mapKey/character6-3.png');
+        this.load.image('person64', './assets/mapKey/character6-4.png');
+        this.load.image('person65', './assets/mapKey/character6-5.png');
+        this.load.image('person66', './assets/mapKey/character6-6.png');
     }
 
     create(data) {
@@ -43,7 +41,7 @@ export class GameScene extends BaseScene {
         const { players } = data;
 
         // Добавляем карту
-        this.createMap('map', MAP_SETTINGS.MAP_FULL1);
+        this.createMap('map6', MAP_SETTINGS.MAP_FULL6);
 
         if (this.mobileFlag) {
             createJoystick(this, 'joystickBase', 'joystickThumb', this.isDragging, 160, this.cameras.main.height - 120);
@@ -65,9 +63,9 @@ export class GameScene extends BaseScene {
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
 
 
-        if (!this.textures.exists(MAP_SETTINGS.MAP_FULL1)) {
+        if (!this.textures.exists(MAP_SETTINGS.MAP_FULL6)) {
 
-            this.loadPlusTexture(MAP_SETTINGS.MAP_FULL1, './assets/map/map_city_full_1.png');
+            this.loadPlusTexture(MAP_SETTINGS.MAP_FULL6, './assets/map/map_city_full_6.png');
 
             this.fullMap = false;
         }
@@ -86,12 +84,11 @@ export class GameScene extends BaseScene {
     }
 
     createUnWalkedObjects() {
-        this.matter.add.fromVertices(194 + 1002.5, 839, '531 1881 586.5 1889 586.5 2045 1.5 1950.5 69.5 0.5 1984 0.5 2004 862 1984 925.5 1962.5 967 1902 996.5 1902 1042.5 1928.5 1050.5 1939 1083 1928.5 1104.5 1886.5 1115.5 1855.5 1075 1886.5 1050.5 1886.5 1010.5 1855.5 996.5 1812.5 925.5 1812.5 879 1775.5 845 1775.5 780 1812.5 765 1855.5 780 1855.5 678.5 1792.5 678.5 1767.5 514.5 1767.5 397.5 1792.5 397.5 1792.5 267.5 1855.5 280 1855.5 14.5 1301.5 14.5 1301.5 351 1360 371 1360 565.5 1408 565.5 1408 678.5 1465 727.5 1557.5 727.5 1595 749.5 1595 1010.5 1451 1010.5 1451 803.5 1346 845 1267.5 862 937 845 937 925.5 680.5 925.5 613 958 562 958 532.5 925.5 526.5 879 338 879 325.5 920.5 205 920.5 205 853 118.5 845 128 1337.5 194.5 1337.5 194.5 1439.5 128 1439.5 128 1581.5 449 1581.5 461.5 1881 531 1881', { isStatic: true }, true)
-        this.matter.add.fromVertices(1855 + 85, 1286 + 357, '53.5 484.5 53.5 713 169.5 700.5 169.5 1 84.5 1 61 104.5 61 328.5 1 357.5 1 484.5 27.5 496.5 53.5 484.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(856.5 + 78, 1583 + 169, '0.5 13.5 0.5 327 76.5 337.5 155 327 155 13.5 76.5 1', { isStatic: true }, true)
-        this.matter.add.fromVertices(1103.5 + 71.5, 1646.5 + 144, '0.5 25 0.5 287.5 142.5 287.5 142.5 25 124 0.5 27 0.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(1568.5 + 95.5, 1370 + 184.5, '91.5 288 91.5 368.5 127 368.5 113 297.5 127 211 159.5 211 190 174 190 132.5 159.5 92 181 64.5 168.5 35 139.5 46 113 1 66.5 15 29.5 46 11 83 29.5 117 49.5 149.5 29.5 163 0.5 186.5 0.5 226.5 66.5 239', { isStatic: true }, true)
-        this.matter.add.fromVertices(951 + 54, 1015 + 48, '1 1 1 95 107.5 95 107.5 1', { isStatic: true }, true)
+        this.matter.add.fromVertices(994, 126 + 523.5, '185 887 4.5 887 1 0.5 2048 0.5 2048 754.5 1908.5 754.5 1883.5 661 1883.5 624.5 1794.5 624.5 1785 725 1680 725 1678 667.5 1640 667.5 1609 661 1609 616.5 1554.5 616.5 1554.5 667.5 1407 661 1374 713.5 1318 713.5 1318 834.5 1218.5 834.5 1218.5 667.5 1191 640.5 1146.5 578.5 1122.5 542 1129 518 1146.5 490.5 1146.5 459.5 1159 438 1181.5 445 1181.5 406 1171.5 363.5 1191 339.5 1225 323.5 1225 117 970.5 117 914.5 182 759 182 759 302 817 302 817 323.5 859.5 323.5 859.5 251.5 881 251.5 881 323.5 923.5 323.5 923.5 251.5 941.5 251.5 955.5 329.5 955.5 467.5 941.5 467.5 941.5 675.5 849 693 796.5 730.5 689 730.5 689 851.5 713 864.5 719 920.5 719 1046 639 1046 639 920.5 428.5 920.5 428.5 851.5 451.5 823 451.5 749 245.5 749 245.5 851.5 185 851.5 185 887', { isStatic: true }, true)
+        this.matter.add.fromVertices(1255, 1184 + 504, '485.5 376.5 1 376.5 1 1007.5 2051 1007.5 2051 89 1939.5 68.5 1877.5 9.5 1725.5 0.5 1623 9.5 1582.5 39 1582.5 154 1613.5 214.5 1902 214.5 1902 286.5 1926.5 326 1926.5 365.5 1422 365.5 1422 521 1387 552 1373.5 593.5 1303.5 563 1215.5 563 1139 593.5 1139 986 818.5 986 818.5 664 779 633 702.5 620 625.5 633 588.5 664 588.5 986 520.5 986 520.5 885.5 485.5 885.5 485.5 376.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(879 + 35.5, 1267.5 + 47, '1.5 14 9.5 84 43.5 93 70 73 43.5 1.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(475 + 107.5, 1216 + 160, '59.5 288 93.5 319 121.5 319 161.5 307 161.5 260.5 121.5 231 121.5 156.5 149.5 156.5 149.5 131.5 121.5 117.5 214.5 117.5 214.5 51 78 51 85.5 21.5 84 1 0.5 1 0.5 29 51.5 29 59.5 58.5 33 58.5 33 86.5 106 86.5 106 131.5 84 131.5 84 156.5 106 156.5 106 231 71.5 248', { isStatic: true }, true)
+        this.matter.add.fromVertices(846 + 59, 864.5 + 65, '1 129.5 1 9.5 108.5 1.5 117.5 32.5 117.5 129.5', { isStatic: true }, true)
     }
 
     createPlayers(players, cameraMargin) {
@@ -102,7 +99,7 @@ export class GameScene extends BaseScene {
 
                 //настраиваем камеру игрока
                 this.cameras.main.startFollow(this.player);
-                if (this.textures.exists(MAP_SETTINGS.MAP_FULL1)) this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width + cameraMargin.right, this.map.height + cameraMargin.bottom);
+                if (this.textures.exists(MAP_SETTINGS.MAP_FULL6)) this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width + cameraMargin.right, this.map.height + cameraMargin.bottom);
                 else this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width * MAP_SETTINGS.MAP_SCALE_2 + cameraMargin.right, this.map.height * MAP_SETTINGS.MAP_SCALE_2 + cameraMargin.bottom);
             } else {
                 this.playersController.createOtherPlayer(this, players[id], this.otherPlayers);
@@ -119,67 +116,55 @@ export class GameScene extends BaseScene {
         // Создаем область, через которую игрок не может пройти
         // const bodyBookshellMiddle = this.matter.add.fromVertices(706 + 319.5, 1435 + 173.5, '1 1 1 254.121 230.5 346 419 346 638 254.121 638 1 1 1', { label: '1', isStatic: true })
 
-        const bodyUp = this.matter.add.fromVertices(1486.5 + 153.5, 6.5 + 101, '0.5 201.5 0.5 0.5 306.5 0.5 306.5 201.5', {
-            label: `${LABEL_ID.DOOR_FORWARD_ID}`,
+        const leftDoor = this.matter.add.fromVertices(50, 1153 + 135, '0.5 1 0.5 269.5 99.5 269.5 99.5 1', {
+            label: `${LABEL_ID.DOOR_LEFT_ID}`,
             isStatic: true,
             isSensor: true
         })
 
-        const bodyRight = this.matter.add.fromVertices(1956 + 45.5, 1141.5 + 93.5, '1 186 90.5 186 90.5 0.5 1 0.5', {
-            label: `${LABEL_ID.DOOR_RIGHT_ID}`,
+        const downDoor = this.matter.add.fromVertices(827.5 + 152, 1947.5 + 49.5, '0.5 0.5 0.5 98 303 98 303 0.5', {
+            label: `${LABEL_ID.DOOR_BACK_ID}`,
             isStatic: true,
             isSensor: true
         })
 
-        const person1 = this.matter.add.sprite(973 + 42, 731 + 80, 'person11', null, {
+        const person1 = this.matter.add.sprite(1905 + 42, 812 + 80, 'person61', null, {
+            label: `${LABEL_ID.EMPTY_MAN}`,
+            isStatic: true,
+            isSensor: true
+        });
+
+        const person2 = this.matter.add.sprite(1024 + 42, 322 + 80, 'person62', null, {
+            label: `${LABEL_ID.FOURTH_KEY}`,
+            isStatic: true,
+            isSensor: true
+        });
+
+        const person3 = this.matter.add.sprite(726 + 42, 979 + 80, 'person63', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person2 = this.matter.add.sprite(1301 + 42, 770 + 80, 'person12', null, {
-            label: `${LABEL_ID.FIRST_KEY}`,
-            isStatic: true,
-            isSensor: true
-        });
-
-        const person3 = this.matter.add.sprite(624 + 42, 1599 + 80, 'person13', null, {
+        const person4 = this.matter.add.sprite(304 + 42, 795 + 80, 'person64', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person4 = this.matter.add.sprite(1827 + 42, 890 + 80, 'person14', null, {
+        const person5 = this.matter.add.sprite(1212 + 42, 1206 + 80, 'person65', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person5 = this.matter.add.sprite(308 + 42, 1205 + 80, 'person15', null, {
+        const person6 = this.matter.add.sprite(675 + 42, 1497 + 80, 'person66', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
             isSensor: true
         });
 
-        const person6 = this.matter.add.sprite(709 + 42, 918 + 80, 'person16', null, {
-            label: `${LABEL_ID.EMPTY_WOMAN}`,
-            isStatic: true,
-            isSensor: true
-        });
-
-        const person8 = this.matter.add.sprite(1408 + 42, 1568 + 80, 'person17', null, {
-            label: `${LABEL_ID.EMPTY_WOMAN}`,
-            isStatic: true,
-            isSensor: true
-        });
-
-        const person7 = this.matter.add.sprite(1811 + 42, 1855 + 80, 'person18', null, {
-            label: `${LABEL_ID.EMPTY_MAN}`,
-            isStatic: true,
-            isSensor: true
-        });
-
-        const arrBodies = [person1, person2, bodyRight, bodyUp, person3, person4, person5, person6, person7, person8];
+        const arrBodies = [leftDoor, downDoor, person1, person2, person3, person4, person5, person6];
 
 
         this.matterCollision.addOnCollideStart({
@@ -229,13 +214,12 @@ export class GameScene extends BaseScene {
         this.overlayBackground.setScrollFactor(0);
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
-        //Первый ключ
-        this.firstKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'firstKey');
-        this.firstKey.setScale(0.8);
-        this.firstKey.setVisible(false);
-        this.firstKey.setDepth(2);
-        this.firstKey.setScrollFactor(0);
-        this.firstKey.setAlpha(0);
+        this.fourthKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'fourthKey');
+        this.fourthKey.setScale(0.8);
+        this.fourthKey.setVisible(false);
+        this.fourthKey.setDepth(2);
+        this.fourthKey.setScrollFactor(0);
+        this.fourthKey.setAlpha(0);
 
         this.emptyMan = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'emptyMan');
         this.emptyMan.setScale(0.8);
@@ -262,7 +246,7 @@ export class GameScene extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.firstKey, this.emptyMan, this.emptyWoman],
+                targets: [this.closeButton, this.overlayBackground, this.fourthKey, this.emptyMan, this.emptyWoman],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -282,13 +266,13 @@ export class GameScene extends BaseScene {
             if (this.isInZone) {
                 this.player.setVelocity(0);
 
-                if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                    this.moveForwardRoom();
+                if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
+                    this.moveLeftRoom();
                     return;
                 }
 
-                if (this.eventZone == LABEL_ID.DOOR_RIGHT_ID) {
-                    this.moveRightRoom();
+                if (this.eventZone == LABEL_ID.DOOR_BACK_ID) {
+                    this.moveDownRoom();
                     return;
                 }
 
@@ -297,14 +281,14 @@ export class GameScene extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.firstKey, this.emptyMan, this.emptyWoman],
+                        targets: [this.closeButton, this.overlayBackground, this.fourthKey, this.emptyMan, this.emptyWoman],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.firstKey, this.emptyMan, this.emptyWoman],
+                        targets: [this.closeButton, this.overlayBackground, this.fourthKey, this.emptyMan, this.emptyWoman],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -319,25 +303,25 @@ export class GameScene extends BaseScene {
         });
     }
 
-    moveForwardRoom() {
+    moveLeftRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE4, 1024, 1900);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE5, 1920, 1380);
     }
 
-    moveRightRoom() {
+    moveDownRoom() {
         this.isInZone = false;
         this.eventZone = null;
-        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 200, 1300);
+        this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE3, 1600, 100);
     }
 
     showOverlay() {
         this.isOverlayVisible = true
 
-        if (this.eventZone == LABEL_ID.FIRST_KEY) {
-            this.firstKey.setVisible(true);
-            if (this.fold.indexOf(this.firstKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.firstKey.texture.key);
+        if (this.eventZone == LABEL_ID.FOURTH_KEY) {
+            this.fourthKey.setVisible(true);
+            if (this.fold.indexOf(this.fourthKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.fourthKey.texture.key);
             }
         }
 
@@ -355,7 +339,7 @@ export class GameScene extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.firstKey.visible) this.firstKey.setVisible(false);
+        if (this.fourthKey.visible) this.fourthKey.setVisible(false);
         if (this.emptyMan.visible) this.emptyMan.setVisible(false);
         if (this.emptyWoman.visible) this.emptyWoman.setVisible(false);
 
@@ -374,13 +358,13 @@ export class GameScene extends BaseScene {
         if (context.isInZone) {
             context.player.setVelocity(0);
 
-            if (context.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                context.moveForwardRoom();
+            if (context.eventZone == LABEL_ID.DOOR_LEFT_ID) {
+                context.moveLeftRoom();
                 return;
             }
 
-            if (context.eventZone == LABEL_ID.DOOR_RIGHT_ID) {
-                context.moveRightRoom();
+            if (context.eventZone == LABEL_ID.DOOR_BACK_ID) {
+                context.moveDownRoom();
                 return;
             }
 
@@ -389,14 +373,14 @@ export class GameScene extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.firstKey, context.emptyMan, context.emptyWoman],
+                    targets: [context.overlayBackground, context.closeButton, context.fourthKey, context.emptyMan, context.emptyWoman],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.firstKey, context.emptyMan, context.emptyWoman],
+                    targets: [context.overlayBackground, context.closeButton, context.fourthKey, context.emptyMan, context.emptyWoman],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
@@ -415,10 +399,10 @@ export class GameScene extends BaseScene {
         super.update();
 
         if (!this.fullMap) {
-            if (this.textures.exists(MAP_SETTINGS.MAP_FULL1)) {
+            if (this.textures.exists(MAP_SETTINGS.MAP_FULL6)) {
                 this.fullMap = true;
 
-                this.loadedResolutionMap(MAP_SETTINGS.MAP_FULL1, 1, 1)
+                this.loadedResolutionMap(MAP_SETTINGS.MAP_FULL6, 1, 1)
             }
         }
     }

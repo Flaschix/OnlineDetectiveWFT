@@ -27,7 +27,7 @@ export class LobbyScene extends Phaser.Scene {
         this.loadingSprite.play('loadingAnimation');
 
 
-        this.load.image('backgroundMenu', './assets/background/background-menu.png');
+        this.load.image('backgroundMenu', './assets/background/background-menu.jpg');
 
         this.load.image('pressX', 'assets/icon/pressX.png');
         this.load.image('closeIcon', 'assets/icon/closeIcon.png');

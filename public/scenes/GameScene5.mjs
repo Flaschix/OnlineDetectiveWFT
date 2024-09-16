@@ -25,7 +25,7 @@ export class GameScene5 extends BaseScene {
         super.preload();
 
         //map
-        this.load.image('map5', './assets/map/map_garally_5.png');
+        this.load.image('map5', './assets/map/map_garally_5.jpg');
 
         this.load.image('bagMin', './assets/mapKey/bagMin.png');
         this.load.image('glassesMin', './assets/mapKey/glassesMin.png');
@@ -37,11 +37,11 @@ export class GameScene5 extends BaseScene {
         const { players } = data;
 
         // Добавляем карту
-        this.createMap('map5', MAP_SETTINGS.MAP_FULL5);
+        this.createMap('map5');
 
         if (this.mobileFlag) {
-            createJoystick(this, 'joystickBase', 'joystickThumb', this.isDragging, 160, this.cameras.main.height - 120);
-            createMobileXButton(this, 'touchButton', 'joystickBase', this.cameras.main.width - 150, this.cameras.main.height - 120, this.itemInteract);
+            createJoystick(this, 'joystickBase', 'joystickThumb', this.isDragging, 160, this.cameras.main.height - 140);
+            createMobileXButton(this, 'touchButton', 'joystickBase', this.cameras.main.width - 150, this.cameras.main.height - 140, this.itemInteract);
             createUILeftMobile(this, 'settingsMobile', 'exitMobile', 'fold', 90, 70, this.cameras.main.width - 90, 70, this.showSettings, this.showExitMenu, 90, 200, this.showFold); this.createPlayers(players, CAMERA_MARGIN_MOBILE);
         } else {
             createUI(this, this.showSettings, this.showExitMenu, this.showFold);
@@ -57,26 +57,11 @@ export class GameScene5 extends BaseScene {
         this.createInputHandlers();
 
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
-
-
-        if (!this.textures.exists(MAP_SETTINGS.MAP_FULL5)) {
-
-            this.loadPlusTexture(MAP_SETTINGS.MAP_FULL5, './assets/map/map_garally_full_5.png');
-
-            this.fullMap = false;
-        }
     }
 
-    createMap(map, mapFull) {
-        if (this.textures.exists(mapFull)) {
-            this.map = this.add.image(0, 0, mapFull).setOrigin(0, 0);
-            // this.map.setScale(MAP_SETTINGS.MAP_SCALE_4_3, MAP_SETTINGS.MAP_SCALE_4_3);
-            this.matter.world.setBounds(0, 0, this.map.width, this.map.height);
-        } else {
-            this.map = this.add.image(0, 0, map).setOrigin(0, 0);
-            this.map.setScale(2, 2);
-            this.matter.world.setBounds(0, 0, this.map.width * MAP_SETTINGS.MAP_SCALE_2, this.map.height * MAP_SETTINGS.MAP_SCALE_2);
-        }
+    createMap(map) {
+        this.map = this.add.image(0, 0, map).setOrigin(0, 0);
+        this.matter.world.setBounds(0, 0, this.map.width, this.map.height);
     }
 
     createUnWalkedObjects() {
@@ -101,8 +86,7 @@ export class GameScene5 extends BaseScene {
 
                 //настраиваем камеру игрока
                 this.cameras.main.startFollow(this.player);
-                if (this.textures.exists(MAP_SETTINGS.MAP_FULL5)) this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width + cameraMargin.right, this.map.height + cameraMargin.bottom);
-                else this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width * MAP_SETTINGS.MAP_SCALE_2 + cameraMargin.right, this.map.height * MAP_SETTINGS.MAP_SCALE_2 + cameraMargin.bottom);
+                this.cameras.main.setBounds(cameraMargin.left, cameraMargin.top, this.map.width + cameraMargin.right, this.map.height + cameraMargin.bottom);
             } else {
                 this.playersController.createOtherPlayer(this, players[id], this.otherPlayers);
             }
@@ -308,6 +292,7 @@ export class GameScene5 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
 
@@ -345,13 +330,5 @@ export class GameScene5 extends BaseScene {
 
     update() {
         super.update();
-
-        if (!this.fullMap) {
-            if (this.textures.exists(MAP_SETTINGS.MAP_FULL5)) {
-                this.fullMap = true;
-
-                this.loadedResolutionMap(MAP_SETTINGS.MAP_FULL5, 1, 1)
-            }
-        }
     }
 }

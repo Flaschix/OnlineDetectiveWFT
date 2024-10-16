@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -161,6 +161,14 @@ export class GameScene4 extends BaseScene {
         this.answer.setScrollFactor(0);
         this.answer.setAlpha(0);
 
+        this.textA = this.add.text(400, this.cameras.main.height / 2 - 140, 'Вырванная страница из дневника', { font: "bold 26px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, '“Никто никогда не ценил моего труда по-\nнастоящему. Годы упорной работы, остались\nнезамеченными. Слова благодарности давно\nпотеряли смысл. Эта картина станет\nдостойной наградой за все усилия, что я вложил.\nПора получить то, что по праву принадлежит\nмне.”', { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
+
         this.closeButton = this.add.image(this.cameras.main.width - 200, 85, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
@@ -172,7 +180,7 @@ export class GameScene4 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.answer],
+                targets: [this.closeButton, this.overlayBackground, this.answer, this.textA, this.textB],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -187,6 +195,7 @@ export class GameScene4 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -202,14 +211,14 @@ export class GameScene4 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.answer],
+                        targets: [this.closeButton, this.overlayBackground, this.answer, this.textA, this.textB],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.answer],
+                        targets: [this.closeButton, this.overlayBackground, this.answer, this.textA, this.textB],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -248,6 +257,8 @@ export class GameScene4 extends BaseScene {
         if (this.eventZone == LABEL_ID.SEIF_KEY) {
             if (this.answer.visible) {
                 this.answer.setVisible(false);
+                this.textA.setVisible(false);
+                this.textB.setVisible(false);
                 this.overlayBackground.setVisible(false)
                 this.closeButton.setVisible(false);
             } else {
@@ -268,6 +279,7 @@ export class GameScene4 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -282,14 +294,14 @@ export class GameScene4 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.answer],
+                    targets: [context.overlayBackground, context.closeButton, context.answer, context.textA, context.textB],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.answer],
+                    targets: [context.overlayBackground, context.closeButton, context.answer, context.textA, context.textB],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
@@ -402,15 +414,18 @@ function checkWinConditionRight(context) {
             }
         }
     }
-    console.log('win');
 
     hideRightPuzzle(context);
 
     context.answer.setAlpha(1);
+    context.textA.setAlpha(1);
+    context.textB.setAlpha(1);
     context.overlayBackground.setAlpha(1);
     context.closeButton.setAlpha(1);
 
     context.answer.setVisible(true);
+    context.textA.setVisible(true);
+    context.textB.setVisible(true);
     context.overlayBackground.setVisible(true);
     context.closeButton.setVisible(true);
 }

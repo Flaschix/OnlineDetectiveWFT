@@ -23,3 +23,12 @@ export const LABEL_ID = {
     SEIF_KEY: 9999999,
     EMPTY_KEY: 4555745
 }
+
+export const myMap = new Map([
+    ['firstKey', { x: 250, text: 'F' }],
+    ['secondKey', { x: 430, text: 'A' }],
+    ['thirdKey', { x: 610, text: 'T' }],
+    ['fourthKey', { x: 750, text: 'H' }],
+    ['fivethKey', { x: 880, text: 'O' }],
+    ['sixethKey', { x: 1000, text: 'M' }],
+]);

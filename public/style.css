@@ -6,6 +6,16 @@ body {
     font-family: Arial, sans-serif;
 }
 
+@font-face {
+    font-family: 'MyCustomFont1';
+    src: url('assets/font/Handlee-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'MyCustomFont2';
+    src: url('assets/font/MontserratAlternates-Regular.ttf') format('truetype');
+}
+
 #lottieGif {
     min-width: 500px;
     min-height: 500px;

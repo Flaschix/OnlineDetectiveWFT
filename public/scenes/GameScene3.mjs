@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -216,6 +216,14 @@ export class GameScene3 extends BaseScene {
         this.sixethKey.setScrollFactor(0);
         this.sixethKey.setAlpha(0);
 
+        this.textA = this.add.text(myMap.get('fivethKey').x, this.cameras.main.height / 2, `${myMap.get('fivethKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(myMap.get('sixethKey').x, this.cameras.main.height / 2, `${myMap.get('sixethKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
+
         this.emptyKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'emptyKey');
         this.emptyKey.setVisible(false);
         this.emptyKey.setDepth(2);
@@ -233,7 +241,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
+                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey, this.textA, this.textB],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -248,6 +256,7 @@ export class GameScene3 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -288,14 +297,14 @@ export class GameScene3 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey, this.textA, this.textB],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyKey, this.textA, this.textB],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -327,6 +336,7 @@ export class GameScene3 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.FIVETH_KEY) {
             this.fivethKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.fivethKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.fivethKey.texture.key);
             }
@@ -338,6 +348,7 @@ export class GameScene3 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.SIXETH_KEY) {
             this.sixethKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.sixethKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.sixethKey.texture.key);
             }
@@ -349,8 +360,8 @@ export class GameScene3 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.fivethKey.visible) this.fivethKey.setVisible(false);
-        if (this.sixethKey.visible) this.sixethKey.setVisible(false);
+        if (this.fivethKey.visible) { this.fivethKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.sixethKey.visible) { this.sixethKey.setVisible(false); this.textB.setVisible(false); }
         if (this.emptyKey.visible) this.emptyKey.setVisible(false);
 
         this.overlayBackground.setVisible(false);
@@ -365,6 +376,7 @@ export class GameScene3 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -403,14 +415,14 @@ export class GameScene3 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey, context.textA, context.textB],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyKey, context.textA, context.textB],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

@@ -48,16 +48,6 @@ export class LobbyScene extends Phaser.Scene {
         this.load.spritesheet('character5', './assets/characterMap/character5.png', { frameWidth: 48, frameHeight: 64 });
         this.load.spritesheet('character6', './assets/characterMap/character6.png', { frameWidth: 48, frameHeight: 64 });
 
-        this.load.image('firstKey', 'assets/keyFrame/firstKey.png');
-        this.load.image('secondKey', 'assets/keyFrame/secondKey.png');
-        this.load.image('thirdKey', 'assets/keyFrame/thirdKey.png');
-        this.load.image('fourthKey', 'assets/keyFrame/fourthKey.png');
-        this.load.image('fivethKey', 'assets/keyFrame/fivethKey.png');
-        this.load.image('sixethKey', 'assets/keyFrame/sixethKey.png');
-        this.load.image('seventhKey', 'assets/keyFrame/seventhKey.png');
-        this.load.image('emptyMan', 'assets/keyFrame/emptyMan.png');
-        this.load.image('emptyWoman', 'assets/keyFrame/emptyWoman.png');
-
         this.load.image('paper', 'assets/keyFrame/paper.png');
 
         this.load.image('rightArrow', 'assets/button/rightArrow.png');

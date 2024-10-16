@@ -11,6 +11,8 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
+import { myMap } from "../CST.mjs";
+
 import { BaseScene } from "./BaseScene.mjs";
 
 export class GameScene2 extends BaseScene {
@@ -181,6 +183,10 @@ export class GameScene2 extends BaseScene {
     }
 
     createOverlays() {
+        const a = myMap.get('secondKey');
+        const b = myMap.get('emptyMan');
+        const c = myMap.get('emptyWoman');
+
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
         this.pressX.setVisible(false);
@@ -192,27 +198,25 @@ export class GameScene2 extends BaseScene {
         this.overlayBackground.setVisible(false);
         this.overlayBackground.setDepth(2);
         this.overlayBackground.setScrollFactor(0);
-        this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
+        this.overlayBackground.setAlpha(0);
 
-        this.secondKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'secondKey');
-        this.secondKey.setScale(0.8);
+        this.paper = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'paper');
+        this.paper.setScale(0.8);
+        this.paper.setVisible(false);
+        this.paper.setDepth(2);
+        this.paper.setScrollFactor(0);
+        this.paper.setAlpha(0);
+
+        this.secondKey = this.add.text(a.x, a.y, `${a.text}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.secondKey.setVisible(false);
-        this.secondKey.setDepth(2);
-        this.secondKey.setScrollFactor(0);
         this.secondKey.setAlpha(0);
 
-        this.emptyMan = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'emptyMan');
-        this.emptyMan.setScale(0.8);
+        this.emptyMan = this.add.text(b.x, b.y, `${b.text}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.emptyMan.setVisible(false);
-        this.emptyMan.setDepth(2);
-        this.emptyMan.setScrollFactor(0);
         this.emptyMan.setAlpha(0);
 
-        this.emptyWoman = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'emptyWoman');
-        this.emptyWoman.setScale(0.8);
+        this.emptyWoman = this.add.text(c.x, c.y, `${c.text}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.emptyWoman.setVisible(false);
-        this.emptyWoman.setDepth(2);
-        this.emptyWoman.setScrollFactor(0);
         this.emptyWoman.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 200, 85, 'closeIcon');
@@ -226,7 +230,7 @@ export class GameScene2 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey],
+                targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey, this.paper],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -241,6 +245,7 @@ export class GameScene2 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -261,14 +266,14 @@ export class GameScene2 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey],
+                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey, this.paper],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey],
+                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.secondKey, this.paper],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -301,8 +306,8 @@ export class GameScene2 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.SECOND_KEY) {
             this.secondKey.setVisible(true);
-            if (this.fold.indexOf(this.secondKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.secondKey.texture.key);
+            if (this.fold.indexOf('secondKey') == -1) {
+                this.mySocket.emitAddNewImg('secondKey');
             }
         }
 
@@ -313,7 +318,7 @@ export class GameScene2 extends BaseScene {
         if (this.eventZone == LABEL_ID.EMPTY_WOMAN) {
             this.emptyWoman.setVisible(true);
         }
-
+        this.paper.setVisible(true);
         this.overlayBackground.setVisible(true);
         this.closeButton.setVisible(true);
     }
@@ -324,6 +329,7 @@ export class GameScene2 extends BaseScene {
         if (this.emptyMan.visible) this.emptyMan.setVisible(false);
         if (this.emptyWoman.visible) this.emptyWoman.setVisible(false);
 
+        this.paper.setVisible(false);
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
     }
@@ -336,6 +342,7 @@ export class GameScene2 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -355,14 +362,14 @@ export class GameScene2 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.secondKey],
+                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.secondKey, context.paper],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.secondKey],
+                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.secondKey, context.paper],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

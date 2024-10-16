@@ -1,9 +1,9 @@
-import { CST, LABEL_ID } from "../CST.mjs";
 import { socket } from "../CST.mjs";
 import { SocketWorker } from "../share/SocketWorker.mjs";
-import { createUIBottom, createUITop, createUIRight, createUILeftMobile, createUI, createExitMenu, createAvatarDialog, isMobile, createJoystick, createMobileXButton, HEIGHT_PRESS_X, MAP_SETTINGS, CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
+import { createUIBottom, createUITop, createUIRight, createExitMenu, isMobile, HEIGHT_PRESS_X } from "../share/UICreator.mjs";
 import { AnimationControl } from "../share/AnimationControl.mjs";
 import { PlayersController } from "../share/PlayerController.mjs";
+import { myMap } from "../CST.mjs";
 
 export class BaseScene extends Phaser.Scene {
     constructor(sceneKey) {
@@ -46,10 +46,6 @@ export class BaseScene extends Phaser.Scene {
         this.mobileFlag = isMobile();
         this.cursors = this.input.keyboard.createCursorKeys();
         this.createUnWalkedObjects();
-        // this.createCollision();
-        // this.createOverlays();
-        // this.createFold();
-        // this.createInputHandlers();
         this.createUIElements();
         this.setupSocketListeners();
     }
@@ -154,19 +150,22 @@ export class BaseScene extends Phaser.Scene {
     }
 
     createFold() {
-        this.foldKeys = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'disk');
+        this.foldKeys = this.add.image(430, this.cameras.main.height / 2, 'disk');
         this.foldKeys.setScale(0.5);
         this.foldKeys.setDepth(2);
         this.foldKeys.setScrollFactor(0);
         this.foldKeys.setVisible(false);
         this.foldKeys.setAlpha(1);
 
+        this.foldText = this.add.text(670, this.cameras.main.height / 2 - 70, '0', { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.foldText.setVisible(false);
+        this.foldText.setAlpha(1);
 
         this.leftArrow = this.add.image(0, 0, 'leftArrow');
         this.rightArrow = this.add.image(0, 0, 'rightArrow');
 
         this.rightArrow.setPosition(
-            this.cameras.main.width - 250,
+            this.cameras.main.width - 200,
             this.cameras.main.height / 2 - 10,
         )
         this.rightArrow.setScrollFactor(0);
@@ -204,6 +203,7 @@ export class BaseScene extends Phaser.Scene {
             this.isOverlayVisible = false;
 
             this.foldKeys.setVisible(false);
+            this.foldText.setVisible(false);
             this.foldColseBtn.setVisible(false);
             this.overlayBackground.setVisible(false);
             this.leftArrow.setVisible(false);
@@ -227,11 +227,20 @@ export class BaseScene extends Phaser.Scene {
             context.rightArrow.setVisible(true);
 
             context.foldKeys.setTexture(context.fold[0]);
+            context.foldText.setText(myMap.get(context.fold[0]).text);
+            context.foldText.setX(myMap.get(context.fold[0]).x);
+
             context.foldKeys.setVisible(true);
+            context.foldText.setVisible(true);
         } else {
             context.foldImgNumber = 0;
             context.foldKeys.setTexture(context.fold[0]);
+
+            context.foldText.setText(myMap.get(context.fold[0]).text);
+            context.foldText.setX(myMap.get(context.fold[0]).x);
+
             context.foldKeys.setVisible(true);
+            context.foldText.setVisible(true);
         }
 
 
@@ -246,14 +255,16 @@ export class BaseScene extends Phaser.Scene {
             this.leftArrow.setVisible(true);
 
             this.tweens.add({
-                targets: [this.foldKeys],
+                targets: [this.foldKeys, this.foldText],
                 alpha: 0,
                 duration: 250,
                 onComplete: () => {
                     try {
                         this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
+                        this.foldText.setText(myMap.get(this.fold[this.foldImgNumber]).text);
+                        this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
                         this.tweens.add({
-                            targets: [this.foldKeys],
+                            targets: [this.foldKeys, this.foldText],
                             alpha: 1,
                             duration: 250,
                         });
@@ -271,14 +282,16 @@ export class BaseScene extends Phaser.Scene {
             this.rightArrow.setVisible(true);
 
             this.tweens.add({
-                targets: [this.foldKeys],
+                targets: [this.foldKeys, this.foldText],
                 alpha: 0,
                 duration: 250,
                 onComplete: () => {
                     try {
                         this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
+                        this.foldText.setText(myMap.get(this.fold[this.foldImgNumber]).text);
+                        this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
                         this.tweens.add({
-                            targets: [this.foldKeys],
+                            targets: [this.foldKeys, this.foldText],
                             alpha: 1,
                             duration: 250,
                         });
@@ -294,6 +307,7 @@ export class BaseScene extends Phaser.Scene {
     }
 
     showSettings(self) {
+        if (self.isOverlayVisible) return;
         if (self.foldKeys.visible || self.overlayBackground.visible) return;
         self.avatarDialog.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.avatarDialog.setVisible(true);
@@ -303,6 +317,7 @@ export class BaseScene extends Phaser.Scene {
     }
 
     showExitMenu(self) {
+        if (self.isOverlayVisible) return;
         if (self.foldKeys.visible || self.overlayBackground.visible) return;
         self.exitContainer.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.exitContainer.setVisible(true);

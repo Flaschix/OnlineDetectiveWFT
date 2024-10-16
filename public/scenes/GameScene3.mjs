@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -169,19 +169,27 @@ export class GameScene3 extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.bottleKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bottle');
+        this.bottleKey = this.add.image(430, this.cameras.main.height / 2, 'bottle');
         this.bottleKey.setScale(0.5);
         this.bottleKey.setVisible(false);
         this.bottleKey.setDepth(2);
         this.bottleKey.setScrollFactor(0);
         this.bottleKey.setAlpha(0);
 
-        this.planKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'plan');
+        this.planKey = this.add.image(430, this.cameras.main.height / 2, 'plan');
         this.planKey.setScale(0.5);
         this.planKey.setVisible(false);
         this.planKey.setDepth(2);
         this.planKey.setScrollFactor(0);
         this.planKey.setAlpha(0);
+
+        this.textA = this.add.text(648, this.cameras.main.height / 2 - 70, `${myMap.get('bottle').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${myMap.get('plan').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -194,7 +202,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -209,6 +217,7 @@ export class GameScene3 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -224,14 +233,14 @@ export class GameScene3 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey],
+                        targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -257,6 +266,7 @@ export class GameScene3 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.BOTTLE_KEY) {
             this.bottleKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.bottleKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.bottleKey.texture.key);
             }
@@ -264,6 +274,7 @@ export class GameScene3 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.PLAN_KEY) {
             this.planKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.planKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.planKey.texture.key);
             }
@@ -275,8 +286,8 @@ export class GameScene3 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.BOTTLE_KEY) this.bottleKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.PLAN_KEY) this.planKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.BOTTLE_KEY) { this.bottleKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.eventZone == LABEL_ID.PLAN_KEY) { this.planKey.setVisible(false); this.textB.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -290,6 +301,7 @@ export class GameScene3 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -304,14 +316,14 @@ export class GameScene3 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey],
+                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey, context.textA, context.textB],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey],
+                    targets: [context.overlayBackground, context.closeButton, context.bottleKey, context.planKey, context.textA, context.textB],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

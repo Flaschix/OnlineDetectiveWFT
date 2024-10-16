@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -171,19 +171,27 @@ export class GameScene5 extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.bagKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'bag');
+        this.bagKey = this.add.image(450, this.cameras.main.height / 2, 'bag');
         this.bagKey.setScale(0.5);
         this.bagKey.setVisible(false);
         this.bagKey.setDepth(2);
         this.bagKey.setScrollFactor(0);
         this.bagKey.setAlpha(0);
 
-        this.glassesKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'glasses');
+        this.glassesKey = this.add.image(450, this.cameras.main.height / 2, 'glasses');
         this.glassesKey.setScale(0.5);
         this.glassesKey.setVisible(false);
         this.glassesKey.setDepth(2);
         this.glassesKey.setScrollFactor(0);
         this.glassesKey.setAlpha(0);
+
+        this.textA = this.add.text(655, this.cameras.main.height / 2 - 70, `${myMap.get('bag').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${myMap.get('glasses').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -196,7 +204,7 @@ export class GameScene5 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey],
+                targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -211,6 +219,7 @@ export class GameScene5 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -226,14 +235,14 @@ export class GameScene5 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey],
+                        targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey],
+                        targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -259,6 +268,7 @@ export class GameScene5 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.BAG_KEY) {
             this.bagKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.bagKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.bagKey.texture.key);
             }
@@ -266,6 +276,7 @@ export class GameScene5 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.GLASSES_KEY) {
             this.glassesKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.glassesKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.glassesKey.texture.key);
             }
@@ -277,8 +288,8 @@ export class GameScene5 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.BAG_KEY) this.bagKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.GLASSES_KEY) this.glassesKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.BAG_KEY) { this.bagKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.eventZone == LABEL_ID.GLASSES_KEY) { this.glassesKey.setVisible(false); this.textB.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -292,6 +303,7 @@ export class GameScene5 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -306,14 +318,14 @@ export class GameScene5 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bagKey, context.glassesKey],
+                    targets: [context.overlayBackground, context.closeButton, context.bagKey, context.glassesKey, context.textA, context.textB],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.bagKey, context.glassesKey],
+                    targets: [context.overlayBackground, context.closeButton, context.bagKey, context.glassesKey, context.textA, context.textB],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

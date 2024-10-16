@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -169,19 +169,27 @@ export class GameScene extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.diskKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'disk');
+        this.diskKey = this.add.image(430, this.cameras.main.height / 2, 'disk');
         this.diskKey.setScale(0.5);
         this.diskKey.setVisible(false);
         this.diskKey.setDepth(2);
         this.diskKey.setScrollFactor(0);
         this.diskKey.setAlpha(0);
 
-        this.footKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'foot');
+        this.footKey = this.add.image(430, this.cameras.main.height / 2, 'foot');
         this.footKey.setScale(0.5);
         this.footKey.setVisible(false);
         this.footKey.setDepth(2);
         this.footKey.setScrollFactor(0);
         this.footKey.setAlpha(0);
+
+        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${myMap.get('disk').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${myMap.get('foot').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -194,7 +202,7 @@ export class GameScene extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey],
+                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -209,6 +217,7 @@ export class GameScene extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -224,14 +233,14 @@ export class GameScene extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey],
+                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey],
+                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -257,6 +266,7 @@ export class GameScene extends BaseScene {
 
         if (this.eventZone == LABEL_ID.DISK_KEY) {
             this.diskKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.diskKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.diskKey.texture.key);
             }
@@ -264,6 +274,7 @@ export class GameScene extends BaseScene {
 
         if (this.eventZone == LABEL_ID.FOOT_KEY) {
             this.footKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.footKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.footKey.texture.key);
             }
@@ -275,8 +286,8 @@ export class GameScene extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.DISK_KEY) this.diskKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.FOOT_KEY) this.footKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.DISK_KEY) { this.diskKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.eventZone == LABEL_ID.FOOT_KEY) { this.footKey.setVisible(false); this.textB.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -290,6 +301,7 @@ export class GameScene extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -304,14 +316,14 @@ export class GameScene extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey],
+                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey, context.textA, context.textB],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey],
+                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey, context.textA, context.textB],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

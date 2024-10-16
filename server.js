@@ -41,10 +41,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('New client connected');
-
     socket.on('createRoom', async () => {
-        console.log('createRoom');
         let preCode;
         let check
 
@@ -78,7 +75,6 @@ io.on('connection', (socket) => {
                 return;
             }
         } catch (err) {
-            console.error('Error checking room:', err);
             socket.emit('error', 'An error occurred');
         }
     });
@@ -119,7 +115,6 @@ io.on('connection', (socket) => {
             socket.to(`${roomId}:${socket.currentLevel}`).emit(`newPlayer:${socket.currentLevel}`, rooms[roomId].levels[socket.currentLevel][socket.id]);
 
             socket.on(`disconnect`, () => {
-                console.log('Client disconnected');
                 if (rooms[roomId]) {
                     delete rooms[roomId].levels[socket.currentLevel][socket.id];
                     io.to(`${roomId}:${socket.currentLevel}`).emit('playerDisconnected', socket.id);

@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -178,26 +178,38 @@ export class GameScene4 extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.cameraKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'camera');
+        this.cameraKey = this.add.image(430, this.cameras.main.height / 2, 'camera');
         this.cameraKey.setScale(0.5);
         this.cameraKey.setVisible(false);
         this.cameraKey.setDepth(2);
         this.cameraKey.setScrollFactor(0);
         this.cameraKey.setAlpha(0);
 
-        this.chainKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'chain');
+        this.chainKey = this.add.image(430, this.cameras.main.height / 2, 'chain');
         this.chainKey.setScale(0.5);
         this.chainKey.setVisible(false);
         this.chainKey.setDepth(2);
         this.chainKey.setScrollFactor(0);
         this.chainKey.setAlpha(0);
 
-        this.glovesKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'gloves');
+        this.glovesKey = this.add.image(430, this.cameras.main.height / 2, 'gloves');
         this.glovesKey.setScale(0.5);
         this.glovesKey.setVisible(false);
         this.glovesKey.setDepth(2);
         this.glovesKey.setScrollFactor(0);
         this.glovesKey.setAlpha(0);
+
+        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${myMap.get('camera').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(690, this.cameras.main.height / 2 - 70, `${myMap.get('chain').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
+
+        this.textC = this.add.text(660, this.cameras.main.height / 2 - 70, `${myMap.get('gloves').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC.setVisible(false);
+        this.textC.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -210,7 +222,7 @@ export class GameScene4 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey],
+                targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -225,6 +237,7 @@ export class GameScene4 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -240,14 +253,14 @@ export class GameScene4 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey],
+                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey],
+                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -273,6 +286,7 @@ export class GameScene4 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.CAMERA_KEY) {
             this.cameraKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.cameraKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.cameraKey.texture.key);
             }
@@ -280,6 +294,7 @@ export class GameScene4 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.CHAIN_KEY) {
             this.chainKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.chainKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.chainKey.texture.key);
             }
@@ -287,6 +302,7 @@ export class GameScene4 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.GLOVES_KEY) {
             this.glovesKey.setVisible(true);
+            this.textC.setVisible(true);
             if (this.fold.indexOf(this.glovesKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.glovesKey.texture.key);
             }
@@ -298,9 +314,9 @@ export class GameScene4 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.CAMERA_KEY) this.cameraKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.CHAIN_KEY) this.chainKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.GLOVES_KEY) this.glovesKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.CAMERA_KEY) { this.cameraKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.eventZone == LABEL_ID.CHAIN_KEY) { this.chainKey.setVisible(false); this.textB.setVisible(false); }
+        if (this.eventZone == LABEL_ID.GLOVES_KEY) { this.glovesKey.setVisible(false); this.textC.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -314,6 +330,7 @@ export class GameScene4 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -328,14 +345,14 @@ export class GameScene4 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey],
+                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey, context.textA, context.textB, context.textC],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey],
+                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey, context.textA, context.textB, context.textC],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

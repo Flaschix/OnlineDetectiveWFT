@@ -11,7 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
-import { MAP_SETTINGS } from "../share/UICreator.mjs";
+import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
 
@@ -192,33 +192,49 @@ export class GameScene2 extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.windowKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'window');
+        this.windowKey = this.add.image(430, this.cameras.main.height / 2, 'window');
         this.windowKey.setScale(0.5);
         this.windowKey.setVisible(false);
         this.windowKey.setDepth(2);
         this.windowKey.setScrollFactor(0);
         this.windowKey.setAlpha(0);
 
-        this.clotheKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'clothe');
+        this.clotheKey = this.add.image(430, this.cameras.main.height / 2, 'clothe');
         this.clotheKey.setScale(0.5);
         this.clotheKey.setVisible(false);
         this.clotheKey.setDepth(2);
         this.clotheKey.setScrollFactor(0);
         this.clotheKey.setAlpha(0);
 
-        this.notebookKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'notebook');
+        this.notebookKey = this.add.image(430, this.cameras.main.height / 2, 'notebook');
         this.notebookKey.setScale(0.5);
         this.notebookKey.setVisible(false);
         this.notebookKey.setDepth(2);
         this.notebookKey.setScrollFactor(0);
         this.notebookKey.setAlpha(0);
 
-        this.keysKey = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'keys');
+        this.keysKey = this.add.image(430, this.cameras.main.height / 2, 'keys');
         this.keysKey.setScale(0.5);
         this.keysKey.setVisible(false);
         this.keysKey.setDepth(2);
         this.keysKey.setScrollFactor(0);
         this.keysKey.setAlpha(0);
+
+        this.textA = this.add.text(680, this.cameras.main.height / 2 - 70, `${myMap.get('window').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA.setVisible(false);
+        this.textA.setAlpha(0);
+
+        this.textB = this.add.text(660, this.cameras.main.height / 2 - 70, `${myMap.get('clothe').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB.setVisible(false);
+        this.textB.setAlpha(0);
+
+        this.textC = this.add.text(653, this.cameras.main.height / 2 - 70, `${myMap.get('notebook').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC.setVisible(false);
+        this.textC.setAlpha(0);
+
+        this.textD = this.add.text(670, this.cameras.main.height / 2 - 70, `${myMap.get('keys').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textD.setVisible(false);
+        this.textD.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -231,7 +247,7 @@ export class GameScene2 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
+                targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -246,6 +262,7 @@ export class GameScene2 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
+            if (this.avatarDialog.visible || this.exitContainer.visible) return;
             if (this.foldKeys.visible) return;
 
             if (this.isInZone) {
@@ -276,14 +293,14 @@ export class GameScene2 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
+                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey],
+                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -327,6 +344,7 @@ export class GameScene2 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.WINDOW_KEY) {
             this.windowKey.setVisible(true);
+            this.textA.setVisible(true);
             if (this.fold.indexOf(this.windowKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.windowKey.texture.key);
             }
@@ -334,6 +352,7 @@ export class GameScene2 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.CLOTHE_KEY) {
             this.clotheKey.setVisible(true);
+            this.textB.setVisible(true);
             if (this.fold.indexOf(this.clotheKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.clotheKey.texture.key);
             }
@@ -341,6 +360,7 @@ export class GameScene2 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) {
             this.notebookKey.setVisible(true);
+            this.textC.setVisible(true);
             if (this.fold.indexOf(this.notebookKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.notebookKey.texture.key);
             }
@@ -348,6 +368,7 @@ export class GameScene2 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.KEYS_KEY) {
             this.keysKey.setVisible(true);
+            this.textD.setVisible(true);
             if (this.fold.indexOf(this.keysKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.keysKey.texture.key);
             }
@@ -359,10 +380,10 @@ export class GameScene2 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.WINDOW_KEY) this.windowKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.CLOTHE_KEY) this.clotheKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) this.notebookKey.setVisible(false);
-        if (this.eventZone == LABEL_ID.KEYS_KEY) this.keysKey.setVisible(false);
+        if (this.eventZone == LABEL_ID.WINDOW_KEY) { this.windowKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.eventZone == LABEL_ID.CLOTHE_KEY) { this.clotheKey.setVisible(false); this.textB.setVisible(false); }
+        if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) { this.notebookKey.setVisible(false); this.textC.setVisible(false); }
+        if (this.eventZone == LABEL_ID.KEYS_KEY) { this.keysKey.setVisible(false); this.textD.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -376,6 +397,7 @@ export class GameScene2 extends BaseScene {
     }
 
     itemInteract(context) {
+        if (context.avatarDialog.visible || context.exitContainer.visible) return;
         if (context.foldKeys.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
@@ -405,14 +427,14 @@ export class GameScene2 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey],
+                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKeykeysKey, context.textA, context.textB, context.textC, context.textD],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey],
+                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey, context.textA, context.textB, context.textC, context.textD],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

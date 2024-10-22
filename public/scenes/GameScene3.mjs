@@ -2,7 +2,7 @@ import { CST, LABEL_ID } from "../CST.mjs";
 
 import { socket } from "../CST.mjs";
 
-import { createUILeftMobile } from "../share/UICreator.mjs";
+import { cd, createUILeftMobile, decrypt } from "../share/UICreator.mjs";
 import { createUI } from "../share/UICreator.mjs";
 import { createAvatarDialog } from "../share/UICreator.mjs";
 import { isMobile } from "../share/UICreator.mjs";
@@ -18,7 +18,7 @@ import { BaseScene } from "./BaseScene.mjs";
 export class GameScene3 extends BaseScene {
     constructor() {
         super(CST.SCENE.GAMESCENE3);
-
+        this.cd = cd;
     }
 
     preload() {
@@ -188,6 +188,9 @@ export class GameScene3 extends BaseScene {
     }
 
     createOverlays() {
+        const a = myMap.get('fivethKey');
+        const b = myMap.get('sixethKey');
+
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
         this.pressX.setVisible(false);
@@ -216,11 +219,11 @@ export class GameScene3 extends BaseScene {
         this.sixethKey.setScrollFactor(0);
         this.sixethKey.setAlpha(0);
 
-        this.textA = this.add.text(myMap.get('fivethKey').x, this.cameras.main.height / 2, `${myMap.get('fivethKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(a.x, this.cameras.main.height / 2, `${decrypt(a.text)}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(myMap.get('sixethKey').x, this.cameras.main.height / 2, `${myMap.get('sixethKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(b.x, this.cameras.main.height / 2, `${decrypt(b.text)}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
@@ -494,7 +497,7 @@ export class GameScene3 extends BaseScene {
             });
         });
 
-        const correctCode = 'FATHOM';
+        const correctCode = decrypt(this.cd);
         let correctFlag = true;
 
         const joinRoomConnect = document.getElementById('join-room-connect');

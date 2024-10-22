@@ -25,10 +25,10 @@ export const LABEL_ID = {
 }
 
 export const myMap = new Map([
-    ['firstKey', { x: 250, text: 'F' }],
-    ['secondKey', { x: 430, text: 'A' }],
-    ['thirdKey', { x: 610, text: 'T' }],
-    ['fourthKey', { x: 750, text: 'H' }],
-    ['fivethKey', { x: 880, text: 'O' }],
-    ['sixethKey', { x: 1000, text: 'M' }],
+    ['firstKey', { x: 250, text: 'I' }],
+    ['secondKey', { x: 430, text: 'D' }],
+    ['thirdKey', { x: 610, text: 'W' }],
+    ['fourthKey', { x: 750, text: 'K' }],
+    ['fivethKey', { x: 880, text: 'R' }],
+    ['sixethKey', { x: 1000, text: 'P' }],
 ]);

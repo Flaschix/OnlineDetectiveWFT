@@ -2,7 +2,7 @@ import { CST, LABEL_ID } from "../CST.mjs";
 
 import { socket } from "../CST.mjs";
 
-import { createUILeftMobile } from "../share/UICreator.mjs";
+import { createUILeftMobile, decrypt } from "../share/UICreator.mjs";
 import { createUI } from "../share/UICreator.mjs";
 import { createAvatarDialog } from "../share/UICreator.mjs";
 import { isMobile } from "../share/UICreator.mjs";
@@ -205,6 +205,9 @@ export class GameScene2 extends BaseScene {
     }
 
     createOverlays() {
+        const a = myMap.get('thirdKey');
+        const b = myMap.get('fourthKey');
+
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
         this.pressX.setVisible(false);
@@ -233,11 +236,11 @@ export class GameScene2 extends BaseScene {
         this.fourthKey.setScrollFactor(0);
         this.fourthKey.setAlpha(0);
 
-        this.textA = this.add.text(myMap.get('thirdKey').x, this.cameras.main.height / 2, `${myMap.get('thirdKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(a.x, this.cameras.main.height / 2, `${decrypt(a.text)}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(myMap.get('fourthKey').x, this.cameras.main.height / 2, `${myMap.get('fourthKey').text}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(b.x, this.cameras.main.height / 2, `${decrypt(b.text)}`, { font: "normal 60px MyCustomFont1", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

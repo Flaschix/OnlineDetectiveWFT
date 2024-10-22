@@ -2,7 +2,7 @@ import { CST, LABEL_ID } from "../CST.mjs";
 
 import { socket } from "../CST.mjs";
 
-import { createUILeftMobile } from "../share/UICreator.mjs";
+import { createUILeftMobile, decrypt } from "../share/UICreator.mjs";
 import { createUI } from "../share/UICreator.mjs";
 import { createAvatarDialog } from "../share/UICreator.mjs";
 import { isMobile } from "../share/UICreator.mjs";
@@ -165,7 +165,7 @@ export class GameScene4 extends BaseScene {
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, '“Никто никогда не ценил моего труда по-\nнастоящему. Годы упорной работы, остались\nнезамеченными. Слова благодарности давно\nпотеряли смысл. Эта картина станет\nдостойной наградой за все усилия, что я вложил.\nПора получить то, что по праву принадлежит\nмне.”', { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, `${decrypt('“Рлнхс рлнсжзг ри щирло псижс хуцзг тс-\nргфхсвьипц. Жсзю цтсурсм угдсхю, сфхголфя\nрикгпиъиррюпл. Фосег догжсзгурсфхл згерс\nтсхиувол фпюфо. Ахг нгухлрг фхгрих\nзсфхсмрсм ргжугзсм кг ефи цфлолв, ъхс в еосйло.\nТсуг тсоцълхя хс, ъхс тс тугец тулргзоийлх\nпри.”')}`, { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

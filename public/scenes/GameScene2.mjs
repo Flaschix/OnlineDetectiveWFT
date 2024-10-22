@@ -2,7 +2,7 @@ import { CST, LABEL_ID } from "../CST.mjs";
 
 import { socket } from "../CST.mjs";
 
-import { createUILeftMobile } from "../share/UICreator.mjs";
+import { createUILeftMobile, decrypt } from "../share/UICreator.mjs";
 import { createUI } from "../share/UICreator.mjs";
 import { createAvatarDialog } from "../share/UICreator.mjs";
 import { isMobile } from "../share/UICreator.mjs";
@@ -220,19 +220,19 @@ export class GameScene2 extends BaseScene {
         this.keysKey.setScrollFactor(0);
         this.keysKey.setAlpha(0);
 
-        this.textA = this.add.text(680, this.cameras.main.height / 2 - 70, `${myMap.get('window').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(680, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('window').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(660, this.cameras.main.height / 2 - 70, `${myMap.get('clothe').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(660, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('clothe').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
-        this.textC = this.add.text(653, this.cameras.main.height / 2 - 70, `${myMap.get('notebook').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC = this.add.text(653, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('notebook').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textC.setVisible(false);
         this.textC.setAlpha(0);
 
-        this.textD = this.add.text(670, this.cameras.main.height / 2 - 70, `${myMap.get('keys').text}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textD = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('keys').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textD.setVisible(false);
         this.textD.setAlpha(0);
 
@@ -427,7 +427,7 @@ export class GameScene2 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKeykeysKey, context.textA, context.textB, context.textC, context.textD],
+                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey, context.textA, context.textB, context.textC, context.textD],
                     alpha: 1,
                     duration: 500
                 });

@@ -1,6 +1,6 @@
 import { socket } from "../CST.mjs";
 import { SocketWorker } from "../share/SocketWorker.mjs";
-import { createUIBottom, createUITop, createUIRight, createExitMenu, isMobile, HEIGHT_PRESS_X } from "../share/UICreator.mjs";
+import { createUIBottom, createUITop, createUIRight, createExitMenu, isMobile, HEIGHT_PRESS_X, decrypt } from "../share/UICreator.mjs";
 import { AnimationControl } from "../share/AnimationControl.mjs";
 import { PlayersController } from "../share/PlayerController.mjs";
 import { myMap } from "../CST.mjs";
@@ -227,7 +227,7 @@ export class BaseScene extends Phaser.Scene {
             context.rightArrow.setVisible(true);
 
             context.foldKeys.setTexture(context.fold[0]);
-            context.foldText.setText(myMap.get(context.fold[0]).text);
+            context.foldText.setText(decrypt(myMap.get(context.fold[0]).text));
             context.foldText.setX(myMap.get(context.fold[0]).x);
 
             context.foldKeys.setVisible(true);
@@ -236,7 +236,7 @@ export class BaseScene extends Phaser.Scene {
             context.foldImgNumber = 0;
             context.foldKeys.setTexture(context.fold[0]);
 
-            context.foldText.setText(myMap.get(context.fold[0]).text);
+            context.foldText.setText(decrypt(myMap.get(context.fold[0]).text));
             context.foldText.setX(myMap.get(context.fold[0]).x);
 
             context.foldKeys.setVisible(true);
@@ -261,7 +261,7 @@ export class BaseScene extends Phaser.Scene {
                 onComplete: () => {
                     try {
                         this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.foldText.setText(myMap.get(this.fold[this.foldImgNumber]).text);
+                        this.foldText.setText(decrypt(myMap.get(this.fold[this.foldImgNumber]).text));
                         this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
                         this.tweens.add({
                             targets: [this.foldKeys, this.foldText],
@@ -288,7 +288,7 @@ export class BaseScene extends Phaser.Scene {
                 onComplete: () => {
                     try {
                         this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.foldText.setText(myMap.get(this.fold[this.foldImgNumber]).text);
+                        this.foldText.setText(decrypt(myMap.get(this.fold[this.foldImgNumber]).text));
                         this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
                         this.tweens.add({
                             targets: [this.foldKeys, this.foldText],

@@ -161,11 +161,11 @@ export class GameScene4 extends BaseScene {
         this.answer.setScrollFactor(0);
         this.answer.setAlpha(0);
 
-        this.textA = this.add.text(400, this.cameras.main.height / 2 - 140, 'Вырванная страница из дневника', { font: "bold 26px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(490, this.cameras.main.height / 2 - 140, 'Torn page from the diary', { font: "bold 26px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, `${decrypt('“Рлнхс рлнсжзг ри щирло псижс хуцзг тс-\nргфхсвьипц. Жсзю цтсурсм угдсхю, сфхголфя\nрикгпиъиррюпл. Фосег догжсзгурсфхл згерс\nтсхиувол фпюфо. Ахг нгухлрг фхгрих\nзсфхсмрсм ргжугзсм кг ефи цфлолв, ъхс в еосйло.\nТсуг тсоцълхя хс, ъхс тс тугец тулргзоийлх\nпри.”')}`, { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, `${decrypt('“Qr rqh kdv hyhu wuxob dssuhfldwhg pb oderu. Bhduv ri\nkdug zrun zhqw xqqrwlfhg. Zrugv ri judwlwxgh kdyh\norqj vlqfh orvw wkhlu phdqlqj. Wklv sdlqwlqj zloo eh d\nilwwlqj uhzdug iru doo wkh hiiruw L\'yh sxw lq.Lw\'v wlph iru\nph wr jhw zkdw lv uljkwixoob plqh.”')}`, { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

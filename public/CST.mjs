@@ -32,13 +32,13 @@ export const LABEL_ID = {
 }
 
 export const myMap = new Map([
-    ['firstKey', { x: 420, y: 250, text: 'Елзио е 21:45 нгн\nнугфлегв зиецынг е\nдиосп тогхяи ыог е\nфстусесйзирлл\nпсосзсжс ъиосеинг ф\nубнкгнсп.' }],
-    ['secondKey', { x: 395, y: 250, text: 'Елзио тсйлосжс\nпцъйлрц е шгогхи.\nЦхусп шгогх дюо\nълфхюм, еиъиусп цйи е\nнугфни.' }],
-    ['thirdKey', { x: 440, y: 250, text: 'Елзио нгн цхусп\nзиецынг кесрлог\nнспц-хс л\nзсжсегулегогфя с\nефхуиъи еиъиусп е\nПцкии.' }],
-    ['fourthKey', { x: 430, y: 270, text: 'Елзиог нгн еиъиусп\nпсосзсм ъиосеин ф\nубнкгнсп ыио е\nфхсусрц Пцкив.' }],
-    ['fivethKey', { x: 400, y: 250, text: 'Елзио еиъиусп е 21:25\nфхугррсжс пцйълрц е\nдиосп шгогхи. Ср риф\nф фсдсм ъишсо сх\nжлхгую.' }],
-    ['sixethKey', { x: 425, y: 270, text: 'Елзио нгн е 21:15\nзиецынг е нсфхбпи\nыог съиря\nугффхусирргв.' }],
-    ['seventhKey', { x: 410, y: 290, text: 'Елзио нгн еиъиусп е\n21:10 сшугррлн фтиыло\nнцзг-хс.' }],
-    ['emptyMan', { x: 450, y: 330, text: 'Я ничего не видел' }],
-    ['emptyWoman', { x: 450, y: 330, text: 'Я ничего не видела' }],
+    ['firstKey', { x: 410, y: 250, text: 'Dw 21:45 L vdz d\nehdxwlixo jluo lq d zklwh\nguhvv zdonlqj\ndffrpsdqlhg eb d\nbrxqj pdq zlwk d\nuxfnvdfn.' }],
+    ['secondKey', { x: 395, y: 220, text: 'L vdz dq hoghuob pdq lq\nd guhvvlqj jrzq. Wkh\nguhvvlqj jrzq zdv\nfohdq lq wkh pruqlqj,\nexw eb wkh hyhqlqj lw\nzdv douhdgb fryhuhg\nzlwk sdlqw.' }],
+    ['thirdKey', { x: 400, y: 250, text: 'L vdz d jluo fdoo\nvrphrqh lq wkh pruqlqj\ndqg duudqjh wr phhw\nwkhp dw wkh pxvhxp lq\nwkh hyhqlqj.' }],
+    ['fourthKey', { x: 430, y: 270, text: 'Lq wkh hyhqlqj L vdz d\nbrxqj pdq zlwk d\nuxfnvdfn zdonlqj\nwrzdugv wkh pxvhxp.' }],
+    ['fivethKey', { x: 400, y: 270, text: 'Odvw qljkw dw 9.25sp L\nvdz d vwudqjh pdq lq d\nzklwh frdw. Kh zdv\nkroglqj d jxlwdu fdvh.' }],
+    ['sixethKey', { x: 400, y: 280, text: 'Dw 9:15sp L vdz d jluo lq\nd vxlw zdonlqj grzq wkh\nvwuhhw, yhub xsvhw.' }],
+    ['seventhKey', { x: 420, y: 290, text: 'Odvw qljkw dw 9:10sp L\nvdz d vhfxulwb jxdug\nuxvklqj vrphzkhuh.' }],
+    ['emptyMan', { x: 450, y: 330, text: 'I didn\'t see anything' }],
+    ['emptyWoman', { x: 450, y: 330, text: 'I didn\'t see anything' }],
 ]);

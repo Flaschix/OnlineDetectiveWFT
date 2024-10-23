@@ -224,7 +224,7 @@ export class GameScene2 extends BaseScene {
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(660, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('clothe').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(680, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('clothe').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

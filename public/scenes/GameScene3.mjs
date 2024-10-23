@@ -183,7 +183,7 @@ export class GameScene3 extends BaseScene {
         this.planKey.setScrollFactor(0);
         this.planKey.setAlpha(0);
 
-        this.textA = this.add.text(648, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('bottle').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('bottle').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 

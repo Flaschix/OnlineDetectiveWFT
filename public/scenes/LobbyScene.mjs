@@ -263,7 +263,6 @@ export class LobbyScene extends Phaser.Scene {
 
         // this.createAvatarDialog();
         createAvatarDialog(this, this.avatartFinishEditing, this.closeAvatarDialog, null, this.mobile, 'join3');
-
         this.createNewSpaceContainer();
 
         socket.on('roomExists', (roomCode) => {

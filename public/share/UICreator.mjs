@@ -345,17 +345,5 @@ export const CAMERA_MARGIN_MOBILE = {
 
 export function isMobile() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isMobileUserAgent = /android|avantgo|blackberry|bada\/|bb|meego|mmp|mobile|opera m(ob|in)i|palm(os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent);
-    const isTabletUserAgent = /ipad|tablet|(android(?!.*mobile))/i.test(userAgent);
-
-    const isMobileScreen = window.innerWidth <= 767;
-    const isTabletScreen = window.innerWidth >= 768 && window.innerWidth <= 1024;
-
-    if (isMobileUserAgent || isMobileScreen) {
-        return true; // Mobile device
-    } else if (isTabletUserAgent || isTabletScreen) {
-        return true; // Tablet device
-    } else {
-        return false; // Desktop device
-    }
+    return /android|avantgo|blackberry|bada\/|bb|meego|mmp|mobile|opera m(ob|in)i|palm(os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) || /ipad|tablet|(android(?!.*mobile))/i.test(userAgent);
 }

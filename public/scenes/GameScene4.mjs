@@ -114,43 +114,36 @@ export class GameScene4 extends BaseScene {
         const person1 = this.matter.add.sprite(1024 + 42, 490 - 80, 'person41', null, {
             label: `${LABEL_ID.SEVENTH_KEY}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person2 = this.matter.add.sprite(1406 + 42, 902 - 80, 'person42', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person3 = this.matter.add.sprite(435 + 42, 1852 - 80, 'person43', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person4 = this.matter.add.sprite(1409 + 42, 1771 - 80, 'person44', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person5 = this.matter.add.sprite(441 + 42, 1239 - 80, 'person45', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person6 = this.matter.add.sprite(1674 + 42, 1239 - 80, 'person46', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person7 = this.matter.add.sprite(862 + 42, 1581 - 80, 'person47', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const arrBodies = [bodyRightDoor, bodyDownDoor, person1, person2, person3, person4, person5, person6, person7];
@@ -164,14 +157,16 @@ export class GameScene4 extends BaseScene {
                 this.eventZone = Number(eventData.bodyB.label);
 
                 // Подсвечиваем границы зоны
-                const vertices = eventData.bodyB.vertices;
-                highlightGraphics.beginPath();
-                highlightGraphics.moveTo(vertices[0].x, vertices[0].y);
-                for (let i = 1; i < vertices.length; i++) {
-                    highlightGraphics.lineTo(vertices[i].x, vertices[i].y);
+                if (eventData.bodyB.label == LABEL_ID.DOOR_BACK_ID || eventData.bodyB.label == LABEL_ID.DOOR_RIGHT_ID) {
+                    const vertices = eventData.bodyB.vertices;
+                    highlightGraphics.beginPath();
+                    highlightGraphics.moveTo(vertices[0].x, vertices[0].y);
+                    for (let i = 1; i < vertices.length; i++) {
+                        highlightGraphics.lineTo(vertices[i].x, vertices[i].y);
+                    }
+                    highlightGraphics.closePath();
+                    highlightGraphics.strokePath();
                 }
-                highlightGraphics.closePath();
-                highlightGraphics.strokePath();
             },
             context: this
         });

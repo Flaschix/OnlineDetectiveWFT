@@ -113,37 +113,31 @@ export class GameScene2 extends BaseScene {
         const person1 = this.matter.add.sprite(1300 + 42, 1746 + 80, 'person21', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person2 = this.matter.add.sprite(985 + 42, 1083 + 80, 'person22', null, {
             label: `${LABEL_ID.SECOND_KEY}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person3 = this.matter.add.sprite(1643 + 42, 902 + 80, 'person23', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person4 = this.matter.add.sprite(595 + 42, 1426 + 80, 'person24', null, {
             label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person5 = this.matter.add.sprite(500 + 42, 828 + 80, 'person25', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const person6 = this.matter.add.sprite(1582 + 42, 1433 + 80, 'person26', null, {
             label: `${LABEL_ID.EMPTY_WOMAN}`,
             isStatic: true,
-            isSensor: true
         });
 
         const arrBodies = [rightDoor, leftDoor, person1, person2, person3, person4, person5, person6];
@@ -157,14 +151,16 @@ export class GameScene2 extends BaseScene {
                 this.eventZone = Number(eventData.bodyB.label);
 
                 // Подсвечиваем границы зоны
-                const vertices = eventData.bodyB.vertices;
-                highlightGraphics.beginPath();
-                highlightGraphics.moveTo(vertices[0].x, vertices[0].y);
-                for (let i = 1; i < vertices.length; i++) {
-                    highlightGraphics.lineTo(vertices[i].x, vertices[i].y);
+                if (eventData.bodyB.label == LABEL_ID.DOOR_LEFT_ID || eventData.bodyB.label == LABEL_ID.DOOR_RIGHT_ID) {
+                    const vertices = eventData.bodyB.vertices;
+                    highlightGraphics.beginPath();
+                    highlightGraphics.moveTo(vertices[0].x, vertices[0].y);
+                    for (let i = 1; i < vertices.length; i++) {
+                        highlightGraphics.lineTo(vertices[i].x, vertices[i].y);
+                    }
+                    highlightGraphics.closePath();
+                    highlightGraphics.strokePath();
                 }
-                highlightGraphics.closePath();
-                highlightGraphics.strokePath();
             },
             context: this
         });

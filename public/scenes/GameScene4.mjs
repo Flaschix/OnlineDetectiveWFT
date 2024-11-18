@@ -164,6 +164,10 @@ export class GameScene4 extends BaseScene {
     }
 
     createOverlays() {
+        const at = myMap.get('camera');
+        const bt = myMap.get('chain');
+        const ct = myMap.get('gloves');
+
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
         this.pressX.setVisible(false);
@@ -199,15 +203,15 @@ export class GameScene4 extends BaseScene {
         this.glovesKey.setScrollFactor(0);
         this.glovesKey.setAlpha(0);
 
-        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('camera').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(690, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('chain').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
-        this.textC = this.add.text(660, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('gloves').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC = this.add.text(ct.x, this.cameras.main.height / 2 - 70, `${decrypt(ct.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textC.setVisible(false);
         this.textC.setAlpha(0);
 

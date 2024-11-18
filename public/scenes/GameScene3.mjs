@@ -155,6 +155,9 @@ export class GameScene3 extends BaseScene {
     }
 
     createOverlays() {
+        const at = myMap.get('bottle');
+        const bt = myMap.get('plan');
+
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
         this.pressX.setVisible(false);
@@ -183,11 +186,11 @@ export class GameScene3 extends BaseScene {
         this.planKey.setScrollFactor(0);
         this.planKey.setAlpha(0);
 
-        this.textA = this.add.text(648, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('bottle').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('plan').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

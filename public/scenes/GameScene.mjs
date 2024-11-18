@@ -161,8 +161,8 @@ export class GameScene extends BaseScene {
     }
 
     createOverlays() {
-        const at = myMap.get('disk').text
-        const bt = myMap.get('foot').text
+        const at = myMap.get('disk')
+        const bt = myMap.get('foot')
         const dt1 = myMap.get('door1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
@@ -193,11 +193,11 @@ export class GameScene extends BaseScene {
         this.footKey.setScrollFactor(0);
         this.footKey.setAlpha(0);
 
-        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${decrypt(at)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(bt)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

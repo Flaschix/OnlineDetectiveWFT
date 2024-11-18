@@ -54,8 +54,8 @@ export const myMap = new Map([
     ['plan', { x: 670, text: 'Ргмзир тогр пцкив, жзи\nсхпиъирю тцхл сдшсзг\nнгпиу.' }],
     ['window', { x: 680, text: 'Ргмзирг угпнг сх\nцнугзиррсм нгухлрю.' }],
 
-    ['door1', { x: 500, text: 'Екжовз рг Есфхсн.' }],
-    ['door2', { x: 480, text: 'Екжовз рг Бжс-есфхсн.' }],
-    ['door3', { x: 540, text: 'Екжовз рг Бж.' }],
-    ['door4', { x: 500, text: 'Екжовз рг Кгтгз.' }],
+    ['door1', { x: 560, text: 'idflqj Hdvw.' }],
+    ['door2', { x: 510, text: 'idflqj Vrxwk-Hdvw.' }],
+    ['door3', { x: 540, text: 'idflqj Vrxwk.' }],
+    ['door4', { x: 560, text: 'idflqj Zhvw.' }],
 ]);

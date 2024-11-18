@@ -222,7 +222,7 @@ export class GameScene extends BaseScene {
         this.paperDoor.setScrollFactor(0);
         this.paperDoor.setAlpha(0);
 
-        this.textС = this.add.text(dt1.x, this.cameras.main.height / 2 + 100, `${decrypt(dt1.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textС = this.add.text(dt1.x, this.cameras.main.height / 2 + 70, `${decrypt(dt1.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textС.setVisible(false);
         this.textС.setAlpha(0);
 

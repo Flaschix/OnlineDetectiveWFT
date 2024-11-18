@@ -265,8 +265,8 @@ export function createJoystick(context, joystickBase, joystickThumb, flag, x, y)
     context.joystickThumb.setDisplaySize(100, 100);
 
     // Привязываем джойстик к экрану
-    context.joystickBase.setScrollFactor(0);
-    context.joystickThumb.setScrollFactor(0);
+    context.joystickBase.setScrollFactor(0).setDepth(1);
+    context.joystickThumb.setScrollFactor(0).setDepth(1);
 
 
     context.joystickThumb.on('pointerdown', (pointer) => {
@@ -298,7 +298,7 @@ export function createJoystick(context, joystickBase, joystickThumb, flag, x, y)
     });
 }
 
-export function createMobileXButton(context, nameButton, nameBackgorund, x, y, event, interactObj) {
+export function createMobileXButton(context, nameButton, nameBackgorund, x, y, event) {
     context.buttonBackground = context.add.image(x, y, nameBackgorund);
     context.mobileXButton = context.add.image(x, y, nameButton).setInteractive();
 
@@ -308,11 +308,11 @@ export function createMobileXButton(context, nameButton, nameBackgorund, x, y, e
     context.mobileXButton.setVisible(false);
     context.buttonBackground.setVisible(false);
 
-    context.mobileXButton.setScrollFactor(0);
-    context.buttonBackground.setScrollFactor(0);
+    context.mobileXButton.setScrollFactor(0).setDepth(1);
+    context.buttonBackground.setScrollFactor(0).setDepth(1);
 
     context.mobileXButton.on('pointerdown', () => {
-        event(context, interactObj);
+        event.call(context);
     });
 }
 

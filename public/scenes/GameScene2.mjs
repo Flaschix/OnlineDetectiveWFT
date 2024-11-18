@@ -11,6 +11,7 @@ import { CAMERA_MARGIN, CAMERA_MARGIN_MOBILE } from "../share/UICreator.mjs";
 import { createJoystick } from "../share/UICreator.mjs";
 import { createMobileXButton } from "../share/UICreator.mjs";
 
+import { BoxesController } from "../share/BoxesController.mjs";
 import { myMap } from "../CST.mjs";
 
 import { BaseScene } from "./BaseScene.mjs";
@@ -58,6 +59,13 @@ export class GameScene2 extends BaseScene {
         this.createInputHandlers();
 
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
+
+        this.boxesController = new BoxesController(this, this.player); // Передаем сцену
+        this.mySocket.subscribeTakeBoxes(this, this.boxesController.createBoxes.bind(this.boxesController));
+        this.boxesController.createPlace(800, 1100, 34, LABEL_ID.PLACE_KEY_2);
+        this.boxesController.createPlace(1030, 950, 34, LABEL_ID.PLACE_KEY_3);
+        this.boxesController.createPlace(1240, 1100, 34, LABEL_ID.PLACE_KEY_4);
+        this.mySocket.emitGetBoxes([3, 4, 5, 6, 7]);
     }
 
     createMap(map) {
@@ -127,19 +135,19 @@ export class GameScene2 extends BaseScene {
             label: `${LABEL_ID.CLOTHE_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.6);
 
         const notebookMin = this.matter.add.sprite(383, 1711, 'notebookMin', null, {
             label: `${LABEL_ID.NOTEBOOK_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.6);
 
         const keysMin = this.matter.add.sprite(1440, 1661, 'keysMin', null, {
             label: `${LABEL_ID.KEYS_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.4);
 
         const arrBodies = [backDoor, bodyWindow, clotheMin, notebookMin, keysMin, rightDoor, forwardDoor, leftDoor];
 
@@ -180,7 +188,7 @@ export class GameScene2 extends BaseScene {
     createOverlays() {
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
-        this.pressX.setVisible(false);
+        this.pressX.setVisible(false).setDepth(1);
 
         //задний фон оверлея
         this.overlayBackground = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayBackground');
@@ -236,6 +244,31 @@ export class GameScene2 extends BaseScene {
         this.textD.setVisible(false);
         this.textD.setAlpha(0);
 
+        this.placeBack = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayPaper');
+        this.placeBack.setScale(0.65, 0.8);
+        this.placeBack.setVisible(false);
+        this.placeBack.setDepth(2);
+        this.placeBack.setScrollFactor(0);
+        this.placeBack.setAlpha(0);
+
+        this.paperPlace = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'paperPlace');
+        this.paperPlace.setScale(0.8);
+        this.paperPlace.setVisible(false);
+        this.paperPlace.setDepth(2);
+        this.paperPlace.setScrollFactor(0);
+        this.paperPlace.setAlpha(0);
+
+        this.paperDoor = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'paperDoor');
+        this.paperDoor.setScale(0.8);
+        this.paperDoor.setVisible(false);
+        this.paperDoor.setDepth(2);
+        this.paperDoor.setScrollFactor(0);
+        this.paperDoor.setAlpha(0);
+
+        this.textDoor = this.add.text(0, this.cameras.main.height / 2 + 100, ``, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textDoor.setVisible(false);
+        this.textDoor.setAlpha(0);
+
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
@@ -247,7 +280,7 @@ export class GameScene2 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
+                targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD, this.paperPlace, this.placeBack, this.paperDoor, this.textDoor],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -262,56 +295,7 @@ export class GameScene2 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
-            if (this.avatarDialog.visible || this.exitContainer.visible) return;
-            if (this.foldKeys.visible) return;
-
-            if (this.isInZone) {
-                this.player.setVelocity(0);
-
-                if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                    this.moveLeftRoom();
-                    return;
-                }
-
-                if (this.eventZone == LABEL_ID.DOOR_RIGHT_ID) {
-                    this.moveRightRoom();
-                    return;
-                }
-
-                if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                    this.moveForwardRoom();
-                    return;
-                }
-
-                if (this.eventZone == LABEL_ID.DOOR_BACK_ID) {
-                    this.moveBackRoom();
-                    return;
-                }
-
-                if (!this.isOverlayVisible) {
-
-                    this.showOverlay();
-
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
-                        alpha: 1,
-                        duration: 500
-                    });
-                }
-                else {
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD],
-                        alpha: 0,
-                        duration: 500,
-                        onComplete: () => {
-                            try {
-                                this.hideOverlay();
-                            } catch (e) { }
-
-                        }
-                    });
-                }
-            }
+            this.itemInteract();
         });
     }
 
@@ -342,9 +326,39 @@ export class GameScene2 extends BaseScene {
     showOverlay() {
         this.isOverlayVisible = true
 
+        if (this.eventZone == LABEL_ID.PLACE_KEY_2 || this.eventZone == LABEL_ID.PLACE_KEY_3 || this.eventZone == LABEL_ID.PLACE_KEY_4) {
+            this.paperPlace.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
+        if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
+            this.paperDoor.setVisible(true);
+            this.textDoor.setText(decrypt(myMap.get('door4').text))
+            this.textDoor.x = (myMap.get('door4').x);
+            this.textDoor.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
+        if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
+            this.paperDoor.setVisible(true);
+            this.textDoor.setText(decrypt(myMap.get('door3').text))
+            this.textDoor.x = (myMap.get('door3').x);
+            this.textDoor.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
+        if (this.eventZone == LABEL_ID.DOOR_RIGHT_ID) {
+            this.paperDoor.setVisible(true);
+            this.textDoor.setText(decrypt(myMap.get('door2').text))
+            this.textDoor.x = (myMap.get('door2').x);
+            this.textDoor.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
         if (this.eventZone == LABEL_ID.WINDOW_KEY) {
             this.windowKey.setVisible(true);
             this.textA.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.windowKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.windowKey.texture.key);
             }
@@ -353,6 +367,7 @@ export class GameScene2 extends BaseScene {
         if (this.eventZone == LABEL_ID.CLOTHE_KEY) {
             this.clotheKey.setVisible(true);
             this.textB.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.clotheKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.clotheKey.texture.key);
             }
@@ -361,6 +376,7 @@ export class GameScene2 extends BaseScene {
         if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) {
             this.notebookKey.setVisible(true);
             this.textC.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.notebookKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.notebookKey.texture.key);
             }
@@ -369,77 +385,94 @@ export class GameScene2 extends BaseScene {
         if (this.eventZone == LABEL_ID.KEYS_KEY) {
             this.keysKey.setVisible(true);
             this.textD.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.keysKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.keysKey.texture.key);
             }
         }
 
-        this.overlayBackground.setVisible(true);
         this.closeButton.setVisible(true);
     }
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.WINDOW_KEY) { this.windowKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.eventZone == LABEL_ID.CLOTHE_KEY) { this.clotheKey.setVisible(false); this.textB.setVisible(false); }
-        if (this.eventZone == LABEL_ID.NOTEBOOK_KEY) { this.notebookKey.setVisible(false); this.textC.setVisible(false); }
-        if (this.eventZone == LABEL_ID.KEYS_KEY) { this.keysKey.setVisible(false); this.textD.setVisible(false); }
+        if (this.windowKey.visible) { this.windowKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.clotheKey.visible) { this.clotheKey.setVisible(false); this.textB.setVisible(false); }
+        if (this.notebookKey.visible) { this.notebookKey.setVisible(false); this.textC.setVisible(false); }
+        if (this.keysKey.visible) { this.keysKey.setVisible(false); this.textD.setVisible(false); }
+        if (this.paperPlace.visible) { this.paperPlace.setVisible(false); this.placeBack.setVisible(false); }
+        if (this.paperDoor.visible) { this.paperDoor.setVisible(false); this.textDoor.setVisible(false); this.placeBack.setVisible(false); }
+
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
     }
 
-    loadedResolutionMap(name, scaleX, scaleY) {
-        this.map.setScale(scaleX, scaleY);
+    itemInteract() {
+        if (this.avatarDialog.visible || this.exitContainer.visible) return;
+        if (this.foldKeys.visible) return;
 
-        this.map.setTexture(name);
-        this.matter.world.setBounds(0, 0, this.map.width * scaleX, this.map.height * scaleY);
-    }
+        if (this.boxesController.isHoldingObject) {
+            if (this.eventZone == LABEL_ID.PLACE_KEY_2 && this.boxesController.places[0].box == null) {
+                this.boxesController.putBox(0)
+                return;
+            }
+            if (this.eventZone == LABEL_ID.PLACE_KEY_3 && this.boxesController.places[1].box == null) {
+                this.boxesController.putBox(1)
+                return;
+            }
+            if (this.eventZone == LABEL_ID.PLACE_KEY_4 && this.boxesController.places[2].box == null) {
+                this.boxesController.putBox(2)
+                return;
+            }
+            this.boxesController.releaseObject(this.boxesController.isHoldingObject);
+            return;
+        } else if (this.boxesController.isNearObject) {
+            this.boxesController.holdObject(this.boxesController.isNearObject);
+            return;
+        }
 
-    itemInteract(context) {
-        if (context.avatarDialog.visible || context.exitContainer.visible) return;
-        if (context.foldKeys.visible) return;
-        if (context.isInZone) {
-            context.player.setVelocity(0);
+        if (this.isInZone) {
+            this.player.setVelocity(0);
 
-            if (context.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                context.moveLeftRoom();
+            if (this.eventZone == LABEL_ID.DOOR_LEFT_ID && this.boxesController.places[0].box == '4') {
+                this.moveLeftRoom();
                 return;
             }
 
-            if (context.eventZone == LABEL_ID.DOOR_RIGHT_ID) {
-                context.moveRightRoom();
+            if (this.eventZone == LABEL_ID.DOOR_RIGHT_ID && this.boxesController.places[2].box == '7') {
+                this.moveRightRoom();
                 return;
             }
 
-            if (context.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                context.moveForwardRoom();
+            if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID && this.boxesController.places[1].box == '5') {
+                this.moveForwardRoom();
                 return;
             }
 
-            if (context.eventZone == LABEL_ID.DOOR_BACK_ID) {
-                context.moveBackRoom();
+            if (this.eventZone == LABEL_ID.DOOR_BACK_ID) {
+                this.moveBackRoom();
                 return;
             }
 
-            if (!context.isOverlayVisible) {
+            if (!this.isOverlayVisible) {
 
-                context.showOverlay();
+                this.showOverlay();
 
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey, context.textA, context.textB, context.textC, context.textD],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD, this.paperPlace, this.placeBack, this.paperDoor, this.textDoor],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.windowKey, context.clotheKey, context.notebookKey, context.keysKey, context.textA, context.textB, context.textC, context.textD],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.windowKey, this.clotheKey, this.notebookKey, this.keysKey, this.textA, this.textB, this.textC, this.textD, this.paperPlace, this.placeBack, this.paperDoor, this.textDoor],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
                         try {
-                            context.hideOverlay();
+                            this.hideOverlay();
                         } catch (e) { }
 
                     }
@@ -451,5 +484,7 @@ export class GameScene2 extends BaseScene {
 
     update() {
         super.update();
+
+        this.boxesController.update();
     }
 }

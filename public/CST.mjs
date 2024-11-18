@@ -31,7 +31,12 @@ export const LABEL_ID = {
     CHAIN_KEY: 88888882,
     GLOVES_KEY: 88888883,
     BAG_KEY: 888888884,
-    GLASSES_KEY: 88888885
+    GLASSES_KEY: 88888885,
+
+    PLACE_KEY_1: 333333333,
+    PLACE_KEY_2: 333333337,
+    PLACE_KEY_3: 333333332,
+    PLACE_KEY_4: 333333338,
 }
 
 export const myMap = new Map([
@@ -48,4 +53,9 @@ export const myMap = new Map([
     ['notebook', { x: 653, text: 'Ргмзир доснрсх ф\nкгпихнгпл. Ерцхул\nкгтлфл с тогргш анфнцуфл.' }],
     ['plan', { x: 670, text: 'Ргмзир тогр пцкив, жзи\nсхпиъирю тцхл сдшсзг\nнгпиу.' }],
     ['window', { x: 680, text: 'Ргмзирг угпнг сх\nцнугзиррсм нгухлрю.' }],
+
+    ['door1', { x: 500, text: 'Екжовз рг Есфхсн.' }],
+    ['door2', { x: 480, text: 'Екжовз рг Бжс-есфхсн.' }],
+    ['door3', { x: 540, text: 'Екжовз рг Бж.' }],
+    ['door4', { x: 500, text: 'Екжовз рг Кгтгз.' }],
 ]);

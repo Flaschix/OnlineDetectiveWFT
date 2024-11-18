@@ -3,6 +3,7 @@ export class SocketWorker {
     constructor(socket) {
         this.socket = socket;
         this.lastSentTime = 0;
+        this.lastSentTimeBox = 0;
         this.sendInterval = 75;
     }
 
@@ -61,6 +62,12 @@ export class SocketWorker {
         }
     }
 
+    emitPlayerMovementLast(sceneKey, playerInfo) {
+        const currentTime = Date.now();
+        this.socket.emit(`playerMovement:${sceneKey}`, playerInfo);
+        this.lastSentTime = currentTime;
+    }
+
     emitGetPlayers() {
         this.socket.emit('getPlayers', null);
     }
@@ -80,9 +87,54 @@ export class SocketWorker {
         this.socket.removeAllListeners('takeFold');
         this.socket.removeAllListeners(`newPlayer:${sceneKey}`);
         this.socket.removeAllListeners(`playerMoved:${sceneKey}`);
+        this.socket.removeAllListeners('catchedBox');
+        this.socket.removeAllListeners('takeBoxes');
+        this.socket.removeAllListeners('boxMovement');
     }
 
     unSubscribeTakeFold() {
         this.socket.removeAllListeners('takeFold');
+    }
+
+    subscribeCatchedBox(context, event) {
+        this.socket.on('catchedBox', (boxId) => {
+            event.call(context, boxId);
+        });
+    }
+
+    subscribeTakeBoxes(context, event, rightBox) {
+        this.socket.on('takeBoxes', (boxes) => {
+            event.call(context, boxes, rightBox);
+        });
+    }
+
+    subscribeBoxMovement(context, event) {
+        this.socket.on('boxMovement', (movementData) => {
+            event.call(context, movementData);
+        });
+    }
+
+    emitCatchBox(boxId) {
+        this.socket.emit('catchBox', boxId);
+    }
+
+    emitReleaseBox(boxId) {
+        this.socket.emit('releaseBox', boxId);
+    }
+
+    emitGetBoxes(boxes) {
+        this.socket.emit('getBoxes', boxes);
+    }
+
+    emitMoveBoxe(movementData) {
+        const currentTime = Date.now();
+        if (currentTime - this.lastSentTimeBox > this.sendInterval) {
+            this.socket.emit('boxMovement', movementData);
+            this.lastSentTimeBox = currentTime;
+        }
+    }
+
+    emitMoveBoxeLast(movementData) {
+        this.socket.emit('boxMovement', movementData);
     }
 }

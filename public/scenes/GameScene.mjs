@@ -13,6 +13,7 @@ import { createMobileXButton } from "../share/UICreator.mjs";
 
 import { myMap } from "../CST.mjs";
 
+import { BoxesController } from "../share/BoxesController.mjs";
 import { BaseScene } from "./BaseScene.mjs";
 
 export class GameScene extends BaseScene {
@@ -57,6 +58,11 @@ export class GameScene extends BaseScene {
         this.createInputHandlers();
 
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
+
+        this.boxesController = new BoxesController(this, this.player); // Передаем сцену
+        this.mySocket.subscribeTakeBoxes(this, this.boxesController.createBoxes.bind(this.boxesController));
+        this.boxesController.createPlace(573, 1770, 34, LABEL_ID.PLACE_KEY_1);
+        this.mySocket.emitGetBoxes([0, 1, 2]);
     }
 
     createMap(map) {
@@ -71,7 +77,7 @@ export class GameScene extends BaseScene {
         this.matter.add.fromVertices(320 + 68, 1720 + 111, '21.5 1 1.5 179 21.5 221.5 109.5 221.5 135 19 58 13 51 1 21.5 1', { isStatic: true }, true)
         this.matter.add.fromVertices(494 + 53, 1395 + 97.5, '9.5 176 51 194 95.5 176 105 135.5 86.5 111 73.5 107 73.5 95 81.5 74.5 42 28 42 1.5 26 11.5 9.5 38 1.5 74.5 18.5 83.5 18.5 123 1.5 143.5 9.5 176', { isStatic: true }, true)
         this.matter.add.fromVertices(1736 + 42, 1827 + 38.5, '10.5 53.5 38 76 64 76 83.5 53.5 83.5 21.5 56 1 23.5 1 1.5 21.5 10.5 53.5', { isStatic: true }, true)
-        this.matter.add.fromVertices(842 + 185, 1360 + 175.5, '1 245.5 39 277.5 129 342.5 226.5 350.5 280.5 318 327 271.5 354 267 369.5 232.5 362 109.5 344.5 80.5 256 22.5 235.5 13.5 194.5 13.5 188.5 0.5 172.5 0.5 157 13.5 135.5 13.5 44.5 63.5 1 109.5 1 245.5', { isStatic: true }, true)
+        this.matter.add.fromVertices(868 + 150.5, 1326 + 154, '5 114 0.5 228 92.5 307 204.5 307 300 227.5 296.5 102.5 188.5 28 165.5 28 162 14.5 154 0.5 138.5 0.5 132 7 123.5 10 123.5 28 100.5 34.5', { isStatic: true }, true)
         this.matter.add.fromVertices(728 + 199.5, 1134 + 109, '19 144.5 19 217 398 217 398 151.5 328 151.5 75 144.5 56 125.5 63 96 56 68.5 63 41 49.5 25 19 1 1.5 6 6.5 50.5 1.5 68.5 11.5 80.5 19 118 19 144.5', { isStatic: true }, true)
         this.matter.add.fromVertices(1404 + 99, 1254 + 99.5, '1.5 113.5 117 198 196.5 135 181 105.5 149 92.5 149 18.5 142.5 50.5 102.5 31 91.5 8.5 64.5 1 49.5 31 64.5 31 64.5 58 7.5 101 1.5 113.5', { isStatic: true }, true)
         this.matter.add.fromVertices(1460 + 99.5, 1740 + 100.5, '21 58 38 199.5 138.5 192 129.5 119.5 166 101.5 166 90 198 66.5 190 58 151.5 81.5 143 72.5 129.5 37.5 108 37.5 108 11.5 89.5 6 70.5 22 63 22 44 1 1.5 42.5 21 58', { isStatic: true }, true)
@@ -110,13 +116,13 @@ export class GameScene extends BaseScene {
             label: `${LABEL_ID.DISK_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.8);
 
         const footMin = this.matter.add.sprite(1660, 1540, 'footMin', null, {
             label: `${LABEL_ID.FOOT_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.5);
 
         const arrBodies = [bodyDoor, diskMin, footMin];
 
@@ -157,10 +163,11 @@ export class GameScene extends BaseScene {
     createOverlays() {
         const at = myMap.get('disk').text
         const bt = myMap.get('foot').text
+        const dt1 = myMap.get('door1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
-        this.pressX.setVisible(false);
+        this.pressX.setVisible(false).setDepth(1);
 
         //задний фон оверлея
         this.overlayBackground = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayBackground');
@@ -194,6 +201,31 @@ export class GameScene extends BaseScene {
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
+        this.placeBack = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayPaper');
+        this.placeBack.setScale(0.65, 0.8);
+        this.placeBack.setVisible(false);
+        this.placeBack.setDepth(2);
+        this.placeBack.setScrollFactor(0);
+        this.placeBack.setAlpha(0);
+
+        this.paperPlace = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'paperPlace');
+        this.paperPlace.setScale(0.8);
+        this.paperPlace.setVisible(false);
+        this.paperPlace.setDepth(2);
+        this.paperPlace.setScrollFactor(0);
+        this.paperPlace.setAlpha(0);
+
+        this.paperDoor = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'paperDoor');
+        this.paperDoor.setScale(0.8);
+        this.paperDoor.setVisible(false);
+        this.paperDoor.setDepth(2);
+        this.paperDoor.setScrollFactor(0);
+        this.paperDoor.setAlpha(0);
+
+        this.textС = this.add.text(dt1.x, this.cameras.main.height / 2 + 100, `${decrypt(dt1.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textС.setVisible(false);
+        this.textС.setAlpha(0);
+
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
         this.closeButton.setInteractive();
@@ -205,7 +237,7 @@ export class GameScene extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
+                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -219,42 +251,9 @@ export class GameScene extends BaseScene {
     }
 
     createInputHandlers() {
+
         this.input.keyboard.on('keydown-X', () => {
-            if (this.avatarDialog.visible || this.exitContainer.visible) return;
-            if (this.foldKeys.visible) return;
-
-            if (this.isInZone) {
-                this.player.setVelocity(0);
-
-                if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                    this.moveForwardRoom();
-                    return;
-                }
-
-                if (!this.isOverlayVisible) {
-
-                    this.showOverlay();
-
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
-                        alpha: 1,
-                        duration: 500
-                    });
-                }
-                else {
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB],
-                        alpha: 0,
-                        duration: 500,
-                        onComplete: () => {
-                            try {
-                                this.hideOverlay();
-                            } catch (e) { }
-
-                        }
-                    });
-                }
-            }
+            this.itemInteract();
         });
     }
 
@@ -267,9 +266,21 @@ export class GameScene extends BaseScene {
     showOverlay() {
         this.isOverlayVisible = true
 
+        if (this.eventZone == LABEL_ID.PLACE_KEY_1) {
+            this.paperPlace.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
+        if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
+            this.paperDoor.setVisible(true);
+            this.textС.setVisible(true);
+            this.placeBack.setVisible(true);
+        }
+
         if (this.eventZone == LABEL_ID.DISK_KEY) {
             this.diskKey.setVisible(true);
             this.textA.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.diskKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.diskKey.texture.key);
             }
@@ -278,19 +289,22 @@ export class GameScene extends BaseScene {
         if (this.eventZone == LABEL_ID.FOOT_KEY) {
             this.footKey.setVisible(true);
             this.textB.setVisible(true);
+            this.overlayBackground.setVisible(true);
             if (this.fold.indexOf(this.footKey.texture.key) == -1) {
                 this.mySocket.emitAddNewImg(this.footKey.texture.key);
             }
         }
 
-        this.overlayBackground.setVisible(true);
+
         this.closeButton.setVisible(true);
     }
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.DISK_KEY) { this.diskKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.eventZone == LABEL_ID.FOOT_KEY) { this.footKey.setVisible(false); this.textB.setVisible(false); }
+        if (this.diskKey.visible) { this.diskKey.setVisible(false); this.textA.setVisible(false); }
+        if (this.footKey.visible) { this.footKey.setVisible(false); this.textB.setVisible(false); }
+        if (this.paperPlace.visible) { this.paperPlace.setVisible(false); this.placeBack.setVisible(false); }
+        if (this.paperDoor.visible) { this.paperDoor.setVisible(false); this.textС.setVisible(false); this.placeBack.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -303,35 +317,48 @@ export class GameScene extends BaseScene {
         this.matter.world.setBounds(0, 0, this.map.width * scaleX, this.map.height * scaleY);
     }
 
-    itemInteract(context) {
-        if (context.avatarDialog.visible || context.exitContainer.visible) return;
-        if (context.foldKeys.visible) return;
-        if (context.isInZone) {
-            context.player.setVelocity(0);
+    itemInteract() {
+        if (this.avatarDialog.visible || this.exitContainer.visible) return;
+        if (this.foldKeys.visible) return;
 
-            if (context.eventZone == LABEL_ID.DOOR_FORWARD_ID) {
-                context.moveForwardRoom();
+        if (this.boxesController.isHoldingObject) {
+            if (this.eventZone == LABEL_ID.PLACE_KEY_1 && this.boxesController.places[0].box == null) {
+                this.boxesController.putBox(0)
+                return;
+            }
+            this.boxesController.releaseObject(this.boxesController.isHoldingObject);
+            return;
+        } else if (this.boxesController.isNearObject) {
+            this.boxesController.holdObject(this.boxesController.isNearObject);
+            return;
+        }
+
+        if (this.isInZone) {
+            this.player.setVelocity(0);
+
+            if (this.eventZone == LABEL_ID.DOOR_FORWARD_ID && this.boxesController.places[0].box == '2') {
+                this.moveForwardRoom();
                 return;
             }
 
-            if (!context.isOverlayVisible) {
+            if (!this.isOverlayVisible) {
 
-                context.showOverlay();
+                this.showOverlay();
 
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey, context.textA, context.textB],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.diskKey, context.footKey, context.textA, context.textB],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
                         try {
-                            context.hideOverlay();
+                            this.hideOverlay();
                         } catch (e) { }
 
                     }
@@ -343,5 +370,7 @@ export class GameScene extends BaseScene {
 
     update() {
         super.update();
+
+        this.boxesController.update();
     }
 }

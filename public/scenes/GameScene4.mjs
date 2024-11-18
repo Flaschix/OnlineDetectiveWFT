@@ -113,19 +113,19 @@ export class GameScene4 extends BaseScene {
             label: `${LABEL_ID.CAMERA_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.5);
 
         const chainMin = this.matter.add.sprite(1197, 1237, 'chainMin', null, {
             label: `${LABEL_ID.CHAIN_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.5);
 
         const glovesMin = this.matter.add.sprite(1358, 1826, 'glovesMin', null, {
             label: `${LABEL_ID.GLOVES_KEY}`,
             isStatic: true,
             isSensor: true
-        });
+        }).setScale(0.4);
 
         const arrBodies = [bodyLeftDoor, cameraMin, chainMin, glovesMin];
 
@@ -237,41 +237,7 @@ export class GameScene4 extends BaseScene {
 
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
-            if (this.avatarDialog.visible || this.exitContainer.visible) return;
-            if (this.foldKeys.visible) return;
-
-            if (this.isInZone) {
-                this.player.setVelocity(0);
-
-                if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                    this.moveLeftRoom();
-                    return;
-                }
-
-                if (!this.isOverlayVisible) {
-
-                    this.showOverlay();
-
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
-                        alpha: 1,
-                        duration: 500
-                    });
-                }
-                else {
-                    this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
-                        alpha: 0,
-                        duration: 500,
-                        onComplete: () => {
-                            try {
-                                this.hideOverlay();
-                            } catch (e) { }
-
-                        }
-                    });
-                }
-            }
+            this.itemInteract();
         });
     }
 
@@ -329,35 +295,36 @@ export class GameScene4 extends BaseScene {
         this.matter.world.setBounds(0, 0, this.map.width * scaleX, this.map.height * scaleY);
     }
 
-    itemInteract(context) {
-        if (context.avatarDialog.visible || context.exitContainer.visible) return;
-        if (context.foldKeys.visible) return;
-        if (context.isInZone) {
-            context.player.setVelocity(0);
+    itemInteract() {
+        if (this.avatarDialog.visible || this.exitContainer.visible) return;
+        if (this.foldKeys.visible) return;
 
-            if (context.eventZone == LABEL_ID.DOOR_LEFT_ID) {
-                context.moveLeftRoom();
+        if (this.isInZone) {
+            this.player.setVelocity(0);
+
+            if (this.eventZone == LABEL_ID.DOOR_LEFT_ID) {
+                this.moveLeftRoom();
                 return;
             }
 
-            if (!context.isOverlayVisible) {
+            if (!this.isOverlayVisible) {
 
-                context.showOverlay();
+                this.showOverlay();
 
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey, context.textA, context.textB, context.textC],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
-                context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.cameraKey, context.chainKey, context.glovesKey, context.textA, context.textB, context.textC],
+                this.tweens.add({
+                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
                         try {
-                            context.hideOverlay();
+                            this.hideOverlay();
                         } catch (e) { }
 
                     }

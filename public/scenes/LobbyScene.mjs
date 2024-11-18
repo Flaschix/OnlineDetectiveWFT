@@ -30,15 +30,33 @@ export class LobbyScene extends Phaser.Scene {
         this.load.image('backgroundMenu', './assets/background/background-menu.jpg');
 
         this.load.image('pressX', 'assets/icon/pressX.png');
+        this.load.image('dropX', 'assets/icon/dropX.png');
+        this.load.image('takeX', 'assets/icon/takeX.png');
         this.load.image('closeIcon', 'assets/icon/closeIcon.png');
 
         this.load.image('overlayBackground', 'assets/overlay/overlay.png');
+        this.load.image('overlayPaper', 'assets/overlay/overlayPaper.png');
+        this.load.image('paperPlace', 'assets/keyFrame/paperPlace.png');
+        this.load.image('paperDoor', 'assets/keyFrame/paperDoor.png');
 
         this.load.image('joystickBase', 'assets/joystick/joystick-back.png');
         this.load.image('joystickThumb', 'assets/joystick/thrumb-btn.png');
         this.load.image('touchButton', 'assets/joystick/touch-button.png');
+        this.load.image('dropMobile', 'assets/joystick/dropMobile.png');
+        this.load.image('takeMobile', 'assets/joystick/takeMobile.png');
+
         this.load.image('exitMobile', 'assets/button/exitMobile.png');
         this.load.image('settingsMobile', 'assets/button/settingsMobile.png');
+
+        this.load.image('place', 'assets/mramor/place.png');
+        this.load.image('sculpture1', 'assets/mramor/sculpture1.png');
+        this.load.image('sculpture2', 'assets/mramor/sculpture2.png');
+        this.load.image('sculpture3', 'assets/mramor/sculpture3.png');
+        this.load.image('sculpture4', 'assets/mramor/sculpture4.png');
+        this.load.image('sculpture5', 'assets/mramor/sculpture5.png');
+        this.load.image('sculpture6', 'assets/mramor/sculpture6.png');
+        this.load.image('sculpture7', 'assets/mramor/sculpture7.png');
+        this.load.image('sculpture8', 'assets/mramor/sculpture8.png');
 
         //characters
         this.load.spritesheet('character1', './assets/characterMap/character1.png', { frameWidth: 32, frameHeight: 64 });

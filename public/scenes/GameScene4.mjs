@@ -161,11 +161,11 @@ export class GameScene4 extends BaseScene {
         this.answer.setScrollFactor(0);
         this.answer.setAlpha(0);
 
-        this.textA = this.add.text(490, this.cameras.main.height / 2 - 140, 'Torn page from the diary', { font: "bold 26px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(520, 200, 'A torn page from diary', { font: "bold 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, `${decrypt('“Qr rqh kdv hyhu wuxob dssuhfldwhg pb oderu. Bhduv ri\nkdug zrun zhqw xqqrwlfhg. Zrugv ri judwlwxgh kdyh\norqj vlqfh orvw wkhlu phdqlqj. Wklv sdlqwlqj zloo eh d\nilwwlqj uhzdug iru doo wkh hiiruw L\'yh sxw lq.Lw\'v wlph iru\nph wr jhw zkdw lv uljkwixoob plqh.”')}`, { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(310, 240, `${decrypt('Wkhb\'uh uhprylqj wkh surwhfwlyh forwk iurp wkh sdlqwlqj, dqg L\'p\nvshhfkohvv. L douhdgb nqrz zkrvh sdlqwlqj wklv lv. L frxog vwduh\ndw lw iru krxuv. Lw\'v qrw mxvw d sdlqwlqj; lw\'v d wuhdvxuh wuryh ri\nphprulhv: xv odxjklqj lq duw vfkrro, guhdplqj derxw rxu rzq\nhaklelwlrqv, khu dsrorjlclqj wr ph ehiruh ohdylqj, euhdnlqj pb\nkhduw. Wkhq wkhuh zdv wkh qhzv ri khu ghdwk irxu bhduv odwhu.\nHyhubwklqj exuqv euljkw lq pb phprub dv li lw kdsshqhg mxvw\nbhvwhugdb, qrw bhduv djr… L dozdbv nqhz khu sdlqwlqjv zrxog\nehfrph idprxv. Exw qr rqh hovh vhhv wkhlu wuxh ydoxh olnh L gr!\nWkdw sdlqwlqj vkrxog ehorqj wr ph! L’oo pdnh pb pryh wrqljkw\nzkhq hyhubrqh lv jrqh. L’oo fuhdwh wkh shuihfw frqglwlrqv, dqg qr\nrqh zloo vxvshfw d wklqj. Lw\'v wkh rqob slhfh L kdyh ohiw ri khu. Vkh\nzrxogq\'w eodph ph; d ihoorz duwlvw dozdbv xqghuvwdqgv\ndqrwkhu duwlvw…')}`, { font: "italic 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

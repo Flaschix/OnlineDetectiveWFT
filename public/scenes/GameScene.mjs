@@ -319,7 +319,7 @@ export class GameScene extends BaseScene {
 
     itemInteract() {
         if (this.avatarDialog.visible || this.exitContainer.visible) return;
-        if (this.foldKeys.visible) return;
+        if (this.foldColseBtn.visible) return;
 
         if (this.boxesController.isHoldingObject) {
             if (this.eventZone == LABEL_ID.PLACE_KEY_1 && this.boxesController.places[0].box == null) {

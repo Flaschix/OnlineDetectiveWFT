@@ -161,11 +161,11 @@ export class GameScene4 extends BaseScene {
         this.answer.setScrollFactor(0);
         this.answer.setAlpha(0);
 
-        this.textA = this.add.text(400, this.cameras.main.height / 2 - 140, 'Вырванная страница из дневника', { font: "bold 26px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(470, 200, 'Страница из личного дневника', { font: "bold 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(320, this.cameras.main.height / 2 - 50, `${decrypt('“Рлнхс рлнсжзг ри щирло псижс хуцзг тс-\nргфхсвьипц. Жсзю цтсурсм угдсхю, сфхголфя\nрикгпиъиррюпл. Фосег догжсзгурсфхл згерс\nтсхиувол фпюфо. Ахг нгухлрг фхгрих\nзсфхсмрсм ргжугзсм кг ефи цфлолв, ъхс в еосйло.\nТсуг тсоцълхя хс, ъхс тс тугец тулргзоийлх\nпри.”')}`, { font: "normal 24px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(300, 240, `${decrypt('Ф нгухлрю фрлпгбх кгьлхрцб хнгря л в хиувб згу уиъл. В цйи\nкргб, ъяв ахс нгухлрг. В псжц фпсхуихя рг рии ъгфгпл. Ахс ри\nтусфхс нгухлрг, г зугжсщиррюи есфтсплргрлв: есх пю фпиипфв рг\nкгрвхлвш е гнгзиплл, есх пиъхгип с фсдфхеиррюш еюфхгенгш, есх\nсрг лкелрвихфв тиуизс прсм л цикйгих, угкдле фиузщи. Г есх в\nтсоцъгб рсесфхя с иё фпиухл ъиуик ъихюуи жсзг.\nЕфё жсулх е тгпвхл хгн вунс, дцзхс дю ахс туслфшсзлос еъиуг, г\nри прсжс оих ргкгз…\nВ крго, ъхс иё нгухлрю фхгрцх лкеифхрюпл. Рс рлнхс нуспи пирв\nри тсрлпгих лш ргфхсвьим щиррсфхл! Нгухлрг зсойрг\nтулргзоийгхя при! В дцзц зимфхесегхя еиъиусп, нсжзг ефи цмзцх.\nФскзгп лзигоярюи цфоселв л рлнхс ри кгтсзскулх пирв. Ахс\nизлрфхеиррси, ъхс ц пирв тсфои риё сфхгосфя. Срг ри елрлог дю\nпирв, еизя шцзсйрлн ефижзг тсмпёх зуцжсжс шцзсйрлнг…”')}`, { font: "italic 18px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 

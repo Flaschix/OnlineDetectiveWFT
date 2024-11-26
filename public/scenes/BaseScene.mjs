@@ -213,6 +213,19 @@ export class BaseScene extends Phaser.Scene {
         });
     }
 
+    showImgFold(key) {
+        const mapObj = myMap.get(key);
+
+        this.foldKeys.setTexture(key)
+        this.foldText.setText(decrypt(mapObj.text));
+
+        this.foldKeys.setPosition(mapObj.xi, mapObj.yi);
+        this.foldText.setPosition(mapObj.x, mapObj.y);
+
+        this.foldKeys.setVisible(true);
+        this.foldText.setVisible(true);
+    }
+
     showFold(context) {
         if (context.isOverlayVisible) return;
         context.player.setVelocity(0);
@@ -228,21 +241,10 @@ export class BaseScene extends Phaser.Scene {
             context.leftArrow.setVisible(false);
             context.rightArrow.setVisible(true);
 
-            context.foldKeys.setTexture(context.fold[0]);
-            context.foldText.setText(decrypt(myMap.get(context.fold[0]).text));
-            context.foldText.setX(myMap.get(context.fold[0]).x);
-
-            context.foldKeys.setVisible(true);
-            context.foldText.setVisible(true);
+            context.showImgFold(context.fold[0]);
         } else {
             context.foldImgNumber = 0;
-            context.foldKeys.setTexture(context.fold[0]);
-
-            context.foldText.setText(decrypt(myMap.get(context.fold[0]).text));
-            context.foldText.setX(myMap.get(context.fold[0]).x);
-
-            context.foldKeys.setVisible(true);
-            context.foldText.setVisible(true);
+            context.showImgFold(context.fold[0]);
         }
 
 
@@ -262,9 +264,7 @@ export class BaseScene extends Phaser.Scene {
                 duration: 250,
                 onComplete: () => {
                     try {
-                        this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.foldText.setText(decrypt(myMap.get(this.fold[this.foldImgNumber]).text));
-                        this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
+                        this.showImgFold(this.fold[this.foldImgNumber]);
                         this.tweens.add({
                             targets: [this.foldKeys, this.foldText],
                             alpha: 1,
@@ -289,9 +289,7 @@ export class BaseScene extends Phaser.Scene {
                 duration: 250,
                 onComplete: () => {
                     try {
-                        this.foldKeys.setTexture(this.fold[this.foldImgNumber]);
-                        this.foldText.setText(decrypt(myMap.get(this.fold[this.foldImgNumber]).text));
-                        this.foldText.setX(myMap.get(this.fold[this.foldImgNumber]).x);
+                        this.showImgFold(this.fold[this.foldImgNumber]);
                         this.tweens.add({
                             targets: [this.foldKeys, this.foldText],
                             alpha: 1,
@@ -310,7 +308,7 @@ export class BaseScene extends Phaser.Scene {
 
     showSettings(self) {
         if (self.isOverlayVisible) return;
-        if (self.foldKeys.visible || self.overlayBackground.visible) return;
+        if (self.foldColseBtn.visible || self.overlayBackground.visible) return;
         self.avatarDialog.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.avatarDialog.setVisible(true);
         self.isOverlayVisible = true
@@ -320,7 +318,7 @@ export class BaseScene extends Phaser.Scene {
 
     showExitMenu(self) {
         if (self.isOverlayVisible) return;
-        if (self.foldKeys.visible || self.overlayBackground.visible) return;
+        if (self.foldColseBtn.visible || self.overlayBackground.visible) return;
         self.exitContainer.setPosition(self.cameras.main.scrollX + 640, self.cameras.main.scrollY + 360);
         self.exitContainer.setVisible(true);
         self.isOverlayVisible = true

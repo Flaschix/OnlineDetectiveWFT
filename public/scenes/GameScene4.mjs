@@ -301,7 +301,7 @@ export class GameScene4 extends BaseScene {
 
     itemInteract() {
         if (this.avatarDialog.visible || this.exitContainer.visible) return;
-        if (this.foldKeys.visible) return;
+        if (this.foldColseBtn.visible) return;
 
         if (this.isInZone) {
             this.player.setVelocity(0);

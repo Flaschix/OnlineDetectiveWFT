@@ -29,6 +29,8 @@ export class GameScene3 extends BaseScene {
 
         this.load.image('bottleMin', './assets/mapKey/bottleMin.png');
         this.load.image('planMin', './assets/mapKey/planMin.png');
+        this.load.image('noteMin', './assets/mapKey/noteMin.png');
+        this.load.image('phoneMin', './assets/mapKey/phoneMin.png');
     }
 
     create(data) {
@@ -118,7 +120,19 @@ export class GameScene3 extends BaseScene {
             isSensor: true
         }).setScale(0.5);
 
-        const arrBodies = [bodyDoor, bottleMin, planMin];
+        const noteMin = this.matter.add.sprite(1450, 1115, 'noteMin', null, {
+            label: `${LABEL_ID.NOTE_KEY}`,
+            isStatic: true,
+            isSensor: true
+        }).setScale(0.5);
+
+        const phoneMin = this.matter.add.sprite(640, 930, 'phoneMin', null, {
+            label: `${LABEL_ID.PHONE_KEY}`,
+            isStatic: true,
+            isSensor: true
+        }).setScale(0.5);
+
+        const arrBodies = [bodyDoor, bottleMin, planMin, noteMin, phoneMin];
 
 
         this.matterCollision.addOnCollideStart({
@@ -179,20 +193,9 @@ export class GameScene3 extends BaseScene {
         this.bottleKey.setScrollFactor(0);
         this.bottleKey.setAlpha(0);
 
-        this.planKey = this.add.image(430, this.cameras.main.height / 2, 'plan');
-        this.planKey.setScale(0.5);
-        this.planKey.setVisible(false);
-        this.planKey.setDepth(2);
-        this.planKey.setScrollFactor(0);
-        this.planKey.setAlpha(0);
-
         this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
-
-        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.textB.setVisible(false);
-        this.textB.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -205,7 +208,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
+                targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.textA],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -230,23 +233,33 @@ export class GameScene3 extends BaseScene {
         this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 300, 1384);
     }
 
+    showImg(key) {
+        const mapObj = myMap.get(key);
+
+        this.bottleKey.setTexture(key)
+        this.textA.setText(decrypt(mapObj.text));
+
+        this.bottleKey.setPosition(mapObj.xi, mapObj.yi);
+        this.textA.setPosition(mapObj.x, mapObj.y);
+
+        this.bottleKey.setVisible(true);
+        this.textA.setVisible(true);
+        if (this.fold.indexOf(key) == -1) {
+            this.mySocket.emitAddNewImg(key);
+        }
+    }
+
     showOverlay() {
         this.isOverlayVisible = true
 
         if (this.eventZone == LABEL_ID.BOTTLE_KEY) {
-            this.bottleKey.setVisible(true);
-            this.textA.setVisible(true);
-            if (this.fold.indexOf(this.bottleKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.bottleKey.texture.key);
-            }
-        }
-
-        if (this.eventZone == LABEL_ID.PLAN_KEY) {
-            this.planKey.setVisible(true);
-            this.textB.setVisible(true);
-            if (this.fold.indexOf(this.planKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.planKey.texture.key);
-            }
+            this.showImg('bottle')
+        } else if (this.eventZone == LABEL_ID.PLAN_KEY) {
+            this.showImg('plan');
+        } else if (this.eventZone == LABEL_ID.NOTE_KEY) {
+            this.showImg('note');
+        } else if (this.eventZone == LABEL_ID.PHONE_KEY) {
+            this.showImg('phone');
         }
 
         this.overlayBackground.setVisible(true);
@@ -255,23 +268,17 @@ export class GameScene3 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.BOTTLE_KEY) { this.bottleKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.eventZone == LABEL_ID.PLAN_KEY) { this.planKey.setVisible(false); this.textB.setVisible(false); }
 
+        this.bottleKey.setVisible(false);
+        this.textA.setVisible(false);
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
     }
 
-    loadedResolutionMap(name, scaleX, scaleY) {
-        this.map.setScale(scaleX, scaleY);
-
-        this.map.setTexture(name);
-        this.matter.world.setBounds(0, 0, this.map.width * scaleX, this.map.height * scaleY);
-    }
 
     itemInteract() {
         if (this.avatarDialog.visible || this.exitContainer.visible) return;
-        if (this.foldKeys.visible) return;
+        if (this.foldColseBtn.visible) return;
 
         if (this.isInZone) {
             this.player.setVelocity(0);
@@ -286,14 +293,14 @@ export class GameScene3 extends BaseScene {
                 this.showOverlay();
 
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
+                    targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.textA],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.planKey, this.textA, this.textB],
+                    targets: [this.closeButton, this.overlayBackground, this.bottleKey, this.textA],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

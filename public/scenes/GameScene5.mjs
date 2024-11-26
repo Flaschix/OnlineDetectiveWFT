@@ -29,6 +29,7 @@ export class GameScene5 extends BaseScene {
 
         this.load.image('bagMin', './assets/mapKey/bagMin.png');
         this.load.image('glassesMin', './assets/mapKey/glassesMin.png');
+        this.load.image('computerMin', './assets/mapKey/computerMin.png');
     }
 
     create(data) {
@@ -120,7 +121,13 @@ export class GameScene5 extends BaseScene {
             isSensor: true
         }).setScale(0.5);
 
-        const arrBodies = [bodyDoor, bagMin, glassesMin];
+        const computerMin = this.matter.add.sprite(1524, 1167, 'computerMin', null, {
+            label: `${LABEL_ID.COMPUTER_KEY}`,
+            isStatic: true,
+            isSensor: true
+        }).setScale(0.5);
+
+        const arrBodies = [bodyDoor, bagMin, glassesMin, computerMin];
 
 
         this.matterCollision.addOnCollideStart({
@@ -181,20 +188,9 @@ export class GameScene5 extends BaseScene {
         this.bagKey.setScrollFactor(0);
         this.bagKey.setAlpha(0);
 
-        this.glassesKey = this.add.image(450, this.cameras.main.height / 2, 'glasses');
-        this.glassesKey.setScale(0.5);
-        this.glassesKey.setVisible(false);
-        this.glassesKey.setDepth(2);
-        this.glassesKey.setScrollFactor(0);
-        this.glassesKey.setAlpha(0);
-
         this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
-
-        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.textB.setVisible(false);
-        this.textB.setAlpha(0);
 
         this.closeButton = this.add.image(this.cameras.main.width - 260, 80, 'closeIcon');
         this.closeButton.setDisplaySize(50, 50);
@@ -207,7 +203,7 @@ export class GameScene5 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
+                targets: [this.closeButton, this.overlayBackground, this.bagKey, this.textA],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -232,23 +228,31 @@ export class GameScene5 extends BaseScene {
         this.mySocket.emitSwitchScene(CST.SCENE.GAMESCENE2, 1024, 600);
     }
 
+    showImg(key) {
+        const mapObj = myMap.get(key);
+
+        this.bagKey.setTexture(key)
+        this.textA.setText(decrypt(mapObj.text));
+
+        this.bagKey.setPosition(mapObj.xi, mapObj.yi);
+        this.textA.setPosition(mapObj.x, mapObj.y);
+
+        this.bagKey.setVisible(true);
+        this.textA.setVisible(true);
+        if (this.fold.indexOf(key) == -1) {
+            this.mySocket.emitAddNewImg(key);
+        }
+    }
+
     showOverlay() {
         this.isOverlayVisible = true
 
         if (this.eventZone == LABEL_ID.BAG_KEY) {
-            this.bagKey.setVisible(true);
-            this.textA.setVisible(true);
-            if (this.fold.indexOf(this.bagKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.bagKey.texture.key);
-            }
-        }
-
-        if (this.eventZone == LABEL_ID.GLASSES_KEY) {
-            this.glassesKey.setVisible(true);
-            this.textB.setVisible(true);
-            if (this.fold.indexOf(this.glassesKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.glassesKey.texture.key);
-            }
+            this.showImg('bag')
+        } else if (this.eventZone == LABEL_ID.GLASSES_KEY) {
+            this.showImg('glasses');
+        } else if (this.eventZone == LABEL_ID.COMPUTER_KEY) {
+            this.showImg('computer');
         }
 
         this.overlayBackground.setVisible(true);
@@ -257,9 +261,9 @@ export class GameScene5 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.eventZone == LABEL_ID.BAG_KEY) { this.bagKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.eventZone == LABEL_ID.GLASSES_KEY) { this.glassesKey.setVisible(false); this.textB.setVisible(false); }
 
+        this.bagKey.setVisible(false);
+        this.textA.setVisible(false);
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
     }
@@ -273,7 +277,7 @@ export class GameScene5 extends BaseScene {
 
     itemInteract() {
         if (this.avatarDialog.visible || this.exitContainer.visible) return;
-        if (this.foldKeys.visible) return;
+        if (this.foldColseBtn.visible) return;
 
         if (this.isInZone) {
             this.player.setVelocity(0);
@@ -288,14 +292,14 @@ export class GameScene5 extends BaseScene {
                 this.showOverlay();
 
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
+                    targets: [this.closeButton, this.overlayBackground, this.bagKey, this.textA],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.bagKey, this.glassesKey, this.textA, this.textB],
+                    targets: [this.closeButton, this.overlayBackground, this.bagKey, this.textA],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

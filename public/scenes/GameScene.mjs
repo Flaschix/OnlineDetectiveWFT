@@ -62,7 +62,7 @@ export class GameScene extends BaseScene {
         this.boxesController = new BoxesController(this, this.player); // Передаем сцену
         this.mySocket.subscribeTakeBoxes(this, this.boxesController.createBoxes.bind(this.boxesController));
         this.boxesController.createPlace(573, 1770, 34, LABEL_ID.PLACE_KEY_1);
-        this.mySocket.emitGetBoxes([0, 1, 2]);
+        this.mySocket.emitGetBoxes([2]);
     }
 
     createMap(map) {

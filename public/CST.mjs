@@ -61,7 +61,7 @@ export const myMap = new Map([
     ['phone', { x: 660, y: 290, xi: 430, yi: 360, text: 'Lqfrplqj phvvdjh:\n"Grq\'w brx gduh eh odwh iru\nwkh phhwlqj! Ohw\'v dw ohdvw\neuhdn xs surshuob!"' }],
 
     ['door1', { x: 560, text: 'idflqj Hdvw.' }],
-    ['door2', { x: 510, text: 'idflqj Vrxwk-Hdvw.' }],
+    ['door2', { x: 540, text: 'idflqj Qruwk.' }],
     ['door3', { x: 540, text: 'idflqj Vrxwk.' }],
     ['door4', { x: 560, text: 'idflqj Zhvw.' }],
 ]);

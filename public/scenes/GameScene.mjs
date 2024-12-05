@@ -68,9 +68,6 @@ export class GameScene extends BaseScene {
     createMap(map) {
         this.map = this.add.image(0, 0, map).setOrigin(0, 0);
         this.matter.world.setBounds(0, 0, this.map.width, this.map.height);
-
-        this.textures.get('sculpture1').setFilter(Phaser.Textures.FilterMode.NEAREST);
-        this.textures.get('sculpture3').setFilter(Phaser.Textures.FilterMode.NEAREST);
     }
 
     createUnWalkedObjects() {

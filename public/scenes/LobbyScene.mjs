@@ -275,6 +275,15 @@ export class LobbyScene extends Phaser.Scene {
         this.loadingSprite.stop();
         this.loadingSprite.destroy();
 
+        this.textures.get('sculpture1').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture2').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture3').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture4').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture5').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture6').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture7').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('sculpture8').setFilter(Phaser.Textures.FilterMode.NEAREST);
+
         // Добавляем фон
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'backgroundMenu').setDisplaySize(this.scale.width, this.scale.height);
 

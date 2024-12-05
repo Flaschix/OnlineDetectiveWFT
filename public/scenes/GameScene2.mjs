@@ -65,7 +65,7 @@ export class GameScene2 extends BaseScene {
         this.boxesController.createPlace(800, 1100, 34, LABEL_ID.PLACE_KEY_2);
         this.boxesController.createPlace(1030, 950, 34, LABEL_ID.PLACE_KEY_3);
         this.boxesController.createPlace(1240, 1100, 34, LABEL_ID.PLACE_KEY_4);
-        this.mySocket.emitGetBoxes([4, 5, 7]);
+        this.mySocket.emitGetBoxes([3, 4, 5, 6, 7]);
     }
 
     createMap(map) {

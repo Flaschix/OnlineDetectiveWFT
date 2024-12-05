@@ -112,7 +112,7 @@ export class GameScene4 extends BaseScene {
         })
 
         const person1 = this.matter.add.sprite(1024 + 42, 490 - 80, 'person41', null, {
-            label: `${LABEL_ID.SEVENTH_KEY}`,
+            label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
         });
 
@@ -185,9 +185,8 @@ export class GameScene4 extends BaseScene {
     }
 
     createOverlays() {
-        const a = myMap.get('seventhKey');
-        const b = myMap.get('emptyMan');
-        const c = myMap.get('emptyWoman');
+        const b = myMap.get('emptyMan1');
+        const c = myMap.get('emptyWoman1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
@@ -209,10 +208,6 @@ export class GameScene4 extends BaseScene {
         this.paper.setScrollFactor(0);
         this.paper.setAlpha(0);
 
-        this.seventhKey = this.add.text(a.x, a.y, `${decrypt(a.text)}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.seventhKey.setVisible(false);
-        this.seventhKey.setAlpha(0);
-
         this.emptyMan = this.add.text(b.x, b.y, `${b.text}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.emptyMan.setVisible(false);
         this.emptyMan.setAlpha(0);
@@ -232,7 +227,7 @@ export class GameScene4 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.seventhKey, this.emptyMan, this.emptyWoman, this.paper],
+                targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.paper],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -268,14 +263,14 @@ export class GameScene4 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.seventhKey, this.emptyMan, this.emptyWoman, this.paper],
+                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.paper],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.seventhKey, this.emptyMan, this.emptyWoman, this.paper],
+                        targets: [this.closeButton, this.overlayBackground, this.emptyMan, this.emptyWoman, this.paper],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -305,18 +300,21 @@ export class GameScene4 extends BaseScene {
     showOverlay() {
         this.isOverlayVisible = true
 
-        if (this.eventZone == LABEL_ID.SEVENTH_KEY) {
-            this.seventhKey.setVisible(true);
-            if (this.fold.indexOf('seventhKey') == -1) {
-                this.mySocket.emitAddNewImg('seventhKey');
-            }
-        }
-
         if (this.eventZone == LABEL_ID.EMPTY_MAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyMan${rand}`);
+
+            this.emptyMan.setText(b.text);
+            this.emptyMan.setPosition(b.x, b.y);
             this.emptyMan.setVisible(true);
         }
 
         if (this.eventZone == LABEL_ID.EMPTY_WOMAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyWoman${rand}`);
+
+            this.emptyWoman.setText(b.text);
+            this.emptyWoman.setPosition(b.x, b.y);
             this.emptyWoman.setVisible(true);
         }
         this.paper.setVisible(true);
@@ -326,7 +324,6 @@ export class GameScene4 extends BaseScene {
 
     hideOverlay() {
         this.isOverlayVisible = false
-        if (this.seventhKey.visible) this.seventhKey.setVisible(false);
         if (this.emptyMan.visible) this.emptyMan.setVisible(false);
         if (this.emptyWoman.visible) this.emptyWoman.setVisible(false);
 
@@ -363,14 +360,14 @@ export class GameScene4 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.seventhKey, context.emptyMan, context.emptyWoman, context.paper],
+                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.paper],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.seventhKey, context.emptyMan, context.emptyWoman, context.paper],
+                    targets: [context.overlayBackground, context.closeButton, context.emptyMan, context.emptyWoman, context.paper],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

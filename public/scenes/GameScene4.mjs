@@ -280,7 +280,7 @@ export class GameScene4 extends BaseScene {
         this.seifKeys.setVisible(false);
         this.seifKeys.setAlpha(1);
 
-        this.seifText = this.add.text(600, this.cameras.main.height / 2, `0`, { font: "normal 20px MyCustomFont2", fill: '#ffffff', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.seifText = this.add.text(600, this.cameras.main.height / 2, `0`, { font: "normal 20px MyCustomFont2", fill: '#ffffff' }).setScrollFactor(0).setDepth(2);
         this.seifText.setVisible(false);
         this.seifText.setAlpha(1);
 

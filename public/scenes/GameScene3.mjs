@@ -260,7 +260,7 @@ export class GameScene3 extends BaseScene {
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
             if (this.avatarDialog.visible || this.exitContainer.visible) return;
-            if (this.foldKeys.visible) return;
+            if (this.foldColseBtn.visible) return;
 
             if (this.isInZone) {
                 this.player.setVelocity(0);
@@ -380,7 +380,7 @@ export class GameScene3 extends BaseScene {
 
     itemInteract(context) {
         if (context.avatarDialog.visible || context.exitContainer.visible) return;
-        if (context.foldKeys.visible) return;
+        if (context.foldColseBtn.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
 

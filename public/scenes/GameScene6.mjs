@@ -182,8 +182,8 @@ export class GameScene6 extends BaseScene {
 
     createOverlays() {
         const a = myMap.get('fourthKey');
-        const b = myMap.get('emptyMan');
-        const c = myMap.get('emptyWoman');
+        const b = myMap.get('emptyMan1');
+        const c = myMap.get('emptyWoman1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
@@ -205,7 +205,7 @@ export class GameScene6 extends BaseScene {
         this.paper.setScrollFactor(0);
         this.paper.setAlpha(0);
 
-        this.fourthKey = this.add.text(a.x, a.y, `${decrypt(a.text)}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.fourthKey = this.add.text(a.x, a.y, `${decrypt(a.text)}`, { font: "normal 32px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.fourthKey.setVisible(false);
         this.fourthKey.setAlpha(0);
 
@@ -310,10 +310,20 @@ export class GameScene6 extends BaseScene {
         }
 
         if (this.eventZone == LABEL_ID.EMPTY_MAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyMan${rand}`);
+
+            this.emptyMan.setText(b.text);
+            this.emptyMan.setPosition(b.x, b.y);
             this.emptyMan.setVisible(true);
         }
 
         if (this.eventZone == LABEL_ID.EMPTY_WOMAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyWoman${rand}`);
+
+            this.emptyWoman.setText(b.text);
+            this.emptyWoman.setPosition(b.x, b.y);
             this.emptyWoman.setVisible(true);
         }
 

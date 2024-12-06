@@ -32,13 +32,16 @@ export const LABEL_ID = {
 }
 
 export const myMap = new Map([
-    ['firstKey', { x: 410, y: 250, text: 'Dw 21:45 L vdz d\nehdxwlixo jluo lq d zklwh\nguhvv zdonlqj\ndffrpsdqlhg eb d\nbrxqj pdq zlwk d\nuxfnvdfn.' }],
-    ['secondKey', { x: 395, y: 220, text: 'L vdz dq hoghuob pdq lq\nd guhvvlqj jrzq. Wkh\nguhvvlqj jrzq zdv\nfohdq lq wkh pruqlqj,\nexw eb wkh hyhqlqj lw\nzdv douhdgb fryhuhg\nzlwk sdlqw.' }],
-    ['thirdKey', { x: 400, y: 250, text: 'L vdz d jluo fdoo\nvrphrqh lq wkh pruqlqj\ndqg duudqjh wr phhw\nwkhp dw wkh pxvhxp lq\nwkh hyhqlqj.' }],
-    ['fourthKey', { x: 430, y: 270, text: 'Lq wkh hyhqlqj L vdz d\nbrxqj pdq zlwk d\nuxfnvdfn zdonlqj\nwrzdugv wkh pxvhxp.' }],
-    ['fivethKey', { x: 400, y: 270, text: 'Odvw qljkw dw 9.25sp L\nvdz d vwudqjh pdq lq d\nzklwh frdw. Kh zdv\nkroglqj d jxlwdu fdvh.' }],
-    ['sixethKey', { x: 400, y: 280, text: 'Dw 9:15sp L vdz d jluo lq\nd vxlw zdonlqj grzq wkh\nvwuhhw, yhub xsvhw.' }],
-    ['seventhKey', { x: 420, y: 290, text: 'Odvw qljkw dw 9:10sp L\nvdz d vhfxulwb jxdug\nuxvklqj vrphzkhuh.' }],
-    ['emptyMan', { x: 450, y: 330, text: 'I didn\'t see anything' }],
-    ['emptyWoman', { x: 450, y: 330, text: 'I didn\'t see anything' }],
+    ['firstKey', { x: 395, y: 230, text: 'L vdz d frxsoh frph rxw ri wkh\npxvhxp dw 8:55. Wkh jluo zdv\nzklvshulqj wr wkh jxb, wkhq\nvkh vwduwhg odxjklqj, dqg\nvxgghqob vkh zdv fublqj, olnh\nvrphwklqj uhdoob diihfwhg khu.\nWkh jxb kdg d elj edfnsdfn.' }],
+    ['secondKey', { x: 410, y: 300, text: 'L qrwlfhg wkdw dw 9:05, wkh jluo\nzdv lq d uxvk. Vkh orrnhg\nuhdoob xsvhw.' }],
+    ['thirdKey', { x: 410, y: 200, text: 'Durxqg 9:10, wzr phq fdph\nrxw ri wkh pxvhxp. Rqh ri\nwkhp zdv zhdulqj d zklwh\nfrdw dqg zdv kroglqj d\nvxlwfdvh. Kh vdw grzq rq d\nehqfk rxwvlgh wkh pxvhxp,\nzkloh wkh jxb lq d vxlw orfnhg\nwkh grruv dqg txlfnob udq lq\nwkh rwkhu gluhfwlrq.' }],
+    ['fourthKey', { x: 400, y: 240, text: 'L uhphpehu wkdw dw 9:20,\nvrphrqh zhqw edfn lqwr wkh\npxvhxp dqg fdph rxw djdlq\ndw 9:30. L wklqn lw zdv d jluo, exw\nL fdq\'w vdb iru vxuh—L zdv rq\nwkh skrqh dqg zdvq\'w uhdoob\nsdblqj dwwhqwlrq.' }],
+    ['fivethKey', { x: 410, y: 300, text: 'L vdz wkh jxb lq wkh zklwh\nfrdw gdqflqj klv zdb wrzdug\nwkh exv vwrs durxqg 9:25.' }],
+
+    ['emptyMan1', { x: 420, y: 330, text: '"I didn\'t see anything."' }],
+    ['emptyWoman1', { x: 455, y: 320, text: '"I have nothing to\nreport about that."' }],
+    ['emptyMan2', { x: 400, y: 320, text: '"Nothing special caught\nmy eye."' }],
+    ['emptyWoman2', { x: 440, y: 320, text: '"I didn\'t see or hear\nanything suspicious."' }],
+    ['emptyMan3', { x: 450, y: 320, text: '"I have nothing to\nreport about that."' }],
+    ['emptyWoman3', { x: 440, y: 320, text: '"I was busy and didn\'t\nnotice anything."' }],
 ]);

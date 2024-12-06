@@ -161,7 +161,7 @@ export class BaseScene extends Phaser.Scene {
         this.foldKeys.setVisible(false);
         this.foldKeys.setAlpha(1);
 
-        this.foldText = this.add.text(0, 0, `0`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.foldText = this.add.text(0, 0, `0`, { font: "normal 32px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.foldText.setVisible(false);
         this.foldText.setAlpha(1);
 

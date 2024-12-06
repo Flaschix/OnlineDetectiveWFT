@@ -121,7 +121,7 @@ export class GameScene3 extends BaseScene {
         });
 
         const person3 = this.matter.add.sprite(418 + 42, 1476 + 80, 'person33', null, {
-            label: `${LABEL_ID.SIXETH_KEY}`,
+            label: `${LABEL_ID.EMPTY_MAN}`,
             isStatic: true,
         });
 
@@ -176,9 +176,8 @@ export class GameScene3 extends BaseScene {
 
     createOverlays() {
         const a = myMap.get('fivethKey');
-        const d = myMap.get('sixethKey');
-        const b = myMap.get('emptyMan');
-        const c = myMap.get('emptyWoman');
+        const b = myMap.get('emptyMan1');
+        const c = myMap.get('emptyWoman1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
@@ -200,13 +199,9 @@ export class GameScene3 extends BaseScene {
         this.paper.setScrollFactor(0);
         this.paper.setAlpha(0);
 
-        this.fivethKey = this.add.text(a.x, a.y, `${decrypt(a.text)}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.fivethKey = this.add.text(a.x, a.y, `${decrypt(a.text)}`, { font: "normal 32px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.fivethKey.setVisible(false);
         this.fivethKey.setAlpha(0);
-
-        this.sixethKey = this.add.text(d.x, d.y, `${decrypt(d.text)}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.sixethKey.setVisible(false);
-        this.sixethKey.setAlpha(0);
 
         this.emptyMan = this.add.text(b.x, b.y, `${b.text}`, { font: "normal 40px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.emptyMan.setVisible(false);
@@ -227,7 +222,7 @@ export class GameScene3 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyMan, this.emptyWoman, this.paper],
+                targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.emptyMan, this.emptyWoman, this.paper],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -263,14 +258,14 @@ export class GameScene3 extends BaseScene {
                     this.showOverlay();
 
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyMan, this.emptyWoman, this.paper],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.emptyMan, this.emptyWoman, this.paper],
                         alpha: 1,
                         duration: 500
                     });
                 }
                 else {
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.sixethKey, this.emptyMan, this.emptyWoman, this.paper],
+                        targets: [this.closeButton, this.overlayBackground, this.fivethKey, this.emptyMan, this.emptyWoman, this.paper],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -307,18 +302,21 @@ export class GameScene3 extends BaseScene {
             }
         }
 
-        if (this.eventZone == LABEL_ID.SIXETH_KEY) {
-            this.sixethKey.setVisible(true);
-            if (this.fold.indexOf('sixethKey') == -1) {
-                this.mySocket.emitAddNewImg('sixethKey');
-            }
-        }
-
         if (this.eventZone == LABEL_ID.EMPTY_MAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyMan${rand}`);
+
+            this.emptyMan.setText(b.text);
+            this.emptyMan.setPosition(b.x, b.y);
             this.emptyMan.setVisible(true);
         }
 
         if (this.eventZone == LABEL_ID.EMPTY_WOMAN) {
+            const rand = Math.floor(Math.random() * 3) + 1;
+            const b = myMap.get(`emptyWoman${rand}`);
+
+            this.emptyWoman.setText(b.text);
+            this.emptyWoman.setPosition(b.x, b.y);
             this.emptyWoman.setVisible(true);
         }
         this.paper.setVisible(true);
@@ -329,7 +327,6 @@ export class GameScene3 extends BaseScene {
     hideOverlay() {
         this.isOverlayVisible = false
         if (this.fivethKey.visible) this.fivethKey.setVisible(false);
-        if (this.sixethKey.visible) this.sixethKey.setVisible(false);
         if (this.emptyMan.visible) this.emptyMan.setVisible(false);
         if (this.emptyWoman.visible) this.emptyWoman.setVisible(false);
 
@@ -366,14 +363,14 @@ export class GameScene3 extends BaseScene {
                 context.showOverlay();
 
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyMan, context.emptyWoman, context.paper],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.emptyMan, context.emptyWoman, context.paper],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.sixethKey, context.emptyMan, context.emptyWoman, context.paper],
+                    targets: [context.overlayBackground, context.closeButton, context.fivethKey, context.emptyMan, context.emptyWoman, context.paper],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

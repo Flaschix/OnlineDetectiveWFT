@@ -27,8 +27,7 @@ export class GameScene4 extends BaseScene {
         //map
         this.load.image('map4', './assets/map/map_garally_4.jpg');
 
-        this.load.image('glovesMin', './assets/mapKey/glovesMin.png');
-        this.load.image('chainMin', './assets/mapKey/chainMin.png');
+        this.load.image('applicationMin', './assets/mapKey/applicationMin.png');
         this.load.image('cameraMin', './assets/mapKey/cameraMin.png');
     }
 
@@ -115,19 +114,13 @@ export class GameScene4 extends BaseScene {
             isSensor: true
         }).setScale(0.5);
 
-        const chainMin = this.matter.add.sprite(1197, 1237, 'chainMin', null, {
-            label: `${LABEL_ID.CHAIN_KEY}`,
-            isStatic: true,
-            isSensor: true
-        }).setScale(0.5);
-
-        const glovesMin = this.matter.add.sprite(1358, 1826, 'glovesMin', null, {
-            label: `${LABEL_ID.GLOVES_KEY}`,
+        const applicationMin = this.matter.add.sprite(1358, 1826, 'applicationMin', null, {
+            label: `${LABEL_ID.APPLICATION_KEY}`,
             isStatic: true,
             isSensor: true
         }).setScale(0.4);
 
-        const arrBodies = [bodyLeftDoor, cameraMin, chainMin, glovesMin];
+        const arrBodies = [bodyLeftDoor, cameraMin, applicationMin];
 
 
         this.matterCollision.addOnCollideStart({
@@ -185,29 +178,18 @@ export class GameScene4 extends BaseScene {
         this.cameraKey.setScrollFactor(0);
         this.cameraKey.setAlpha(0);
 
-        this.chainKey = this.add.image(430, this.cameras.main.height / 2, 'chain');
-        this.chainKey.setScale(0.5);
-        this.chainKey.setVisible(false);
-        this.chainKey.setDepth(2);
-        this.chainKey.setScrollFactor(0);
-        this.chainKey.setAlpha(0);
+        this.applicationKey = this.add.image(430, this.cameras.main.height / 2, 'application');
+        this.applicationKey.setScale(0.5);
+        this.applicationKey.setVisible(false);
+        this.applicationKey.setDepth(2);
+        this.applicationKey.setScrollFactor(0);
+        this.applicationKey.setAlpha(0);
 
-        this.glovesKey = this.add.image(430, this.cameras.main.height / 2, 'gloves');
-        this.glovesKey.setScale(0.5);
-        this.glovesKey.setVisible(false);
-        this.glovesKey.setDepth(2);
-        this.glovesKey.setScrollFactor(0);
-        this.glovesKey.setAlpha(0);
-
-        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('camera').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(myMap.get('camera').x, myMap.get('camera').y, `${decrypt(myMap.get('camera').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(690, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('chain').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.textB.setVisible(false);
-        this.textB.setAlpha(0);
-
-        this.textC = this.add.text(660, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('gloves').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC = this.add.text(myMap.get('application').x, myMap.get('application').y, `${decrypt(myMap.get('application').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textC.setVisible(false);
         this.textC.setAlpha(0);
 
@@ -222,7 +204,7 @@ export class GameScene4 extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
+                targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.applicationKey, this.textA, this.textC],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -258,19 +240,11 @@ export class GameScene4 extends BaseScene {
             }
         }
 
-        if (this.eventZone == LABEL_ID.CHAIN_KEY) {
-            this.chainKey.setVisible(true);
-            this.textB.setVisible(true);
-            if (this.fold.indexOf(this.chainKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.chainKey.texture.key);
-            }
-        }
-
-        if (this.eventZone == LABEL_ID.GLOVES_KEY) {
-            this.glovesKey.setVisible(true);
+        if (this.eventZone == LABEL_ID.APPLICATION_KEY) {
+            this.applicationKey.setVisible(true);
             this.textC.setVisible(true);
-            if (this.fold.indexOf(this.glovesKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.glovesKey.texture.key);
+            if (this.fold.indexOf(this.applicationKey.texture.key) == -1) {
+                this.mySocket.emitAddNewImg(this.applicationKey.texture.key);
             }
         }
 
@@ -281,8 +255,7 @@ export class GameScene4 extends BaseScene {
     hideOverlay() {
         this.isOverlayVisible = false
         if (this.eventZone == LABEL_ID.CAMERA_KEY) { this.cameraKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.eventZone == LABEL_ID.CHAIN_KEY) { this.chainKey.setVisible(false); this.textB.setVisible(false); }
-        if (this.eventZone == LABEL_ID.GLOVES_KEY) { this.glovesKey.setVisible(false); this.textC.setVisible(false); }
+        if (this.eventZone == LABEL_ID.APPLICATION_KEY) { this.applicationKey.setVisible(false); this.textC.setVisible(false); }
 
         this.overlayBackground.setVisible(false);
         this.closeButton.setVisible(false);
@@ -312,14 +285,14 @@ export class GameScene4 extends BaseScene {
                 this.showOverlay();
 
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
+                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.applicationKey, this.textA, this.textC],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.chainKey, this.glovesKey, this.textA, this.textB, this.textC],
+                    targets: [this.closeButton, this.overlayBackground, this.cameraKey, this.applicationKey, this.textA, this.textC],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

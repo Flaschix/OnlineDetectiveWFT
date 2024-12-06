@@ -236,11 +236,11 @@ export class GameScene2 extends BaseScene {
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
-        this.textC = this.add.text(653, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('notebook').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC = this.add.text(myMap.get('notebook').x, myMap.get('notebook').y, `${decrypt(myMap.get('notebook').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textC.setVisible(false);
         this.textC.setAlpha(0);
 
-        this.textD = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(myMap.get('keys').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textD = this.add.text(myMap.get('keys').x, myMap.get('keys').y, `${decrypt(myMap.get('keys').text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textD.setVisible(false);
         this.textD.setAlpha(0);
 

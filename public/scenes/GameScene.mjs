@@ -29,7 +29,6 @@ export class GameScene extends BaseScene {
         this.load.image('map', './assets/map/map_garally_1.jpg');
 
         this.load.image('diskMin', './assets/mapKey/diskMin.png');
-        this.load.image('footMin', './assets/mapKey/footMin.png');
     }
 
     create(data) {
@@ -118,13 +117,7 @@ export class GameScene extends BaseScene {
             isSensor: true
         }).setScale(0.8);
 
-        const footMin = this.matter.add.sprite(1660, 1540, 'footMin', null, {
-            label: `${LABEL_ID.FOOT_KEY}`,
-            isStatic: true,
-            isSensor: true
-        }).setScale(0.5);
-
-        const arrBodies = [bodyDoor, diskMin, footMin];
+        const arrBodies = [bodyDoor, diskMin];
 
 
         this.matterCollision.addOnCollideStart({
@@ -161,8 +154,7 @@ export class GameScene extends BaseScene {
     }
 
     createOverlays() {
-        const at = myMap.get('disk').text
-        const bt = myMap.get('foot').text
+        const at = myMap.get('disk')
         const dt1 = myMap.get('door1');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
@@ -179,27 +171,16 @@ export class GameScene extends BaseScene {
         this.overlayBackground.setAlpha(0); // Начальное значение прозрачности
 
         //Первый ключ
-        this.diskKey = this.add.image(430, this.cameras.main.height / 2, 'disk');
+        this.diskKey = this.add.image(at.xi, this.cameras.main.height / 2, 'disk');
         this.diskKey.setScale(0.5);
         this.diskKey.setVisible(false);
         this.diskKey.setDepth(2);
         this.diskKey.setScrollFactor(0);
         this.diskKey.setAlpha(0);
 
-        this.footKey = this.add.image(430, this.cameras.main.height / 2, 'foot');
-        this.footKey.setScale(0.5);
-        this.footKey.setVisible(false);
-        this.footKey.setDepth(2);
-        this.footKey.setScrollFactor(0);
-        this.footKey.setAlpha(0);
-
-        this.textA = this.add.text(700, this.cameras.main.height / 2 - 70, `${decrypt(at)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, at.y, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
-
-        this.textB = this.add.text(670, this.cameras.main.height / 2 - 70, `${decrypt(bt)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
-        this.textB.setVisible(false);
-        this.textB.setAlpha(0);
 
         this.placeBack = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'overlayPaper');
         this.placeBack.setScale(0.65, 0.8);
@@ -237,7 +218,7 @@ export class GameScene extends BaseScene {
         this.closeButton.on('pointerdown', () => {
             this.isOverlayVisible = false;
             this.tweens.add({
-                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
+                targets: [this.closeButton, this.overlayBackground, this.diskKey, this.textA, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                 alpha: 0,
                 duration: 500,
                 onComplete: () => {
@@ -286,23 +267,12 @@ export class GameScene extends BaseScene {
             }
         }
 
-        if (this.eventZone == LABEL_ID.FOOT_KEY) {
-            this.footKey.setVisible(true);
-            this.textB.setVisible(true);
-            this.overlayBackground.setVisible(true);
-            if (this.fold.indexOf(this.footKey.texture.key) == -1) {
-                this.mySocket.emitAddNewImg(this.footKey.texture.key);
-            }
-        }
-
-
         this.closeButton.setVisible(true);
     }
 
     hideOverlay() {
         this.isOverlayVisible = false
         if (this.diskKey.visible) { this.diskKey.setVisible(false); this.textA.setVisible(false); }
-        if (this.footKey.visible) { this.footKey.setVisible(false); this.textB.setVisible(false); }
         if (this.paperPlace.visible) { this.paperPlace.setVisible(false); this.placeBack.setVisible(false); }
         if (this.paperDoor.visible) { this.paperDoor.setVisible(false); this.textС.setVisible(false); this.placeBack.setVisible(false); }
 
@@ -346,14 +316,14 @@ export class GameScene extends BaseScene {
                 this.showOverlay();
 
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
+                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.textA, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                     alpha: 1,
                     duration: 500
                 });
             }
             else {
                 this.tweens.add({
-                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.footKey, this.textA, this.textB, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
+                    targets: [this.closeButton, this.overlayBackground, this.diskKey, this.textA, this.paperPlace, this.placeBack, this.paperDoor, this.textС],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {

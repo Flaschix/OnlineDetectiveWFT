@@ -19,6 +19,8 @@ export class GameScene4 extends BaseScene {
     constructor() {
         super(CST.SCENE.GAMESCENE4);
 
+        this.seifImgNumber = 0;
+        this.seif = ['seif1', 'seif2', 'seif3'];
     }
 
     preload() {
@@ -59,6 +61,8 @@ export class GameScene4 extends BaseScene {
         createAvatarDialog(this, this.enterNewSettingsInAvatarDialog, this.closeAvatarDialog, this.player.room, isMobile());
 
         createGameFieldRight(this, 700, 360);
+
+        this.createSeif();
     }
 
     createMap(map) {
@@ -161,11 +165,11 @@ export class GameScene4 extends BaseScene {
         this.answer.setScrollFactor(0);
         this.answer.setAlpha(0);
 
-        this.textA = this.add.text(520, 200, 'A torn page from diary', { font: "bold 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(470, 200, 'Страница из личного дневника', { font: "bold 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(310, 240, `${decrypt('Wkhb\'uh uhprylqj wkh surwhfwlyh forwk iurp wkh sdlqwlqj, dqg L\'p\nvshhfkohvv. L douhdgb nqrz zkrvh sdlqwlqj wklv lv. L frxog vwduh\ndw lw iru krxuv. Lw\'v qrw mxvw d sdlqwlqj; lw\'v d wuhdvxuh wuryh ri\nphprulhv: xv odxjklqj lq duw vfkrro, guhdplqj derxw rxu rzq\nhaklelwlrqv, khu dsrorjlclqj wr ph ehiruh ohdylqj, euhdnlqj pb\nkhduw. Wkhq wkhuh zdv wkh qhzv ri khu ghdwk irxu bhduv odwhu.\nHyhubwklqj exuqv euljkw lq pb phprub dv li lw kdsshqhg mxvw\nbhvwhugdb, qrw bhduv djr… L dozdbv nqhz khu sdlqwlqjv zrxog\nehfrph idprxv. Exw qr rqh hovh vhhv wkhlu wuxh ydoxh olnh L gr!\nWkdw sdlqwlqj vkrxog ehorqj wr ph! L’oo pdnh pb pryh wrqljkw\nzkhq hyhubrqh lv jrqh. L’oo fuhdwh wkh shuihfw frqglwlrqv, dqg qr\nrqh zloo vxvshfw d wklqj. Lw\'v wkh rqob slhfh L kdyh ohiw ri khu. Vkh\nzrxogq\'w eodph ph; d ihoorz duwlvw dozdbv xqghuvwdqgv\ndqrwkhu duwlvw…')}`, { font: "italic 20px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(300, 240, `${decrypt('Ф нгухлрю фрлпгбх кгьлхрцб хнгря л в хиувб згу уиъл. В цйи\nкргб, ъяв ахс нгухлрг. В псжц фпсхуихя рг рии ъгфгпл. Ахс ри\nтусфхс нгухлрг, г зугжсщиррюи есфтсплргрлв: есх пю фпиипфв рг\nкгрвхлвш е гнгзиплл, есх пиъхгип с фсдфхеиррюш еюфхгенгш, есх\nсрг лкелрвихфв тиуизс прсм л цикйгих, угкдле фиузщи. Г есх в\nтсоцъгб рсесфхя с иё фпиухл ъиуик ъихюуи жсзг.\nЕфё жсулх е тгпвхл хгн вунс, дцзхс дю ахс туслфшсзлос еъиуг, г\nри прсжс оих ргкгз…\nВ крго, ъхс иё нгухлрю фхгрцх лкеифхрюпл. Рс рлнхс нуспи пирв\nри тсрлпгих лш ргфхсвьим щиррсфхл! Нгухлрг зсойрг\nтулргзоийгхя при! В дцзц зимфхесегхя еиъиусп, нсжзг ефи цмзцх.\nФскзгп лзигоярюи цфоселв л рлнхс ри кгтсзскулх пирв. Ахс\nизлрфхеиррси, ъхс ц пирв тсфои риё сфхгосфя. Срг ри елрлог дю\nпирв, еизя шцзсйрлн ефижзг тсмпёх зуцжсжс шцзсйрлнг…”')}`, { font: "italic 18px MyCustomFont2", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
@@ -196,7 +200,7 @@ export class GameScene4 extends BaseScene {
     createInputHandlers() {
         this.input.keyboard.on('keydown-X', () => {
             if (this.avatarDialog.visible || this.exitContainer.visible) return;
-            if (this.foldKeys.visible) return;
+            if (this.foldColseBtn.visible) return;
 
             if (this.isInZone) {
                 this.player.setVelocity(0);
@@ -217,8 +221,9 @@ export class GameScene4 extends BaseScene {
                     });
                 }
                 else {
+
                     this.tweens.add({
-                        targets: [this.closeButton, this.overlayBackground, this.answer, this.textA, this.textB],
+                        targets: [this.closeButton, this.overlayBackground, this.seifKeys, this.seifText, this.seifColseBtn, this.leftArrowSeif, this.rightArrowSeif],
                         alpha: 0,
                         duration: 500,
                         onComplete: () => {
@@ -255,12 +260,8 @@ export class GameScene4 extends BaseScene {
     hideOverlay() {
         this.isOverlayVisible = false
         if (this.eventZone == LABEL_ID.SEIF_KEY) {
-            if (this.answer.visible) {
-                this.answer.setVisible(false);
-                this.textA.setVisible(false);
-                this.textB.setVisible(false);
-                this.overlayBackground.setVisible(false)
-                this.closeButton.setVisible(false);
+            if (this.seifColseBtn.visible) {
+                this.closeSeifFold();
             } else {
                 hideRightPuzzle(this);
             }
@@ -271,16 +272,167 @@ export class GameScene4 extends BaseScene {
         this.closeButton.setVisible(false);
     }
 
-    loadedResolutionMap(name, scaleX, scaleY) {
-        this.map.setScale(scaleX, scaleY);
+    createSeif() {
+        this.seifKeys = this.add.image(300, this.cameras.main.height / 2, 'later');
+        this.seifKeys.setScale(0.5);
+        this.seifKeys.setDepth(2);
+        this.seifKeys.setScrollFactor(0);
+        this.seifKeys.setVisible(false);
+        this.seifKeys.setAlpha(1);
 
-        this.map.setTexture(name);
-        this.matter.world.setBounds(0, 0, this.map.width * scaleX, this.map.height * scaleY);
+        this.seifText = this.add.text(600, this.cameras.main.height / 2, `0`, { font: "normal 20px MyCustomFont2", fill: '#ffffff' }).setScrollFactor(0).setDepth(2);
+        this.seifText.setVisible(false);
+        this.seifText.setAlpha(1);
+
+        this.leftArrowSeif = this.add.image(0, 0, 'leftArrow');
+        this.rightArrowSeif = this.add.image(0, 0, 'rightArrow');
+
+        this.rightArrowSeif.setPosition(
+            this.cameras.main.width - 210,
+            this.cameras.main.height / 2 - 10,
+        )
+        this.rightArrowSeif.setScrollFactor(0);
+        this.rightArrowSeif.setDepth(2);
+
+        this.leftArrowSeif.setPosition(
+            210,
+            this.cameras.main.height / 2 - 10,
+        )
+        this.leftArrowSeif.setScrollFactor(0);
+        this.leftArrowSeif.setDepth(2);
+
+        this.leftArrowSeif.setInteractive();
+        this.rightArrowSeif.setInteractive();
+        this.leftArrowSeif.setVisible(false);
+        this.rightArrowSeif.setVisible(false);
+
+        this.rightArrowSeif.on('pointerdown', () => {
+            this.moveRightKeysSeif();
+        });
+
+        this.leftArrowSeif.on('pointerdown', () => {
+            this.moveLeftKeysSeif();
+        });
+
+        this.seifColseBtn = this.add.image(this.cameras.main.width - 200, 90, 'closeIcon');
+        this.seifColseBtn.setDisplaySize(50, 50);
+        this.seifColseBtn.setInteractive();
+        this.seifColseBtn.setVisible(false);
+        this.seifColseBtn.setDepth(2);
+        this.seifColseBtn.setScrollFactor(0);
+        this.seifColseBtn.setAlpha(0); // Начальное значение прозрачности
+
+        this.seifColseBtn.on('pointerdown', () => {
+            this.closeSeifFold();
+        });
+    }
+
+    closeSeifFold() {
+        this.isOverlayVisible = false;
+
+        this.seifKeys.setVisible(false);
+        this.seifText.setVisible(false);
+        this.seifColseBtn.setVisible(false);
+        this.overlayBackground.setVisible(false);
+        this.leftArrowSeif.setVisible(false);
+        this.rightArrowSeif.setVisible(false);
+    }
+
+    moveRightKeysSeif() {
+        if (this.seifImgNumber < this.seif.length - 1) {
+            this.seifImgNumber += 1;
+            if (this.seifImgNumber == this.seif.length - 1) this.rightArrowSeif.setVisible(false);
+            this.leftArrowSeif.setVisible(true);
+
+            this.tweens.add({
+                targets: [this.seifKeys, this.seifText],
+                alpha: 0,
+                duration: 250,
+                onComplete: () => {
+                    try {
+                        const show = myMap.get(this.seif[this.seifImgNumber]);
+
+                        this.seifKeys.setTexture(show.img);
+                        this.seifKeys.setPosition(show.xi, show.yi);
+                        this.seifText.setText(decrypt(show.text));
+                        this.seifText.setPosition(show.x, show.y);
+
+                        this.tweens.add({
+                            targets: [this.seifKeys, this.seifText],
+                            alpha: 1,
+                            duration: 250,
+                        });
+                    }
+                    catch (e) { }
+                }
+            });
+        }
+    }
+
+    moveLeftKeysSeif() {
+        if (this.seifImgNumber > 0) {
+            this.seifImgNumber -= 1;
+            if (this.seifImgNumber == 0) this.leftArrowSeif.setVisible(false);
+            this.rightArrowSeif.setVisible(true);
+
+            this.tweens.add({
+                targets: [this.seifKeys, this.seifText],
+                alpha: 0,
+                duration: 250,
+                onComplete: () => {
+                    try {
+                        const show = myMap.get(this.seif[this.seifImgNumber]);
+
+                        this.seifKeys.setTexture(show.img);
+                        this.seifKeys.setPosition(show.xi, show.yi);
+                        this.seifText.setText(decrypt(show.text));
+                        this.seifText.setPosition(show.x, show.y);
+
+                        this.tweens.add({
+                            targets: [this.seifKeys, this.seifText],
+                            alpha: 1,
+                            duration: 250,
+                        });
+                    }
+                    catch (e) { }
+                }
+            });
+        }
+    }
+
+    openSeif() {
+        this.player.setVelocity(0);
+        this.isOverlayVisible = true
+        this.overlayBackground.setAlpha(1);
+        this.seifColseBtn.setAlpha(1);
+        this.seifKeys.setAlpha(1);
+        this.seifText.setAlpha(1);
+        this.leftArrowSeif.setAlpha(1);
+        this.rightArrowSeif.setAlpha(1);
+
+        if (this.seif.length > 1) {
+            this.seifImgNumber = 0;
+            this.leftArrowSeif.setVisible(false);
+            this.rightArrowSeif.setVisible(true);
+
+            const show = myMap.get(this.seif[0]);
+
+            this.seifKeys.setTexture(show.img);
+            this.seifKeys.setPosition(show.xi, show.yi);
+            this.seifText.setText(decrypt(show.text));
+            this.seifText.setPosition(show.x, show.y);
+
+            this.seifKeys.setVisible(true);
+            this.seifText.setVisible(true);
+        }
+
+        this.overlayBackground.setVisible(true);
+        this.seifColseBtn.setVisible(true);
     }
 
     itemInteract(context) {
         if (context.avatarDialog.visible || context.exitContainer.visible) return;
-        if (context.foldKeys.visible) return;
+        if (context.foldColseBtn.visible) return;
         if (context.isInZone) {
             context.player.setVelocity(0);
 
@@ -301,7 +453,7 @@ export class GameScene4 extends BaseScene {
             }
             else {
                 context.tweens.add({
-                    targets: [context.overlayBackground, context.closeButton, context.answer, context.textA, context.textB],
+                    targets: [context.closeButton, context.overlayBackground, context.seifKeys, context.seifText, context.seifColseBtn, context.leftArrowSeif, context.rightArrowSeif],
                     alpha: 0,
                     duration: 500,
                     onComplete: () => {
@@ -402,6 +554,7 @@ function rotateItemsRight(scene, row, col) {
     }
 
     // Проверяем условие победы
+
     checkWinConditionRight(scene);
 }
 
@@ -417,17 +570,7 @@ function checkWinConditionRight(context) {
 
     hideRightPuzzle(context);
 
-    context.answer.setAlpha(1);
-    context.textA.setAlpha(1);
-    context.textB.setAlpha(1);
-    context.overlayBackground.setAlpha(1);
-    context.closeButton.setAlpha(1);
-
-    context.answer.setVisible(true);
-    context.textA.setVisible(true);
-    context.textB.setVisible(true);
-    context.overlayBackground.setVisible(true);
-    context.closeButton.setVisible(true);
+    context.openSeif()
 }
 
 function showRightPuzzle(context) {

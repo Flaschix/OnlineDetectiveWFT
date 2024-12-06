@@ -63,6 +63,9 @@ export class LobbyScene extends Phaser.Scene {
 
         this.load.image('fold', 'assets/icon/foldMobile.png')
 
+        this.load.image('later', 'assets/saif/later.png');
+        this.load.image('memo', 'assets/saif/memo.png');
+        this.load.image('photo', 'assets/saif/photo.png');
     }
 
     createWelcomeContainer() {

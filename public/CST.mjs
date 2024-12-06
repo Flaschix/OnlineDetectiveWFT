@@ -31,4 +31,9 @@ export const myMap = new Map([
     ['fourthKey', { x: 750, text: 'K' }],
     ['fivethKey', { x: 880, text: 'R' }],
     ['sixethKey', { x: 1000, text: 'P' }],
+
+    ['seif1', { x: 490, y: 200, xi: 350, yi: 360, text: 'Sdjh iurp d Shuvrqdo Gldub\n\n"...lw\'v qrw mxvw d sdlqwlqj; lw\'v pb suhflrxv phprulhv:\nkhuh zh duh odxjklqj lq fodvv dw wkh dfdghpb, guhdplqj\nderxw rxu rzq haklelwlrqv, dqg khuh vkh lv dsrorjlclqj\nwr ph dqg ohdylqj, euhdnlqj pb khduw. Dqg wkhq L jhw\nwkh qhzv ri khu ghdwk irxu bhduv odwhu. Hyhubwklqj exuqv\nlq pb phprub vr ylylgob, dv li lw kdsshqhg bhvwhugdb,\nqrw vr pdqb bhduv djr…\n\nL nqhz khu zrun zrxog ehfrph idprxv! L uhfrjqlchg\nwkdw vwboh uljkw dzdb! Qr rqh hovh xqghuvwdqgv wkh wuxh\nydoxh ri wklv sdlqwlqj! Lw kdv wr ehorqj wr ph! Lw\'v wkh\nrqob wklqj L kdyh ohiw ri khu..."', img: 'later' }],
+    ['seif2', { x: 550, y: 180, xi: 370, yi: 360, text: 'Rog Phglfdo Qrwh\n\nSdwlhqw\'v Frqglwlrq: Iuhtxhqw prrg vzlqjv,\nlpsxovlyh uhdfwlrqv lqfoxglqj lqdssursuldwh\njhvwxuhv dqg idfldo hasuhvvlrqv, gliilfxowlhv lq\nexloglqj uhodwlrqvklsv zlwk rwkhuv, revhvvlrq\nzlwk dq remhfw ri ghvluh, dqg orvv ri frqwdfw\nzlwk uhdolwb.\n\nGldjqrvlv: Erughuolqh shuvrqdolwb glvrughu,\nsurjuhvvlqj Dgho Vbqgurph.\n\nUhfrpphqgdwlrqv: Uhjxodu wkhudsb vhvvlrqv\nduh qhfhvvdub, dorqj zlwk wkh frpsxovrub xvh\nri dqalrobwlfv. Uhtxluhv rqjrlqj prqlwrulqj.', img: 'memo' }],
+    ['seif3', { x: 730, y: 330, xi: 450, yi: 360, text: 'Froohfwlrq ri Ydulrxv\nSkrwrv ri Plfkdho', img: 'photo' }],
+
 ]);

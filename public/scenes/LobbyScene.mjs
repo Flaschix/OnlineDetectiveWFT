@@ -67,18 +67,15 @@ export class LobbyScene extends Phaser.Scene {
         this.load.spritesheet('character6', './assets/characterMap/character6.png', { frameWidth: 48, frameHeight: 64 });
 
         this.load.image('disk', 'assets/keyFrame/disk.png');
-        this.load.image('foot', 'assets/keyFrame/foot.png');
+        this.load.image('application', 'assets/keyFrame/application.png');
         this.load.image('window', 'assets/keyFrame/window.png');
         this.load.image('clothe', 'assets/keyFrame/clothe.png');
         this.load.image('notebook', 'assets/keyFrame/notebook.png');
         this.load.image('keys', 'assets/keyFrame/keys.png');
         this.load.image('bottle', 'assets/keyFrame/bottle.png');
         this.load.image('plan', 'assets/keyFrame/plan.png');
-        this.load.image('gloves', 'assets/keyFrame/gloves.png');
-        this.load.image('chain', 'assets/keyFrame/chain.png');
         this.load.image('camera', 'assets/keyFrame/camera.png');
         this.load.image('bag', 'assets/keyFrame/bag.png');
-        this.load.image('glasses', 'assets/keyFrame/glasses.png');
         this.load.image('note', 'assets/keyFrame/note.png');
         this.load.image('phone', 'assets/keyFrame/phone.png');
         this.load.image('computer', 'assets/keyFrame/computer.png');

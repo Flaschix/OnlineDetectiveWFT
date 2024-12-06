@@ -170,7 +170,6 @@ export class GameScene3 extends BaseScene {
 
     createOverlays() {
         const at = myMap.get('bottle');
-        const bt = myMap.get('plan');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);

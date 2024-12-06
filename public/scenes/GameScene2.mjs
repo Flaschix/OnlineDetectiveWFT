@@ -233,19 +233,19 @@ export class GameScene2 extends BaseScene {
         this.keysKey.setScrollFactor(0);
         this.keysKey.setAlpha(0);
 
-        this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, at.y, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
-        this.textB = this.add.text(bt.x, this.cameras.main.height / 2 - 70, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textB = this.add.text(bt.x, bt.y, `${decrypt(bt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textB.setVisible(false);
         this.textB.setAlpha(0);
 
-        this.textC = this.add.text(ct.x, this.cameras.main.height / 2 - 70, `${decrypt(ct.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textC = this.add.text(ct.x, ct.y, `${decrypt(ct.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textC.setVisible(false);
         this.textC.setAlpha(0);
 
-        this.textD = this.add.text(dt.x, this.cameras.main.height / 2 - 70, `${decrypt(dt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textD = this.add.text(dt.x, dt.y, `${decrypt(dt.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textD.setVisible(false);
         this.textD.setAlpha(0);
 

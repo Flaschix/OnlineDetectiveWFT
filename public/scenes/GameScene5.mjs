@@ -28,7 +28,6 @@ export class GameScene5 extends BaseScene {
         this.load.image('map5', './assets/map/map_garally_5.jpg');
 
         this.load.image('bagMin', './assets/mapKey/bagMin.png');
-        this.load.image('glassesMin', './assets/mapKey/glassesMin.png');
         this.load.image('computerMin', './assets/mapKey/computerMin.png');
     }
 
@@ -115,19 +114,13 @@ export class GameScene5 extends BaseScene {
             isSensor: true
         }).setScale(0.5);
 
-        const glassesMin = this.matter.add.sprite(1388, 1696, 'glassesMin', null, {
-            label: `${LABEL_ID.GLASSES_KEY}`,
-            isStatic: true,
-            isSensor: true
-        }).setScale(0.5);
-
         const computerMin = this.matter.add.sprite(1524, 1167, 'computerMin', null, {
             label: `${LABEL_ID.COMPUTER_KEY}`,
             isStatic: true,
             isSensor: true
         }).setScale(0.5);
 
-        const arrBodies = [bodyDoor, bagMin, glassesMin, computerMin];
+        const arrBodies = [bodyDoor, bagMin, computerMin];
 
 
         this.matterCollision.addOnCollideStart({
@@ -165,7 +158,6 @@ export class GameScene5 extends BaseScene {
 
     createOverlays() {
         const at = myMap.get('bag');
-        const bt = myMap.get('glasses');
 
         this.pressX = this.add.image(this.player.x, this.player.y - 50, 'pressX');
         this.pressX.setDisplaySize(this.pressX.width, this.pressX.height);
@@ -188,7 +180,7 @@ export class GameScene5 extends BaseScene {
         this.bagKey.setScrollFactor(0);
         this.bagKey.setAlpha(0);
 
-        this.textA = this.add.text(at.x, this.cameras.main.height / 2 - 70, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
+        this.textA = this.add.text(at.x, at.y, `${decrypt(at.text)}`, { font: "normal 30px MyCustomFont", fill: '#000000', align: 'center' }).setScrollFactor(0).setDepth(2);
         this.textA.setVisible(false);
         this.textA.setAlpha(0);
 
@@ -249,8 +241,6 @@ export class GameScene5 extends BaseScene {
 
         if (this.eventZone == LABEL_ID.BAG_KEY) {
             this.showImg('bag')
-        } else if (this.eventZone == LABEL_ID.GLASSES_KEY) {
-            this.showImg('glasses');
         } else if (this.eventZone == LABEL_ID.COMPUTER_KEY) {
             this.showImg('computer');
         }

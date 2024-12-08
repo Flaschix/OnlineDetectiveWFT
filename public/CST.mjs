@@ -38,10 +38,10 @@ export const myMap = new Map([
     ['fourthKey', { x: 400, y: 240, text: 'L uhphpehu wkdw dw 9:20,\nvrphrqh zhqw edfn lqwr wkh\npxvhxp dqg fdph rxw djdlq\ndw 9:30. L wklqn lw zdv d jluo, exw\nL fdq\'w vdb iru vxuh—L zdv rq\nwkh skrqh dqg zdvq\'w uhdoob\nsdblqj dwwhqwlrq.' }],
     ['fivethKey', { x: 410, y: 300, text: 'L vdz wkh jxb lq wkh zklwh\nfrdw gdqflqj klv zdb wrzdug\nwkh exv vwrs durxqg 9:25.' }],
 
-    ['emptyMan1', { x: 420, y: 330, text: '"I didn\'t see anything."' }],
-    ['emptyWoman1', { x: 455, y: 320, text: '"I have nothing to\nreport about that."' }],
-    ['emptyMan2', { x: 400, y: 320, text: '"Nothing special caught\nmy eye."' }],
-    ['emptyWoman2', { x: 440, y: 320, text: '"I didn\'t see or hear\nanything suspicious."' }],
-    ['emptyMan3', { x: 450, y: 320, text: '"I have nothing to\nreport about that."' }],
-    ['emptyWoman3', { x: 440, y: 320, text: '"I was busy and didn\'t\nnotice anything."' }],
+    ['emptyMan1', { x: 420, y: 330, text: 'I didn\'t see anything.' }],
+    ['emptyWoman1', { x: 455, y: 320, text: 'I have nothing to\nreport about that.' }],
+    ['emptyMan2', { x: 400, y: 320, text: 'Nothing special caught\nmy eye.' }],
+    ['emptyWoman2', { x: 440, y: 320, text: 'I didn\'t see or hear\nanything suspicious.' }],
+    ['emptyMan3', { x: 450, y: 320, text: 'I have nothing to\nreport about that.' }],
+    ['emptyWoman3', { x: 440, y: 320, text: 'I was busy and didn\'t\nnotice anything.' }],
 ]);
